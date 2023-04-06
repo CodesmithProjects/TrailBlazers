@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server package",
+  "main": "server.js",
+  "scripts": {
+    "start": "cd ./server && npm start",
+    "dev": "concurrently \"cd ./server && npm run dev\" \"cd ./client && npm run dev\""
+  },
+  "author": "YouruiR",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
