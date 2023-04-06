@@ -1,0 +1,35 @@
+{
+  "name": "trailblazers",
+  "version": "1.0.0",
+  "description": "trailblazers project",
+  "main": "./server/server.js",
+  "scripts": {
+    "test": "test",
+    "vite": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "concurrently \"nodemon ./server/server\" \"vite\"",
+    "dev": "nodemon ./server/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodesmithProjects/TrailBlazers.git"
+  },
+  "author": "YouruiR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodesmithProjects/TrailBlazers/issues"
+  },
+  "homepage": "https://github.com/CodesmithProjects/TrailBlazers#readme",
+  "dependencies": {
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "concurrently": "^8.0.1",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^4.2.1"
+  }
+}
