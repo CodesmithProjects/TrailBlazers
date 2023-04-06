@@ -3,10 +3,12 @@ const path = require('path')
 
 const app = express();
 
+
 app.get('/api', (req, res) => {
-  res.json({"users": ["user1", "user2", "user3"]})
+    res.json({"users": ["user1", "user2", "user3"]})
 });
 
+// unable to see react app with backend server serving file
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../dist/index.html'))
 })

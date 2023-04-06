@@ -14,6 +14,7 @@ function App() {
   
   return(
     <div>
+      Hello World
       {(typeof data.users === 'undefined') ?
         (<p>Loading</p>) :
         ( data.users.map ((user, i) => (
