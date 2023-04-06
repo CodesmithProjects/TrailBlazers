@@ -1,0 +1,19 @@
+.welcome-img {
+  width: 50%;
+}
+
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  position: relative;
+}
+
+.welcome-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
