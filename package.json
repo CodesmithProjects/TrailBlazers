@@ -10,6 +10,7 @@
   "author": "YouruiR",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.0.1",
+    "node-fetch": "^3.3.1"
   }
 }
