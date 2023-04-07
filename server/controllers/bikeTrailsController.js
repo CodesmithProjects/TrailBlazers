@@ -1,11 +1,12 @@
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 // import * as fetch from 'node-fetch'
 
 const bikeController = {};
 
 bikeController.getTrails = async (req, res, next) => {
     try {
-        const url = `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=%3C${res.locals.lat}%3E&lon=%3C${res.locals.lon}%3E`;
+        console.log(res.locals.lat, res.locals.lon, typeof res.locals.lat, typeof res.locals.lon)
+        const url = `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${res.locals.lat}&lon=${res.locals.lon}&per_page=9&radius=25`;
         const options = {
             method: 'GET',
             headers: {
@@ -13,8 +14,19 @@ bikeController.getTrails = async (req, res, next) => {
               'X-RapidAPI-Host': 'trailapi-trailapi.p.rapidapi.com'
             }
           };
-        const trailsAPIResponse = await fetch(url, options).json();
-        res.locals.trails = trailsAPIResponse;
+        const trailsAPIResponse = await fetch(url, options);
+        const trailsAPIResponseJSON = await trailsAPIResponse.json();
+        delete trailsAPIResponseJSON['results'];
+        trailsAPIResponseJSON['data'] = trailsAPIResponseJSON['data'].map(elem => {
+          return {
+            'id' : elem['id'],
+            'name' : elem['name'],
+            'length': elem['length'],
+            'description': ((elem['description']).toString()).replace(/<\/?[^>]+(>|$)/g, "").replace(/\n/g, '').replace(/\r/g, ''),
+            'difficulty': elem['difficulty'],
+          }
+        });
+        res.locals.trails = trailsAPIResponseJSON;
         return next();
     } catch {
         return next({log: 'error at getTrails middleware', message: 'fetch request to trails API failed'})

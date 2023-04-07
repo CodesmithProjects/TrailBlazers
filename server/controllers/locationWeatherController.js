@@ -1,14 +1,16 @@
 const openWeatherKey = require("../api/apiKeys/openWeather");
+const fetch = require('node-fetch')
 
 const locationWeatherController = {};
 
 locationWeatherController.getLocationInfo = async (req, res, next) => {
   try {
-    // const result = await fetch(url).then((data) => data.json());
-    const result = await fetch(res.locals.geoCodeURL).json();
-    res.locals.lat = result.lat;
-    res.locals.long = result.lon;
-    console.log('lat is', res.locals.lat, 'long is', res.locals.long)
+    const result = await fetch(`${res.locals.geoCodeURL}`);
+    // const testResult = await fetch('http://api.openweathermap.org/geo/1.0/zip?zip=33418,US&appid=0b1eb3a99d71be41648cbac00d479538&units=imperial')
+    const resultJSON = await result.json()
+    res.locals.lat = resultJSON.lat;
+    res.locals.lon = resultJSON.lon;
+    console.log('lat is', res.locals.lat, 'lon is', res.locals.lon)
     // const data = await fetch(
     //   `https://api.openweathermap.org/data/2.5/weather?lat=${result.lat}&lon=${result.lon}&appid=${openWeatherKey}&units=imperial`
     // ).then((data) => data.json());
@@ -26,22 +28,18 @@ locationWeatherController.getLocationInfo = async (req, res, next) => {
   }
 };
 
-locationWeatherController.getGeoCodeURL = async (req, res, next) => {
+locationWeatherController.getGeoCodeURL = (req, res, next) => {
   try {
     const zipCode = Number(req.params.zip);
-    console.log(typeof zipCode);
     if (typeof zipCode !== 'number' || zipCode.toString().length !== 5) {
       return next({log: 'error at getGeoCodeURL middleware', message: 'bad zipcode format'})
     }
     console.log('this is input zip code', zipCode);
-    const geoCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},us&appid=${openWeatherKey}&units=imperial`;
+    const geoCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${openWeatherKey.apiKey}&units=imperial`;
     res.locals.geoCodeURL = geoCodeURL;
-    //   const result = await convertZipCode(geoCodeURL);
-    //   console.log(`this is the invocation of convertZipCode: `, result);
-    //   return result;
     return next();
-  } catch(err) {
-    return next({log: 'error at getGeoCodeURL middleware', message: `failed to get geoCodeURL from weather API, ${err}`});
+  } catch {
+    return next({log: 'error at getGeoCodeURL middleware', message: `failed to make geoCodeURL`});
   }
 };
 
