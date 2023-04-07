@@ -1,9 +1,11 @@
 const express = require('express');
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
+const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
 const app = express();
 
 app.use(express.json());
 app.use('/api/trails', bikeTrailsRouter);
+app.use('/api/moreInfo', bikeTrailInfoRouter);
 
 app.get('/api', (req, res) => {
   res.json({"users": ["user1", "user2", "user3"]})
