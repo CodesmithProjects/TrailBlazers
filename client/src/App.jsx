@@ -6,6 +6,7 @@ import { IconButton, Paper } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import runConvertZipCodeFunc from "../../server/api/locationWeatherAPI";
 
 const App = () => {
   const [zip, updateZip] = useState("");
