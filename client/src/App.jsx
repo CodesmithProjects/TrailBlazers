@@ -7,14 +7,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import TrailInfoCard from "./TrailInfoCard";
+import TrailDetails from "./TrailDetails";
 import Grid from "@mui/material/Grid";
+import { Routes, Route, Link } from "react-router-dom";
 
 const App = () => {
   const [zip, updateZip] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [trails, setTrails] = useState([{}]);
   const [showTrails, setShowTrails] = useState(false);
-  const validZip = new RegExp('^[0-9]*$');
+  const validZip = new RegExp("^[0-9]*$");
 
   // note that themes can be nested, and theme provider can be passed another instance of a theme obj
   const theme = createTheme({
@@ -55,7 +57,7 @@ const App = () => {
   };
 
   const validate = () => {
-    if(zip.length === 5 && validZip.test(zip)) {
+    if (zip.length === 5 && validZip.test(zip)) {
       setIsFormInvalid(false);
     } else {
       setIsFormInvalid(true);
@@ -65,57 +67,107 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Paper sx={{paddingBottom: "3rem"}}>
+      <Paper sx={{ paddingBottom: "3rem" }}>
         <ButtonAppBar></ButtonAppBar>
-        <div className="container">
-          <div className="img-wrapper">
-            <img src="src/assets/homepage-1.jpeg" className="welcome-img"></img>
-            <img src="src/assets/homepage-2.jpeg" className="welcome-img"></img>
-          </div>
-          <div className="welcome-msg">
-            <span>
-              <h1>Discover your next adventure</h1>
-            </span>
-            <form onSubmit={getTrailsByLocation} noValidate>
-              <TextField
-                required
-                error={isFormInvalid}
-                helperText={isFormInvalid ? "Zipcode must be a 5 digit number" : ""}
-                value={zip}
-                onChange={(e) => handleZipChange(e.target.value)}
-                sx={{ backgroundColor: "rgba(0,0,0,.8)" }}
-                fullWidth
-                variant="filled"
-                label="Search by zipcode"
-                InputProps={{
-                  endAdornment: (
-                    <IconButton formNoValidate type="submit" onClick={validate}>
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-            </form>
-          </div>
-        </div>
-        <div className="grid-wrapper">
-          <Grid container sx={{ marginTop: '3rem'}} direction={'row'} spacing={3}>
-            {showTrails ? (
-              typeof trails.data === "undefined" ? (
-                // TODO: change this to a spinner
-                <p>Loading</p>
-              ) : (
-                trails.data.map((trail, i) => {
-                  return(
-                    <Grid item xs={6} s={5} lg={4} xl={3} display="flex" justifyContent="center">
-                      <TrailInfoCard key={i} index={i} trail={trail} />
-                    </Grid>
-                  )
-                })
-              )
-            ) : undefined}
-          </Grid>
-        </div>
+        <Routes>
+          <Route
+            path="/details/:id/:idx"
+            element={<TrailDetails></TrailDetails>}
+          ></Route>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="container">
+                  <div className="img-wrapper">
+                    <img
+                      src="src/assets/homepage-1.jpeg"
+                      className="welcome-img"
+                    ></img>
+                    <img
+                      src="src/assets/homepage-2.jpeg"
+                      className="welcome-img"
+                    ></img>
+                  </div>
+                  <div className="welcome-msg">
+                    <span>
+                      <h1>Discover your next adventure</h1>
+                    </span>
+                    <form onSubmit={getTrailsByLocation} noValidate>
+                      <TextField
+                        required
+                        error={isFormInvalid}
+                        helperText={
+                          isFormInvalid
+                            ? "Zipcode must be a 5 digit number"
+                            : ""
+                        }
+                        value={zip}
+                        onChange={(e) => handleZipChange(e.target.value)}
+                        sx={{ backgroundColor: "rgba(0,0,0,.8)" }}
+                        fullWidth
+                        variant="filled"
+                        label="Search by zipcode"
+                        InputProps={{
+                          endAdornment: (
+                            <IconButton
+                              formNoValidate
+                              type="submit"
+                              onClick={validate}
+                            >
+                              <SearchIcon />
+                            </IconButton>
+                          ),
+                        }}
+                      />
+                    </form>
+                  </div>
+                </div>
+                <div className="grid-wrapper">
+                  <Grid
+                    container
+                    sx={{ marginTop: "3rem" }}
+                    direction={"row"}
+                    spacing={3}
+                  >
+                    {showTrails ? (
+                      typeof trails.data === "undefined" ? (
+                        // TODO: change this to a spinner
+                        <p>Loading</p>
+                      ) : (
+                        trails.data.map((trail, i) => {
+                          return (
+                            <Grid
+                              item
+                              xs={6}
+                              s={5}
+                              lg={4}
+                              xl={3}
+                              display="flex"
+                              justifyContent="center"
+                              key={i}
+                            >
+                              <Link
+                                to={`/details/${trail.id}/${i}`}
+                                style={{ textDecoration: "none" }}
+                              >
+                                <TrailInfoCard
+                                  key={i}
+                                  index={i}
+                                  trail={trail}
+                                />
+                              </Link>
+                            </Grid>
+                          );
+                        })
+                      )
+                    ) : undefined}
+                  </Grid>
+                </div>
+              </>
+            }
+          ></Route>
+        </Routes>
       </Paper>
     </ThemeProvider>
   );

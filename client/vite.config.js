@@ -7,6 +7,7 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:4000/',
       '/mockgetalltrails': 'http://localhost:4000/',
+      '/mocktraildetails/': 'http://localhost:4000/'
     }
   },
   plugins: [react()],

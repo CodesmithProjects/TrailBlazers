@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^8.0.1",
-    "node-fetch": "^2.6.9"
+    "node-fetch": "^2.6.9",
+    "react-router-dom": "^6.10.0"
   }
 }
