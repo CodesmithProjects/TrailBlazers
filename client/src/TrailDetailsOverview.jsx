@@ -42,7 +42,7 @@ export default function TrailDetailsOverview({ trail }) {
           <span className="overview-value">{trail.description}</span>
         </Typography>
       ) : undefined}
-      <Divider sx={{ marginBottom: "1rem", fontSize: "12px" }}>
+      <Divider sx={{ marginTop: '1rem', marginBottom: "1rem", fontSize: "12px" }}>
         Weather forecast
       </Divider>
       <h3>Weather coming soon!</h3>
