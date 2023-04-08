@@ -1,24 +1,24 @@
 {
   "data": [
-  {
-    "id": 274956,
-    "name": "McCoy Gulch Quarry",
-    "length": "1.0",
-    "description": "Out and back doubletrack to an old quarry/mine site.",
-    "difficulty": ""
-  },
-  {
-    "id": 274957,
-    "name": "McCoy Gulch Mine",
-    "length": "2.0",
-    "description": "Doubletrack spur to a mine site",
-    "difficulty": ""
+    {
+      "id": 274956,
+      "name": "McCoy Gulch Quarry",
+      "length": "1.0",
+      "description": "Out and back doubletrack to an old quarry/mine site.",
+      "difficulty": ""
+    },
+    {
+      "id": 274957,
+      "name": "McCoy Gulch Mine",
+      "length": "2.0",
+      "description": "Doubletrack spur to a mine site",
+      "difficulty": ""
     },
     {
       "id": 280975,
       "name": "Rainbow Trail: Bear Creek Thd to Kerr Gulch Thd",
       "length": "14.0",
-      "description":"This section of the Rainbow Trail is about 14 miles one-way, and it runs from the Bear Creek Trailhead, along the border of the Sangre de Cristo wilderness, to the Kerr Gulch Trailhead. <br /> Some sections of this trail are very rutted out from moto use, while others are in good shape. Due to the wilderness area on one side, this section of trail is quite remote, and offers up some gorgeous views!",
+      "description": "This section of the Rainbow Trail is about 14 miles one-way, and it runs from the Bear Creek Trailhead, along the border of the Sangre de Cristo wilderness, to the Kerr Gulch Trailhead. <br /> Some sections of this trail are very rutted out from moto use, while others are in good shape. Due to the wilderness area on one side, this section of trail is quite remote, and offers up some gorgeous views!",
       "difficulty": "Advanced"
     },
     {
@@ -32,7 +32,7 @@
       "id": 276363,
       "name": "Road #7",
       "length": "4.0",
-      "description": "Road #7 begins in Wellsville near the mine, then runs high up into the hills before dead ending.",  
+      "description": "Road #7 begins in Wellsville near the mine, then runs high up into the hills before dead ending.",
       "difficulty": ""
     },
     {
