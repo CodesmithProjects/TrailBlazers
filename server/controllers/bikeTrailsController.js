@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-// import * as fetch from 'node-fetch'
 
 const bikeController = {};
 
@@ -32,7 +31,4 @@ bikeController.getTrails = async (req, res, next) => {
     }
 }
 
-bikeController.getTrailInfo = (req, res, next) => {
-
-}
 module.exports = bikeController;
