@@ -17,3 +17,17 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.trail-info-card-container {
+  display: flex;
+  padding-top: 3rem;
+  flex-wrap: wrap;
+} 
+
+.trail-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
