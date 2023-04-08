@@ -21,7 +21,7 @@ export default function TrailDetailsSideIconMenu({ trail }) {
           }}
         >
           <ReadMoreOutlinedIcon></ReadMoreOutlinedIcon>
-          <Typography className="details-icons-text">Read more</Typography>
+          <Typography className="details-icons-text">More</Typography>
         </IconButton>
         {/* TODO: add functionality to open google maps with long/lat */}
         <IconButton className="details-banner-button">

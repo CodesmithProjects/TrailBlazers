@@ -3,18 +3,30 @@ import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TrailDetailsSideIconMenu from "../src/TrailDetailsSideIconMenu";
 import TrailsDetailsOverview from "../src/TrailDetailsOverview";
+import LoadingOverlay from "react-loading-overlay";
+import { Paper } from "@mui/material";
 
 export default function TrailDetails() {
   const [trail, updateTrail] = useState([{}]);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [showTrailDetails, updateShowTrailDetails] = useState(false);
   let params = useParams();
 
   const getTrailById = (id) => {
-    fetch(`/mocktraildetails/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        updateTrail(data.data[0]);
-        console.log("here is data", data.data[0]);
-      });
+    if (id) {
+      setShowSpinner(true);
+      fetch(`/api/moreInfo/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setShowSpinner(false);
+          updateTrail(data.data[0]);
+          updateShowTrailDetails(true);
+        })
+        // TODO: do something more meaningful with this error
+        .catch((err) => console.log('error occurred during get trails by id', err));
+    } else {
+      updateTrail([]);
+    }
   };
 
   useEffect(() => {
@@ -24,11 +36,9 @@ export default function TrailDetails() {
   }, []);
 
   return (
-    <>
-      {typeof trail === "undefined" ? (
-        <p>loading...</p>
-      ) : (
-        <>
+    <LoadingOverlay active={showSpinner} spinner text="Loading trail...">
+      {showTrailDetails ? (
+        <Paper>
           <div className="container">
             <div className="banner-wrapper">
               <img
@@ -47,8 +57,10 @@ export default function TrailDetails() {
             <TrailDetailsSideIconMenu trail={trail}></TrailDetailsSideIconMenu>
           </div>
           <TrailsDetailsOverview trail={trail}></TrailsDetailsOverview>
-        </>
+        </Paper>
+      ) : (
+        <Paper sx={{ height: "40rem" }}></Paper>
       )}
-    </>
+    </LoadingOverlay>
   );
 }

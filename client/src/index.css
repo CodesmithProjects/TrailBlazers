@@ -21,8 +21,7 @@
 .details-title {
   position: absolute;
   top: 85%;
-  left: 15%;
-  transform: translate(-50%, -50%);
+  left: 2%;
 }
 
 .trail-info-card-container {
