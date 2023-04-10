@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { IconButton } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
 import DirectionsOutlinedIcon from "@mui/icons-material/DirectionsOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import ReadMoreOutlinedIcon from "@mui/icons-material/ReadMoreOutlined";
@@ -26,7 +26,9 @@ export default function TrailDetailsSideIconMenu({ trail }) {
         {/* TODO: add functionality to open google maps with long/lat */}
         <IconButton className="details-banner-button">
           <DirectionsOutlinedIcon></DirectionsOutlinedIcon>
-          <Typography className="details-icons-text">Directions</Typography>
+          <Typography className="details-icons-text">
+          <Button target="_blank" href={trail.googleMapsURL}>Directions</Button>
+            </Typography>
         </IconButton>
       </div>
     </>
