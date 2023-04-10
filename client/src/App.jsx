@@ -7,14 +7,22 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import TrailInfoCard from "./TrailInfoCard";
+import TrailDetails from "./TrailDetails";
 import Grid from "@mui/material/Grid";
+import { Routes, Route, Link } from "react-router-dom";
+import LoadingOverlay from "react-loading-overlay";
 
 const App = () => {
   const [zip, updateZip] = useState("");
-  const [isFormInvalid, setIsFormInvalid] = useState(false);
-  const [trails, setTrails] = useState([{}]);
+  const [isZipInvalid, setIsZipInvalid] = useState(false);
+  const [trails, setTrails] = useState([]);
   const [showTrails, setShowTrails] = useState(false);
-  const validZip = new RegExp('^[0-9]*$');
+  const [showSpinner, setShowSpinner] = useState(false);
+  const validZip = new RegExp("^[0-9]*$");
+
+  // this resolves an error that is related to the loading overlay package used for the spinner
+  // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
+  LoadingOverlay.propTypes = undefined;
 
   // note that themes can be nested, and theme provider can be passed another instance of a theme obj
   const theme = createTheme({
@@ -31,92 +39,145 @@ const App = () => {
 
   const getTrailsByLocation = (e) => {
     e.preventDefault();
-    const formData = {
-      zip,
-    };
-    if (!isFormInvalid) {
-      fetch("/mockgetalltrails")
+    if (!isZipInvalid) {
+      setShowSpinner(true);
+      fetch(`api/trails/${zip}`)
         .then((response) => response.json())
-        .then((data) => {
-          setTrails(data);
+        .then((res) => {
+          setTrails(res.data);
           setShowTrails(true);
-        });
-      console.log("got to submit", formData);
+          setShowSpinner(false);
+        })
+      // TODO: do something more meaningful with this error
+      .catch((err) => console.log('error occurred during get trails by location', err));
     } else {
       setShowTrails(false);
-      setTrails([{}]);
-      console.log("form is not valid");
+      setTrails([]);
     }
   };
 
   const handleZipChange = (zip) => {
     updateZip(zip);
-    setIsFormInvalid(false);
+    setIsZipInvalid(false);
   };
 
   const validate = () => {
-    if(zip.length === 5 && validZip.test(zip)) {
-      setIsFormInvalid(false);
+    if (zip.length === 5 && validZip.test(zip)) {
+      setIsZipInvalid(false);
     } else {
-      setIsFormInvalid(true);
+      setIsZipInvalid(true);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Paper sx={{paddingBottom: "3rem"}}>
+      <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
         <ButtonAppBar></ButtonAppBar>
-        <div className="container">
-          <div className="img-wrapper">
-            <img src="src/assets/homepage-1.jpeg" className="welcome-img"></img>
-            <img src="src/assets/homepage-2.jpeg" className="welcome-img"></img>
-          </div>
-          <div className="welcome-msg">
-            <span>
-              <h1>Discover your next adventure</h1>
-            </span>
-            <form onSubmit={getTrailsByLocation} noValidate>
-              <TextField
-                required
-                error={isFormInvalid}
-                helperText={isFormInvalid ? "Zipcode must be a 5 digit number" : ""}
-                value={zip}
-                onChange={(e) => handleZipChange(e.target.value)}
-                sx={{ backgroundColor: "rgba(0,0,0,.8)" }}
-                fullWidth
-                variant="filled"
-                label="Search by zipcode"
-                InputProps={{
-                  endAdornment: (
-                    <IconButton formNoValidate type="submit" onClick={validate}>
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-            </form>
-          </div>
-        </div>
-        <div className="grid-wrapper">
-          <Grid container sx={{ marginTop: '3rem'}} direction={'row'} spacing={3}>
-            {showTrails ? (
-              typeof trails.data === "undefined" ? (
-                // TODO: change this to a spinner
-                <p>Loading</p>
-              ) : (
-                trails.data.map((trail, i) => {
-                  return(
-                    <Grid item xs={6} s={5} lg={4} xl={3} display="flex" justifyContent="center">
-                      <TrailInfoCard key={i} index={i} trail={trail} />
+        <Routes>
+          <Route
+            path="/details/:id/:idx"
+            element={<TrailDetails></TrailDetails>}
+          ></Route>
+          <Route
+            path="/"
+            element={
+              <>
+                <Paper sx={{ paddingBottom: "3rem" }}>
+                  <div className="container">
+                    <div className="img-wrapper">
+                      <img
+                        src="src/assets/homepage-1.jpeg"
+                        className="welcome-img"
+                      ></img>
+                      <img
+                        src="src/assets/homepage-2.jpeg"
+                        className="welcome-img"
+                      ></img>
+                    </div>
+                    <div className="welcome-msg">
+                      <span>
+                        <h1>Discover your next adventure</h1>
+                      </span>
+                      <form onSubmit={getTrailsByLocation} noValidate>
+                        <TextField
+                          required
+                          error={isZipInvalid}
+                          helperText={
+                            isZipInvalid
+                              ? "Zipcode must be a 5 digit number"
+                              : ""
+                          }
+                          value={zip}
+                          onChange={(e) => handleZipChange(e.target.value)}
+                          sx={{ backgroundColor: "rgba(0,0,0,.8)" }}
+                          fullWidth
+                          variant="filled"
+                          label="Search by zipcode"
+                          InputProps={{
+                            endAdornment: (
+                              <IconButton
+                                formNoValidate
+                                type="submit"
+                                onClick={validate}
+                              >
+                                <SearchIcon />
+                              </IconButton>
+                            ),
+                          }}
+                        />
+                      </form>
+                    </div>
+                  </div>
+                  <div className="grid-wrapper">
+                    <Grid
+                      container
+                      sx={{ marginTop: "3rem" }}
+                      direction={"row"}
+                      spacing={3}
+                    >
+                      {showTrails ? (
+                        trails.length < 1 ? (
+                          <p>
+                            Sorry, no matching trails were found within a 25
+                            mile radius from this zipcode.
+                          </p>
+                        ) : (
+                          trails.map((trail, i) => {
+                            return (
+                              <Grid
+                                item
+                                xs={6}
+                                s={5}
+                                lg={4}
+                                xl={3}
+                                display="flex"
+                                justifyContent="center"
+                                key={i}
+                              >
+                                <Link
+                                  to={`/details/${trail.id}/${i}`}
+                                  style={{ textDecoration: "none" }}
+                                >
+                                  <TrailInfoCard
+                                    key={i}
+                                    index={i}
+                                    trail={trail}
+                                  />
+                                </Link>
+                              </Grid>
+                            );
+                          })
+                        )
+                      ) : undefined}
                     </Grid>
-                  )
-                })
-              )
-            ) : undefined}
-          </Grid>
-        </div>
-      </Paper>
+                  </div>
+                </Paper>
+              </>
+            }
+          ></Route>
+        </Routes>
+      </LoadingOverlay>
     </ThemeProvider>
   );
 };
