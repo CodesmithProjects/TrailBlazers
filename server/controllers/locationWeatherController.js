@@ -31,5 +31,4 @@ locationWeatherController.getGeoCodeURL = (req, res, next) => {
 };
 
 
-
 module.exports = locationWeatherController;

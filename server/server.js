@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config({path: '../.env'})
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
