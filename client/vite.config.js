@@ -8,8 +8,5 @@ export default defineConfig({
       '/api': 'http://localhost:4000/'
     }
   },
-  // define: {
-  //   'process.env': {}
-  // },
   plugins: [react()],
 })

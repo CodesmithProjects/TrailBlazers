@@ -12,10 +12,6 @@ app.use('/api/moreInfo', bikeTrailInfoRouter);
 
 // })
 
-app.get('/api', (req, res) => {
-  res.json({ "users": ["user1", "user2", "user3"] })
-});
-
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
