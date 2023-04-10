@@ -29,10 +29,8 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'difficulty': elem['difficulty'],
       'thumbnail': elem['thumbnail'],
       'features': elem['features'],
-      // 'rating': elem['rating'],
-      // 'currTemp': elem['main']['temp'],
-      // 'maxTemp': elem['main']['temp_max'],
-      // 'minTemp': elem['main']['temp_min']
+      'trailEstimate': ((Number(elem['length'])/10)*60).toString(),
+      'googleMapsURL': `https://www.google.com/maps/dir//${elem['lat']},${elem['lon']}`,
       }
     });
     // const weatherAPI = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${resultJSON['lat']}&lon=${resultJSON['lon']}&appid=${openWeatherKey.apiKey}&units=imperial`)
