@@ -9,5 +9,8 @@ export default defineConfig({
       '/mockgetalltrails': 'http://localhost:4000/',
     }
   },
+  // define: {
+  //   'process.env': {}
+  // },
   plugins: [react()],
 })
