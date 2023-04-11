@@ -2,6 +2,16 @@ const express = require('express');
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
+const { Pool, Client } = require('pg');
+
+const client = new Client({
+  connectionString: 'postgres://wtgwtfld:KfGVL8wRpAn_h6QA2RwHyvIEF5VhAibG@heffalump.db.elephantsql.com/wtgwtfld'
+});
+
+client.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected to database!");
+});
 
 app.use(express.json());
 app.use('/api/trails', bikeTrailsRouter);

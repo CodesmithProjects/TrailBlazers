@@ -31,4 +31,10 @@ bikeController.getTrails = async (req, res, next) => {
     }
 }
 
+bikeController.saveTrails = (req, res, next) => {
+  // try {
+
+  // }
+}
+
 module.exports = bikeController;
