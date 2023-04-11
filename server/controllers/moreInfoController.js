@@ -30,6 +30,8 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'features': elem['features'],
       'trailEstimate': elem['length'] ? ((Number(elem['length'])/10)*60).toString() : '',
       'googleMapsURL': `https://www.google.com/maps/dir//${elem['lat']},${elem['lon']}`,
+      'lat': elem['lat'],
+      'lon': elem['lon'],
       }
     });
     // const weatherAPI = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${resultJSON['lat']}&lon=${resultJSON['lon']}&appid=${openWeatherKey.apiKey}&units=imperial`)
