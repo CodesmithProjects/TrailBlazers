@@ -24,9 +24,11 @@ export default function TrailDetailsSideIconMenu({ trail }) {
           <Typography className="details-icons-text">More</Typography>
         </IconButton>
         {/* TODO: add functionality to open google maps with long/lat */}
-        <IconButton className="details-banner-button">
+        <IconButton className="details-banner-button" onClick={()=>{window.open(trail.googleMapsURL, '_blank')}}>
           <DirectionsOutlinedIcon></DirectionsOutlinedIcon>
-          <Typography className="details-icons-text">Directions</Typography>
+          <Typography className="details-icons-text">
+          Directions
+            </Typography>
         </IconButton>
       </div>
     </>

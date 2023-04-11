@@ -36,6 +36,17 @@ export default function TrailDetailsOverview({ trail }) {
           </Typography>
         ) : undefined
       }
+      {
+        // TODO: add time in this if condition when added to SVC
+        trail.trailEstimate ? (
+          <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle2">
+            {`Estimated time: `}
+            <span className="overview-value">
+              {`${trail.trailEstimate} minutes`}
+            </span>
+          </Typography>
+        ) : undefined
+      }
       {trail.description ? (
         <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle2">
           {`Description: `}
