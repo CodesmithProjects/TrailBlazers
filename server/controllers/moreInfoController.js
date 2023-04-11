@@ -28,7 +28,7 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'difficulty': elem['difficulty'],
       'thumbnail': elem['thumbnail'],
       'features': elem['features'],
-      'trailEstimate': ((Number(elem['length'])/10)*60).toString(),
+      'trailEstimate': elem['length'] ? ((Number(elem['length'])/10)*60).toString() : '',
       'googleMapsURL': `https://www.google.com/maps/dir//${elem['lat']},${elem['lon']}`,
       }
     });
