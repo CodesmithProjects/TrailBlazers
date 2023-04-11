@@ -3,14 +3,15 @@ require('dotenv').config({path: '../.env'})
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
+const path = require('path');
 
 app.use(express.json());
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
 
-// app.get('/', (req, res) => {
-
-// })
+app.get('/details/287733/0', (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '../client/index.html'))
+})
 
 app.use((err, req, res, next) => {
   const defaultErr = {
