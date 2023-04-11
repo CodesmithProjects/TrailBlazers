@@ -16,12 +16,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .details-title {
   position: absolute;
   top: 85%;
   left: 2%;
+  letter-spacing: 2px;
 }
 
 .trail-info-card-container {
@@ -66,6 +68,95 @@
   font-size: 10px !important;
 }
 
+.rw-today .rw-today-current {
+  font-size: 20px !important;
+}
+
+.detail-overview-tiles {
+  width: 50%;
+  float: left;
+  padding: 20px;
+  /* border: 2px solid red; */
+}
+
+.tile-1 {
+  height: 490px;
+}
+
+.tile-1-card-top {
+  background-color: #121212;
+  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+  height: 255px;
+  border-radius: 5px;
+  display: flex;
+  width: 100%;
+}
+
+.tile-1-card-left {
+  padding: 2rem 2rem 0rem 2rem;
+  width: 60%;
+}
+
+.tile-1-card-right {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tile-1-card-bottom {
+  background-color: rgba(255, 255, 255, 0.05);
+  height: 147px;
+  border-radius: 5px;
+  display: flex;
+}
+
+
+.bike-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.pedal-bike-icon {
+  margin-bottom: 2rem;
+  transform: scale(4);
+  color: #B5DEF4;
+}
+
+.tile-1-item {
+  width: 35%;
+  text-align: center;
+  margin: 10px 0px;
+  padding: 0px 10px;
+}
+
+.about {
+  margin: 0px 0px 10px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.rw-today .rw-today-desc {
+  font-size: 13px !important;
+}
+
+.overview-key {
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
 .overview-value {
-  font-weight: 400
+  margin: 10px 0px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+}
+
+.overview-icon {
+  text-align: center;
+  transform: scale(1.6);
+  color: #B5DEF4;
+  padding-top: 12px;
 }
