@@ -31,7 +31,7 @@ export default function TrailDetailsOverview({ trail }) {
                     </Typography>
                     <Typography
                       sx={{
-                        maxHeight: "13rem",
+                        maxHeight: "10rem",
                         overflowY: "auto",
                       }}
                       variant="subtitle2"
