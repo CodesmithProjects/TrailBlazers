@@ -7,6 +7,7 @@ import PedalBikeOutlinedIcon from "@mui/icons-material/PedalBikeOutlined";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import StraightenOutlinedIcon from "@mui/icons-material/StraightenOutlined";
+import MapComponent from './MapComponent'
 
 export default function TrailDetailsOverview({ trail }) {
   return (
@@ -103,6 +104,7 @@ export default function TrailDetailsOverview({ trail }) {
             <WeatherCard trail={trail}></WeatherCard>
           </CardContent>
         </Card>
+            <MapComponent trail={trail}></MapComponent>
       </div>
     </div>
   );
