@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const openWeatherKey = require('../api/apiKeys/openWeather.js')
 
 const moreInfoController = {};
 
