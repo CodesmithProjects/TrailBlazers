@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TrailDetailsSideIconMenu from "../src/TrailDetailsSideIconMenu";
@@ -23,7 +23,9 @@ export default function TrailDetails() {
           updateShowTrailDetails(true);
         })
         // TODO: do something more meaningful with this error
-        .catch((err) => console.log('error occurred during get trails by id', err));
+        .catch((err) =>
+          console.log("error occurred during get trails by id", err)
+        );
     } else {
       updateTrail([]);
     }
@@ -38,7 +40,7 @@ export default function TrailDetails() {
   return (
     <LoadingOverlay active={showSpinner} spinner text="Loading trail...">
       {showTrailDetails ? (
-        <Paper>
+        <Paper sx={{height: '26rem'}}>
           <div className="container">
             <div className="banner-wrapper">
               <img
