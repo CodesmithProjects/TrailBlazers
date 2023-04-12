@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const db = require('../models/bikeTrailsModels');
 
 const bikeController = {};
 
@@ -29,6 +30,37 @@ bikeController.getTrails = async (req, res, next) => {
     } catch {
         return next({log: 'error at bikeController.getTrails middleware', message: 'fetch request to moreInfo trails API failed'})
     }
+}
+
+bikeController.getFavTrails = async (req, res, next) => {
+  try {
+  // need to get user id or email somehow?
+    let user_id = 1;
+
+    const getTrailsSQL = `
+    SELECT * FROM favorite_trails
+    WHERE user_id = ${user_id};`;
+
+    await db.query(getTrailsSQL).then((data) => {
+      for (let i = 0; i < data.rows.length; i++) {
+        const trail = data.rows[i];
+        const trailsForQuery = [];
+        trailsForQuery.push(trail['user_id']);
+        console.log(trailsForQuery);
+      }
+      res.locals.data = data;
+      console.log(data);
+      return next();
+    })
+  } catch(err) {
+    console.log(`ERROR IN bikeController.getFavTrails`, err)
+  }
+
+
+}
+
+bikeController.saveTrails = (req, res, next) => {
+
 }
 
 module.exports = bikeController;
