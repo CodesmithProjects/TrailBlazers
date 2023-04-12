@@ -6,7 +6,6 @@ const containerStyle = {
   height: '400px'
 };
 
-
 function MapComponent({ trail }) {
   const { isLoaded } = useJsApiLoader({
     id: import.meta.env.VITE_GOOGLEMAPID,
