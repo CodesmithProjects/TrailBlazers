@@ -6,9 +6,7 @@ import TrailsDetailsOverview from "../src/TrailDetailsOverview";
 import LoadingOverlay from "react-loading-overlay";
 import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import Alert from "@mui/material/Alert";
-import { ConstructionOutlined, Filter } from "@mui/icons-material";
 
 export default function TrailDetails() {
   const [trail, updateTrail] = useState([{}]);
@@ -16,6 +14,7 @@ export default function TrailDetails() {
   const [showTrailDetails, updateShowTrailDetails] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [addedSuccess, setAddedSuccess] = useState(false);
+  const [deletedSuccess, setDeletedSuccess] = useState(false);
   const [hasMatch, setHasMatch] = useState(false);
   const [alertState, setState] = React.useState({
     vertical: "top",
@@ -43,16 +42,32 @@ export default function TrailDetails() {
     }
   };
 
-  const successType = (bool) => {
+  const addSuccessType = (bool) => {
     if (bool) {
+      setDeletedSuccess(false);
       setAddedSuccess(true);
     } else {
       setAddedSuccess(false);
     }
   };
 
+  const deleteSuccessType = (bool) => {
+    if (bool) {
+      setAddedSuccess(false);
+      setDeletedSuccess(true);
+    } else {
+      setDeletedSuccess(false);
+    }
+  };
+
   const showSuccessMessage = () => {
-    return addedSuccess ? "Successfully added" : "Failed to save";
+    if (addedSuccess) {
+      return "Successfully added";
+    } else if (deletedSuccess) {
+      return "Successfully deleted";
+    } else {
+      return "Error - please try again";
+    }
   };
 
   const showAlert = () => {
@@ -67,20 +82,18 @@ export default function TrailDetails() {
   };
 
   const filterFavoriteTrails = (trails) => {
-    const result = trails.data.filter(t => 
-      t.id.toString() === params.id
-    );
-    if(result.length > 0) {
+    const result = trails.data.filter((t) => t.id.toString() === params.id);
+    if (result.length > 0) {
       setHasMatch(true);
     } else {
       setHasMatch(false);
     }
-  }
+  };
 
   const getAllFavoriteTrails = () => {
-    fetch('/getAllFavoriteTrails', {
+    fetch("/getAllFavoriteTrails", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
       },
     })
       .then((res) => res.json())
@@ -114,7 +127,13 @@ export default function TrailDetails() {
                   },
                 }}
               >
-                <Alert onClose={handleClose} sx={{ width: "100%" }} severity={addedSuccess ? 'success' : 'error'}>
+                <Alert
+                  onClose={handleClose}
+                  sx={{ width: "100%" }}
+                  severity={
+                    addedSuccess || deletedSuccess ? "success" : "error"
+                  }
+                >
                   {showSuccessMessage()}
                 </Alert>
               </Snackbar>
@@ -134,7 +153,8 @@ export default function TrailDetails() {
             <TrailDetailsSideIconMenu
               trail={trail}
               showAlert={showAlert}
-              successType={successType}
+              addSuccessType={addSuccessType}
+              deleteSuccessType={deleteSuccessType}
               hasMatch={hasMatch}
             ></TrailDetailsSideIconMenu>
           </div>

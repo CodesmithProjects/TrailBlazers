@@ -7,14 +7,15 @@ import PedalBikeOutlinedIcon from "@mui/icons-material/PedalBikeOutlined";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import StraightenOutlinedIcon from "@mui/icons-material/StraightenOutlined";
-import MapComponent from './MapComponent'
+import MapComponent from "./MapComponent";
+import { Grid } from "@mui/material";
 
 export default function TrailDetailsOverview({ trail }) {
   return (
     <>
-      <div>
+      <div className="details-overview-row-1-container">
         <div className="detail-overview-tiles tile-1">
-          <Card sx={{ height: "445px", backgroundImage: "none" }}>
+          <Card>
             <CardContent>
               <div className="tile-1-card-top">
                 <div className="tile-1-card-left">
@@ -51,7 +52,10 @@ export default function TrailDetailsOverview({ trail }) {
               </div>
               <div className="tile-1-card-bottom">
                 <div className="tile-1-item">
-                  <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle1">
+                  <Typography
+                    sx={{ marginBottom: ".5rem" }}
+                    variant="subtitle1"
+                  >
                     <div className="overview-key">{`Difficulty`}</div>
                     <div className="overview-icon">
                       <TerrainOutlinedIcon></TerrainOutlinedIcon>
@@ -100,29 +104,29 @@ export default function TrailDetailsOverview({ trail }) {
           </Card>
         </div>
         <div className="detail-overview-tiles tile-2">
-          <Card sx={{ backgroundImage: "none" }}>
+          <Card>
             <CardContent>
               <WeatherCard trail={trail}></WeatherCard>
             </CardContent>
           </Card>
         </div>
       </div>
-      <div className="test">
-        <div className="detail-overview-tiles tile-3">
-        <Card sx={{ backgroundImage: "none" }}>
+      <Grid container>
+        <Grid item xs={6}>
+          <Card sx={{ margin: "1rem" }}>
             <CardContent>
               <WeatherCard trail={trail}></WeatherCard>
             </CardContent>
           </Card>
-        </div>
-        <div className="detail-overview-tiles tile-4">
-          <Card sx={{ backgroundImage: "none" }}>
+        </Grid>
+        <Grid item xs={6}>
+          <Card sx={{ margin: "1rem" }}>
             <CardContent>
               <MapComponent trail={trail}></MapComponent>
             </CardContent>
           </Card>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </>
   );
 }
