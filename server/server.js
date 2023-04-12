@@ -8,9 +8,13 @@ app.use(express.json());
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
 
-// app.get('/', (req, res) => {
+app.get('/googlecallback', (req, res) => {
+  return res.redirect('http://localhost:5173');
+})
 
-// })
+app.use('*', (req, res) => {
+  return res.redirect('http://localhost:5173');
+})
 
 app.use((err, req, res, next) => {
   const defaultErr = {

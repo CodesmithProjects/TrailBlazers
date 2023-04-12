@@ -9,10 +9,8 @@ const getOAuthURL = () => {
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email'
         ].join(' ')
-    }
-
+    };
     const qs = new URLSearchParams(options);
-
     return `${rootURL}?${qs.toString()}`;
 }
 
