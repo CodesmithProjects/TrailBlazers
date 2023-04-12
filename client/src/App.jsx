@@ -11,6 +11,7 @@ import TrailDetails from "./TrailDetails";
 import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
+import Typography from "@mui/material/Typography";
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -83,7 +84,7 @@ const App = () => {
             path="/"
             element={
               <>
-                <Paper sx={{ paddingBottom: "3rem" }}>
+                <Paper sx={{ height: '30rem' }}>
                   <div className="container">
                     <div className="img-wrapper">
                       <img
@@ -96,9 +97,7 @@ const App = () => {
                       ></img>
                     </div>
                     <div className="welcome-msg">
-                      <span>
-                        <h1>Discover your next adventure</h1>
-                      </span>
+                      <Typography variant="h4" sx={{marginBottom: "1rem", letterSpacing: '1px'}}>Discover your next adventure</Typography>
                       <form onSubmit={getTrailsByLocation} noValidate>
                         <TextField
                           required
@@ -110,8 +109,7 @@ const App = () => {
                           }
                           value={zip}
                           onChange={(e) => handleZipChange(e.target.value)}
-                          sx={{ backgroundColor: "rgba(0,0,0,.8)" }}
-                          fullWidth
+                          sx={{ backgroundColor: "rgba(0,0,0,.8)", width: '70%' }}
                           variant="filled"
                           label="Search by zipcode"
                           InputProps={{
