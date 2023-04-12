@@ -42,14 +42,15 @@ bikeController.getFavTrails = async (req, res, next) => {
     WHERE user_id = ${user_id};`;
 
     await db.query(getTrailsSQL).then((data) => {
+      const trailsForQuery = [];
       for (let i = 0; i < data.rows.length; i++) {
         const trail = data.rows[i];
-        const trailsForQuery = [];
+
         trailsForQuery.push(trail['user_id']);
         console.log(trailsForQuery);
       }
-      res.locals.data = data;
-      console.log(data);
+      res.locals.data = trailsForQuery;
+      console.log(`THIS IS THE DATA: `, res.locals.data);
       return next();
     })
   } catch(err) {
