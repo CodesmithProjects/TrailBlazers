@@ -8,8 +8,12 @@ dbRouter.get('/getAllFavoriteTrails', bikeTrailsController.getFavTrails, (req, r
   return res.status(200).json(res.locals.data);
 })
 
-dbRouter.post('/:userID', bikeTrailsController.saveTrails, (req, res) => {
-  res.status(200).json(res.locals.data);
+dbRouter.post('/saveFavoriteTrail', bikeTrailsController.saveTrails, (req, res) => {
+  res.status(200).json(res.locals.isSaved);
+})
+
+dbRouter.delete('/deleteFavoriteTrail/:trailID', bikeTrailsController.deleteTrails, (req, res) => {
+  res.status(200).json(res.locals.isDeleted);
 })
 
 module.exports = dbRouter;
