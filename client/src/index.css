@@ -160,3 +160,9 @@
   color: #B5DEF4;
   padding-top: 12px;
 }
+
+.modal-button-wrapper {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}

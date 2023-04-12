@@ -1,15 +1,27 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TrailDetailsSideIconMenu from "../src/TrailDetailsSideIconMenu";
 import TrailsDetailsOverview from "../src/TrailDetailsOverview";
 import LoadingOverlay from "react-loading-overlay";
 import { Paper } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
+import { ConstructionOutlined, Filter } from "@mui/icons-material";
 
 export default function TrailDetails() {
   const [trail, updateTrail] = useState([{}]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTrailDetails, updateShowTrailDetails] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [addedSuccess, setAddedSuccess] = useState(false);
+  const [hasMatch, setHasMatch] = useState(false);
+  const [alertState, setState] = React.useState({
+    vertical: "top",
+    horizontal: "right",
+  });
+  const { vertical, horizontal } = alertState;
   let params = useParams();
 
   const getTrailById = (id) => {
@@ -31,18 +43,81 @@ export default function TrailDetails() {
     }
   };
 
+  const successType = (bool) => {
+    if (bool) {
+      setAddedSuccess(true);
+    } else {
+      setAddedSuccess(false);
+    }
+  };
+
+  const showSuccessMessage = () => {
+    return addedSuccess ? "Successfully added" : "Failed to save";
+  };
+
+  const showAlert = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const filterFavoriteTrails = (trails) => {
+    const result = trails.data.filter(t => 
+      t.id.toString() === params.id
+    );
+    if(result.length > 0) {
+      setHasMatch(true);
+    } else {
+      setHasMatch(false);
+    }
+  }
+
+  const getAllFavoriteTrails = () => {
+    fetch('/getAllFavoriteTrails', {
+      headers: {
+        "Accept": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        filterFavoriteTrails(data);
+      });
+  };
+
   useEffect(() => {
     if (params.id) {
       getTrailById(params.id);
+      getAllFavoriteTrails();
     }
   }, []);
 
   return (
     <LoadingOverlay active={showSpinner} spinner text="Loading trail...">
       {showTrailDetails ? (
-        <Paper sx={{height: '26rem'}}>
+        <Paper sx={{ height: "26rem" }}>
           <div className="container">
             <div className="banner-wrapper">
+              <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                contentprops={{
+                  classes: {
+                    root: "snackbar",
+                  },
+                }}
+              >
+                <Alert onClose={handleClose} sx={{ width: "100%" }} severity={addedSuccess ? 'success' : 'error'}>
+                  {showSuccessMessage()}
+                </Alert>
+              </Snackbar>
               <img
                 className="banner-img"
                 src={`../../src/assets/mtn-banner-${params.idx}.jpeg`}
@@ -56,7 +131,12 @@ export default function TrailDetails() {
             >
               {trail.name}
             </Typography>
-            <TrailDetailsSideIconMenu trail={trail}></TrailDetailsSideIconMenu>
+            <TrailDetailsSideIconMenu
+              trail={trail}
+              showAlert={showAlert}
+              successType={successType}
+              hasMatch={hasMatch}
+            ></TrailDetailsSideIconMenu>
           </div>
           <TrailsDetailsOverview trail={trail}></TrailsDetailsOverview>
         </Paper>
