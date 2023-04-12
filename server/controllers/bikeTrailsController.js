@@ -35,7 +35,7 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
   // need to get user id or email somehow?
-    let user_id = 1;
+    let user_id = 3;
 
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
@@ -46,7 +46,7 @@ bikeController.getFavTrails = async (req, res, next) => {
       for (let i = 0; i < data.rows.length; i++) {
         const trail = data.rows[i];
 
-        trailsForQuery.push(trail['user_id']);
+        trailsForQuery.push({ trailId: trail['trail_api'], trailName: trail['trail_name']});
         console.log(trailsForQuery);
       }
       res.locals.data = trailsForQuery;
