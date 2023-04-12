@@ -1,5 +1,5 @@
 import ButtonAppBar from "./AppBar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { lightBlue, deepOrange } from "@mui/material/colors";
 import { IconButton, Paper } from "@mui/material";
@@ -36,6 +36,14 @@ const App = () => {
         main: deepOrange[500],
       },
     },
+  });
+
+  useEffect(() => {
+    const token = (window.location.hash).slice(1);
+    fetch(`http://localhost:4000/api/sessions/${token}`, {
+      credentials: "include"
+    })
+      .then(data => console.log('completed'))
   });
 
   const getTrailsByLocation = (e) => {
