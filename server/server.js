@@ -10,9 +10,28 @@ app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
 app.use('/api/db', dbRouter);
 
-// app.get('/', (req, res) => {
+// NEEDED FOR UI MOCK - REMOVE LATER
+const fs = require('fs');
+const path = require('path');
+const mockTrailsFilePath = path.join(__dirname, 'mock/mockFavoriteTrails.json');
 
-// })
+// MOCK ENDPOINT FOR UI DEVELOPMENT - REMOVE LATER
+app.post('/saveFavoriteTrail', (req, res) => {
+  res.sendStatus(200);
+}); 
+// MOCK ENDPOINT FOR UI DEVELOPMENT - REMOVE LATER
+app.get('/getAllFavoriteTrails', (req, res) => {
+  const readable = fs.createReadStream(mockTrailsFilePath);
+  readable.pipe(res);
+});
+
+app.get('/googlecallback', (req, res) => {
+  return res.redirect('http://localhost:5173');
+})
+
+app.use('*', (req, res) => {
+  return res.redirect('http://localhost:5173');
+})
 
 app.use((err, req, res, next) => {
   const defaultErr = {

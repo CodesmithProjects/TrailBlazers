@@ -112,7 +112,6 @@
   display: flex;
 }
 
-
 .bike-icon-container {
   display: flex;
   align-items: center;
@@ -159,4 +158,23 @@
   transform: scale(1.6);
   color: #B5DEF4;
   padding-top: 12px;
+}
+
+.modal-button-wrapper {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.details-overview-row-1-container {
+  padding-top: 2rem;
+}
+
+.delete-favorite-confirm-wrapper {
+  margin-top: 1.5rem;
+}
+
+.saved-trails-container {
+  display: flex;
+  justify-content: center;
 }
