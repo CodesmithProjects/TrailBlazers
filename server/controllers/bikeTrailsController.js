@@ -36,16 +36,19 @@ bikeController.getFavTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
 
+    // test id
+    // const user_id = '111';
+
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE user_id = ${user_id};`;
+    WHERE google_id = '${user_id}';`;
 
     await db.query(getTrailsSQL).then((data) => {
       const trailsForQuery = [];
       for (let i = 0; i < data.rows.length; i++) {
         const trail = data.rows[i];
 
-        trailsForQuery.push({ trailId: trail['trail_api'], trailName: trail['trail_name']});
+        trailsForQuery.push({ trailId: trail['trail_id'], trailName: trail['trail_name']});
         // console.log(trailsForQuery);
       }
       res.locals.data = trailsForQuery;
@@ -63,15 +66,18 @@ bikeController.saveTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
 
+    // test id
+    // const user_id = '111';
+
     const { trailId, trailName } = req.body;
 
     const saveTrailsSQL = `
-    INSERT INTO favorite_trails(user_id, trail_api, trail_name)
-    VALUES(${user_id}, '${trailId}', '${trailName}');`;
+    INSERT INTO favorite_trails(google_id, trail_id, trail_name)
+    VALUES('${user_id}', '${trailId}', '${trailName}');`;
 
     const checkTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`;
+    WHERE google_id = '${user_id}' AND trail_id = '${trailId}';`;
     
     // query first to db to check if trail is already favorited to prevent duplicates then save trail
     await db.query(checkTrailsSQL)
@@ -98,11 +104,14 @@ bikeController.deleteTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
 
+    // test id
+    // const user_id = '111';
+
     const { trailId } = req.params;
 
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails
-    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`
+    WHERE google_id = '${user_id}' AND trail_id = '${trailId}';`
 
     await db.query(deleteTrailsSQL).then((data) => {
       res.locals.isDeleted = true;
