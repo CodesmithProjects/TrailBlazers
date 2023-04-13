@@ -4,6 +4,7 @@ const moreInfoController = {};
 
 moreInfoController.getMoreInfo = async (req, res, next) => {
   try {
+    console.log(req.cookies)
     const id = req.params.id;
     const options = { 
       method: 'GET',
@@ -34,11 +35,7 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'lon': elem['lon'],
       }
     });
-    // const weatherAPI = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${resultJSON['lat']}&lon=${resultJSON['lon']}&appid=${openWeatherKey.apiKey}&units=imperial`)
-    // const weatherAPIJSON = await weatherAPI.json();
-    // console.log(weatherAPIJSON);
     res.locals.moreInfo = resultJSON;
-    console.log(resultJSON);
     return next();
   } catch(err) {
     console.log(err);

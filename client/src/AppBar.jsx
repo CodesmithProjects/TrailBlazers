@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import getOAuthURL from "../utils/getOAuthURL";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link } from "@mui/material";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);

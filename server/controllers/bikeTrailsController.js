@@ -34,9 +34,7 @@ bikeController.getTrails = async (req, res, next) => {
 
 bikeController.getFavTrails = async (req, res, next) => {
   try {
-  // need to get user id or email somehow?
-    //const { id } = req.cookies.id;
-    let user_id = 4;
+    const user_id = req.cookies.userID;
 
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
@@ -63,11 +61,8 @@ bikeController.getFavTrails = async (req, res, next) => {
 
 bikeController.saveTrails = async (req, res, next) => {
   try {
-    // need to get user id or email somehow?
-    //const { id } = req.cookies.id;
-    let user_id = 1;
+    const user_id = req.cookies.userID;
 
-    console.log(req.body);
     const { trailId, trailName } = req.body;
 
     const saveTrailsSQL = `
@@ -101,19 +96,15 @@ bikeController.saveTrails = async (req, res, next) => {
 
 bikeController.deleteTrails = async (req, res, next) => {
   try {
-    // need to get user id or email somehow?
-    //const { id } = req.cookies.id;
-    let user_id = 1;
+    const user_id = req.cookies.userID;
 
     const { trailId } = req.params;
-    // console.log(typeof trailId);
 
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails
     WHERE user_id = ${user_id} AND trail_api = '${trailId}';`
 
     await db.query(deleteTrailsSQL).then((data) => {
-      // console.log(data);
       res.locals.isDeleted = true;
       return next();
     })

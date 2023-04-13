@@ -1,13 +1,23 @@
 const express = require('express');
 require('dotenv').config({path: '../.env'})
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
+const sessionRouter = require('./routers/sessionRouter')
 const dbRouter = require('./routers/dbAPI');
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
+app.use('/api/sessions', sessionRouter);
+const corsOptions = {
+  credentials: true,
+  origin: 'http://localhost:5173'
+};
+app.use(cors(corsOptions))
 app.use('/api/db', dbRouter);
 
 // NEEDED FOR UI MOCK - REMOVE LATER
@@ -25,7 +35,7 @@ app.get('/getAllFavoriteTrails', (req, res) => {
   readable.pipe(res);
 });
 
-app.get('/googlecallback', (req, res) => {
+app.get('/googlecallback/', (req, res) => {
   return res.redirect('http://localhost:5173');
 })
 

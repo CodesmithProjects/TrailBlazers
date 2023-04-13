@@ -1,5 +1,5 @@
 import ButtonAppBar from "./AppBar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { lightBlue, deepOrange } from "@mui/material/colors";
 import { IconButton, Paper } from "@mui/material";
@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
+import axios from 'axios';
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -37,6 +38,13 @@ const App = () => {
         main: deepOrange[500],
       },
     },
+  });
+
+  useEffect(() => {
+    const token = (window.location.hash).slice(1);
+    if (token) {
+      fetch(`/api/sessions/?${token}`)
+    }
   });
 
   const getTrailsByLocation = (e) => {
