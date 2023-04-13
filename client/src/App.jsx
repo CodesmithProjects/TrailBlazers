@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import TrailInfoCard from "./TrailInfoCard";
 import TrailDetails from "./TrailDetails";
+import FavoriteTrails from './FavoriteTrails';
 import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
@@ -76,6 +77,10 @@ const App = () => {
       <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
         <ButtonAppBar></ButtonAppBar>
         <Routes>
+          <Route
+            path="/favoriteTrails"
+            element={<FavoriteTrails></FavoriteTrails>}
+          ></Route>
           <Route
             path="/details/:id/:idx"
             element={<TrailDetails></TrailDetails>}
