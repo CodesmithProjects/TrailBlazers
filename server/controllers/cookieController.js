@@ -1,5 +1,4 @@
 const fetch = require('node-fetch')
-const cookie = require('cookie')
 const cookieController = {};
 
 cookieController.createCookie = async (req, res, next) => {
@@ -16,5 +15,11 @@ cookieController.createCookie = async (req, res, next) => {
         return next({log: 'error at createCookie middleware', message: 'failed to set cookie'})
     }
 };
+
+cookieController.checkCookie = async (req, res, next) => {
+    if (!req.cookies.userID) {
+        return res.redirect('http:localhost:5173');
+    }
+}
 
 module.exports = cookieController;
