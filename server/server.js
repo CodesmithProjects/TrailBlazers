@@ -3,10 +3,12 @@ require('dotenv').config({path: '../.env'})
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
+const dbRouter = require('./routers/dbAPI');
 
 app.use(express.json());
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
+app.use('/api/db', dbRouter);
 
 // NEEDED FOR UI MOCK - REMOVE LATER
 const fs = require('fs');
