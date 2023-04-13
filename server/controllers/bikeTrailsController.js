@@ -35,6 +35,7 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
   // need to get user id or email somehow?
+    //const { id } = req.cookies.id;
     let user_id = 4;
 
     const getTrailsSQL = `
@@ -63,7 +64,7 @@ bikeController.getFavTrails = async (req, res, next) => {
 bikeController.saveTrails = async (req, res, next) => {
   try {
     // need to get user id or email somehow?
-    //const { user_id } = req.cookies.id;
+    //const { id } = req.cookies.id;
     let user_id = 1;
 
     console.log(req.body);
@@ -101,7 +102,7 @@ bikeController.saveTrails = async (req, res, next) => {
 bikeController.deleteTrails = async (req, res, next) => {
   try {
     // need to get user id or email somehow?
-    //const { user_id } = req.cookies.id;
+    //const { id } = req.cookies.id;
     let user_id = 1;
 
     const { trailId } = req.params;

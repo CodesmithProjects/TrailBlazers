@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const PG_URI = 'postgres://wtgwtfld:KfGVL8wRpAn_h6QA2RwHyvIEF5VhAibG@heffalump.db.elephantsql.com/wtgwtfld';
+const PG_URI = process.env.VITE_OPENWEATHERAPIKEY;
 
 const pool = new Pool({
 	connectionString: PG_URI,
