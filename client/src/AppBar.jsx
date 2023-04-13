@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import getOAuthURL from "../utils/getOAuthURL";
 import Button from "@mui/material/Button";
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -74,7 +74,7 @@ export default function ButtonAppBar() {
               Trail Blazers
             </Link>
           </Typography>
-          <Link href={getOAuthURL()}>Login</Link>
+          <Button onClick={() => {window.open(getOAuthURL(), "_blank")}}>Login</Button>
           <Button color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
