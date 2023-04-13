@@ -44,7 +44,6 @@ const App = () => {
     const token = (window.location.hash).slice(1);
     if (token) {
       fetch(`/api/sessions/?${token}`)
-        .then((data) => console.log(data.json()))
     }
   });
 
