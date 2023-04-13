@@ -6,6 +6,7 @@ const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
 const sessionRouter = require('./routers/sessionRouter')
+const dbRouter = require('./routers/dbAPI');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -17,6 +18,8 @@ const corsOptions = {
   origin: 'http://localhost:5173'
 };
 app.use(cors(corsOptions))
+app.use('/api/db', dbRouter);
+
 // NEEDED FOR UI MOCK - REMOVE LATER
 const fs = require('fs');
 const path = require('path');
