@@ -35,7 +35,7 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
   // need to get user id or email somehow?
-    let user_id = 3;
+    let user_id = 4;
 
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
@@ -47,14 +47,14 @@ bikeController.getFavTrails = async (req, res, next) => {
         const trail = data.rows[i];
 
         trailsForQuery.push({ trailId: trail['trail_api'], trailName: trail['trail_name']});
-        console.log(trailsForQuery);
+        // console.log(trailsForQuery);
       }
       res.locals.data = trailsForQuery;
-      console.log(`THIS IS THE DATA: `, res.locals.data);
+      // console.log(`THIS IS THE DATA: `, res.locals.data);
       return next();
     })
   } catch(err) {
-    next({log: 'error at bikeTrailsController.getFavTrails', message: `failed to get favorite trails`});
+    next({log: 'error at bikeTrailsController.getFavTrails', message: `failed to get favorite trails, ${err}`});
   }
 
 
@@ -63,21 +63,37 @@ bikeController.getFavTrails = async (req, res, next) => {
 bikeController.saveTrails = async (req, res, next) => {
   try {
     // need to get user id or email somehow?
-    let user_id = 3;
+    //const { user_id } = req.cookies.id;
+    let user_id = 1;
+
     console.log(req.body);
     const { trailId, trailName } = req.body;
 
     const saveTrailsSQL = `
     INSERT INTO favorite_trails(user_id, trail_api, trail_name)
-    VALUES(${user_id}, ${trailId}, ${trailName});`;
+    VALUES(${user_id}, '${trailId}', '${trailName}');`;
 
-    await db.query(saveTrailsSQL).then((data) => {
-      // console.log(`THIS IS THE DATA `, data);
-      // res.locals.isSaved = true;
-      return next();
-    })
+    const checkTrailsSQL = `
+    SELECT * FROM favorite_trails
+    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`;
+    
+    // query first to db to check if trail is already favorited to prevent duplicates then save trail
+    await db.query(checkTrailsSQL)
+      .then(async (data) => {
+        if (!data.rows.length) {
+          await db.query(saveTrailsSQL)
+            .then(data => {
+              // console.log(`THIS IS THE DATA `, data);
+              res.locals.isSaved = true;
+              return next();
+            })
+        } else {
+          throw new Error(`This trail is already favorited!`);
+        }
+      });
   } catch(err) {
-    next({log: 'error at bikeTrailsController.saveTrails', message: `failed to save favorite trails to database`});
+    res.locals.isSaved = false;
+    next({log: 'error at bikeTrailsController.saveTrails', message: `failed to save favorite trails to database. ${err}`});
   }
 
 }
@@ -85,18 +101,23 @@ bikeController.saveTrails = async (req, res, next) => {
 bikeController.deleteTrails = async (req, res, next) => {
   try {
     // need to get user id or email somehow?
-    let user_id = 3;
-    const { trailId, trailName } = req.body;
+    //const { user_id } = req.cookies.id;
+    let user_id = 1;
+
+    const { trailId } = req.params;
+    // console.log(typeof trailId);
 
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails
-    WHERE user_id = ${user_id} AND trail_api = ${trailId};`
+    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`
 
     await db.query(deleteTrailsSQL).then((data) => {
+      // console.log(data);
       res.locals.isDeleted = true;
       return next();
     })
   } catch(err) {
+    res.locals.isDeleted = false;
     next({log: 'error at bikeTrailsController.deleteTrails', message: `failed to delete favorite trail from database`});
   }
 }

@@ -12,7 +12,7 @@ dbRouter.post('/saveFavoriteTrail', bikeTrailsController.saveTrails, (req, res) 
   res.status(200).json(res.locals.isSaved);
 })
 
-dbRouter.delete('/deleteFavoriteTrail/:trailID', bikeTrailsController.deleteTrails, (req, res) => {
+dbRouter.delete('/deleteFavoriteTrail/:trailId', bikeTrailsController.deleteTrails, (req, res) => {
   res.status(200).json(res.locals.isDeleted);
 })
 
