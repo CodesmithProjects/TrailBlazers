@@ -89,7 +89,7 @@ const App = () => {
             path="/"
             element={
               <>
-                <Paper sx={{ height: '30rem' }}>
+                <Paper sx={{ height: '100%' }}>
                   <div className="container">
                     <div className="img-wrapper">
                       <img

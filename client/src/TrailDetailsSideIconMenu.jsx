@@ -7,7 +7,6 @@ import ReadMoreOutlinedIcon from "@mui/icons-material/ReadMoreOutlined";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import MuiAlert from "@mui/material/Alert";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 
 const style = {
@@ -21,7 +20,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
 
 export default function TrailDetailsSideIconMenu({
   trail,
