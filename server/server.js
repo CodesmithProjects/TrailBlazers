@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config({path: '../.env'})
 const cookieParser = require('cookie-parser')
-const cors = require('cors');
+const cors = require('cors')
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
@@ -9,19 +9,14 @@ const sessionRouter = require('./routers/sessionRouter')
 
 app.use(express.json());
 app.use(cookieParser());
-const corsOptions = {
-  origin: 
-  // 'http://localhost:5173',
-  ['http://localhost:5173', 'localhost:5173', 'http://127.0.0.1:5173', ':5173', 'http://localhost:4000'],
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}
-app.use(cors(corsOptions));
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
-
-app.use('/api/session', sessionRouter)
+app.use('/api/sessions', sessionRouter);
+const corsOptions = {
+  credentials: true,
+  origin: 'http://localhost:5173'
+};
+app.use(cors(corsOptions))
 // NEEDED FOR UI MOCK - REMOVE LATER
 const fs = require('fs');
 const path = require('path');

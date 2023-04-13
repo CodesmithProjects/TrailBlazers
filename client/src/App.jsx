@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
+import axios from 'axios';
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -40,10 +41,10 @@ const App = () => {
 
   useEffect(() => {
     const token = (window.location.hash).slice(1);
-    fetch(`http://localhost:4000/api/sessions/${token}`, {
-      credentials: "include"
-    })
-      .then(data => console.log('completed'))
+    if (token) {
+      fetch(`/api/sessions/?${token}`)
+        .then((data) => console.log(data.json()))
+    }
   });
 
   const getTrailsByLocation = (e) => {
