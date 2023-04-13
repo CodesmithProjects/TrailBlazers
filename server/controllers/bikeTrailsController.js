@@ -61,8 +61,8 @@ bikeController.getFavTrails = async (req, res, next) => {
 
 bikeController.saveTrails = async (req, res, next) => {
   try {
-    const user_id = req.cookies.userID;
-
+    const user_id = Number(req.cookies.userID);
+    
     const { trailId, trailName } = req.body;
 
     const saveTrailsSQL = `
