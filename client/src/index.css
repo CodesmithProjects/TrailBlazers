@@ -178,3 +178,14 @@
   display: flex;
   justify-content: center;
 }
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.review-primary-wrapper {
+  display: flex;
+  align-items: center;
+}
