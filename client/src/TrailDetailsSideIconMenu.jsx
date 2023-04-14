@@ -8,6 +8,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute",
@@ -28,10 +29,15 @@ export default function TrailDetailsSideIconMenu({
   deleteSuccessType,
   hasMatch,
 }) {
+  const [session, setSession] = React.useState(false);
   const [openAdd, setAddOpen] = React.useState(false);
   const [filled, showFilled] = React.useState(false);
   const handleOpen = () => setAddOpen(true);
   const handleClose = () => setAddOpen(false);
+
+  // useEffect(() => {
+  //   fetch('/api/sessions/')
+  // })
 
   const saveTrail = () => {
     const faveTrail = {
