@@ -84,7 +84,6 @@ bikeController.saveTrails = async (req, res, next) => {
 bikeController.deleteTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
-    console.log(user_id)
     const { trailId } = req.params;
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails

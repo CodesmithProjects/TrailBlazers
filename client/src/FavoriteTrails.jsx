@@ -59,7 +59,6 @@ export default function FavoriteTrails() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setFavoriteTrails(data.data);
       });
   };
