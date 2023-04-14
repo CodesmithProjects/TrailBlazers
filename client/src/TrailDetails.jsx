@@ -23,16 +23,15 @@ export default function TrailDetails() {
   const { vertical, horizontal } = alertState;
   let params = useParams();
 
-  const getTrailById = (id) => {
-    if (id) {
+  const getTrailById = () => {
+    if (params.id) {
       setShowSpinner(true);
-      fetch(`/api/moreInfo/${id}`)
+      fetch(`/api/moreInfo/${params.id}`)
         .then((response) => response.json())
         .then((data) => {
           setShowSpinner(false);
           updateTrail(data.data[0]);
           updateShowTrailDetails(true);
-          console.log(data, 'this is our data coming back')
         })
         // TODO: do something more meaningful with this error
         .catch((err) =>
@@ -105,7 +104,7 @@ export default function TrailDetails() {
 
   useEffect(() => {
     if (params.id) {
-      getTrailById(params.id);
+      getTrailById();
       getAllFavoriteTrails();
     }
   }, []);
@@ -158,7 +157,7 @@ export default function TrailDetails() {
               hasMatch={hasMatch}
             ></TrailDetailsSideIconMenu>
           </div>
-          <TrailsDetailsOverview trail={trail}></TrailsDetailsOverview>
+            <TrailsDetailsOverview refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
         </Paper>
       ) : (
         <Paper sx={{ height: "40rem" }}></Paper>

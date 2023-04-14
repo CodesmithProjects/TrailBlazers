@@ -76,7 +76,6 @@
   width: 50%;
   float: left;
   padding: 20px;
-  /* border: 2px solid red; */
 }
 
 .tile-1 {
@@ -188,4 +187,8 @@
 .review-primary-wrapper {
   display: flex;
   align-items: center;
+}
+
+.error-message {
+  margin-left: 30px;
 }
