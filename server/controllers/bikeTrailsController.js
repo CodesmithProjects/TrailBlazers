@@ -35,19 +35,21 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
-    const getTrailsSQL = `
-    SELECT * FROM favorite_trails
-    WHERE google_id = '${user_id}';`;
-
-    let dbRes = await db.query(getTrailsSQL);
-    const trailsForQuery = [];
-    for (let i = 0; i < dbRes.rows.length; i++) {
-      const trail = dbRes.rows[i];
-
-      trailsForQuery.push({ trailId: trail['trail_id'], trailName: trail['trail_name']});
+    if (user_id != undefined) {
+      const getTrailsSQL = `
+      SELECT * FROM favorite_trails
+      WHERE google_id = '${user_id}';`;
+  
+      let dbRes = await db.query(getTrailsSQL);
+      const trailsForQuery = [];
+      for (let i = 0; i < dbRes.rows.length; i++) {
+        const trail = dbRes.rows[i];
+  
+        trailsForQuery.push({ trailId: trail['trail_id'], trailName: trail['trail_name']});
+      }
+  
+      res.locals.data = {data: trailsForQuery};
     }
-
-    res.locals.data = {data: trailsForQuery};
     return next();
   } catch(err) {
     next({log: 'error at bikeTrailsController.getFavTrails', message: `failed to get favorite trails, ${err}`});
