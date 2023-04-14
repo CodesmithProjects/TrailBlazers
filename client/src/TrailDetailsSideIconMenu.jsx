@@ -39,7 +39,7 @@ export default function TrailDetailsSideIconMenu({
       name: trail.name,
     };
     showFilled(true);
-    fetch("/saveFavoriteTrail", {
+    fetch("/api/db/saveFavoriteTrail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export default function TrailDetailsSideIconMenu({
 
   const deleteTrail = () => {
     showFilled(false);
-    fetch(`/deleteFavoriteTrail/${trail.id}`, {
+    fetch(`/api/db/deleteFavoriteTrail/${trail.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

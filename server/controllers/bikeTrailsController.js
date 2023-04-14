@@ -35,23 +35,24 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
-
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE user_id = ${user_id};`;
+    WHERE google_id = '${user_id}';`;
 
-    await db.query(getTrailsSQL).then((data) => {
-      const trailsForQuery = [];
-      for (let i = 0; i < data.rows.length; i++) {
-        const trail = data.rows[i];
+    let dbRes = await db.query(getTrailsSQL);
+    console.log(dbRes);
+    // dbRes = await dbRes.json();
+    const trailsForQuery = [];
+    for (let i = 0; i < dbRes.rows.length; i++) {
+      const trail = dbRes.rows[i];
 
-        trailsForQuery.push({ trailId: trail['trail_api'], trailName: trail['trail_name']});
-        // console.log(trailsForQuery);
-      }
-      res.locals.data = trailsForQuery;
-      // console.log(`THIS IS THE DATA: `, res.locals.data);
-      return next();
-    })
+      trailsForQuery.push({ trailId: trail['trail_id'], trailName: trail['trail_name']});
+    }
+
+    res.locals.data = {data: trailsForQuery};
+    console.log(res.locals.data)
+    // console.log(`THIS IS THE DATA: `, res.locals.data);
+    return next();
   } catch(err) {
     next({log: 'error at bikeTrailsController.getFavTrails', message: `failed to get favorite trails, ${err}`});
   }
@@ -61,35 +62,25 @@ bikeController.getFavTrails = async (req, res, next) => {
 
 bikeController.saveTrails = async (req, res, next) => {
   try {
-    const user_id = Number(req.cookies.userID);
-    
-    const { trailId, trailName } = req.body;
-
-    const saveTrailsSQL = `
-    INSERT INTO favorite_trails(user_id, trail_api, trail_name)
-    VALUES(${user_id}, '${trailId}', '${trailName}');`;
-
+    const google_id = req.cookies.userID;
+    const { id } = req.body;
     const checkTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`;
-    
+    WHERE google_id = '${google_id}' AND trail_id = '${id}';`;
     // query first to db to check if trail is already favorited to prevent duplicates then save trail
-    await db.query(checkTrailsSQL)
-      .then(async (data) => {
-        if (!data.rows.length) {
-          await db.query(saveTrailsSQL)
-            .then(data => {
-              // console.log(`THIS IS THE DATA `, data);
-              res.locals.isSaved = true;
-              return next();
-            })
-        } else {
-          throw new Error(`This trail is already favorited!`);
-        }
-      });
+    let alreadyFavorited = await db.query(checkTrailsSQL)
+    alreadyFavorited = await alreadyFavorited.json();
+    res.locals.isSaved = true;
+    return next();
   } catch(err) {
-    res.locals.isSaved = false;
-    next({log: 'error at bikeTrailsController.saveTrails', message: `failed to save favorite trails to database. ${err}`});
+    const google_id = req.cookies.userID;
+    const { id, name } = req.body;
+    const saveTrailsSQL = `
+    INSERT INTO favorite_trails(google_id, trail_id, trail_name)
+    VALUES('${google_id}', '${id}', '${name}');`;
+    const saveQuery = await db.query(saveTrailsSQL);
+    res.locals.isSaved = true;
+    next();
   }
 
 }
@@ -97,17 +88,14 @@ bikeController.saveTrails = async (req, res, next) => {
 bikeController.deleteTrails = async (req, res, next) => {
   try {
     const user_id = req.cookies.userID;
-
+    console.log(user_id)
     const { trailId } = req.params;
-
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails
-    WHERE user_id = ${user_id} AND trail_api = '${trailId}';`
-
-    await db.query(deleteTrailsSQL).then((data) => {
-      res.locals.isDeleted = true;
-      return next();
-    })
+    WHERE google_id ='${user_id}' AND trail_id = '${trailId}';`
+    await db.query(deleteTrailsSQL)
+    res.locals.isDeleted = true;
+    return next();
   } catch(err) {
     res.locals.isDeleted = false;
     next({log: 'error at bikeTrailsController.deleteTrails', message: `failed to delete favorite trail from database`});

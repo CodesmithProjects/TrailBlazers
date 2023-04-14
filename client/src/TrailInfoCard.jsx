@@ -8,9 +8,6 @@ import { useEffect } from 'react';
 
 export default function TrailInfoCard({trail, index}) {
 
-  useEffect(() => {
-    fetch(`/api/db/createAccount`)
-  })
 
   return (
     <Card sx={{ maxWidth: 345, maxHeight: 345, minWidth: 345, boxShadow: 3 }} className="trail-info-card">

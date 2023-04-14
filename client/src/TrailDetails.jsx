@@ -82,7 +82,7 @@ export default function TrailDetails() {
   };
 
   const filterFavoriteTrails = (trails) => {
-    const result = trails.data.filter((t) => t.id.toString() === params.id);
+    const result = trails.data.filter((t) => t.trailId === params.id);
     if (result.length > 0) {
       setHasMatch(true);
     } else {
@@ -91,14 +91,13 @@ export default function TrailDetails() {
   };
 
   const getAllFavoriteTrails = () => {
-    fetch("/getAllFavoriteTrails", {
+    fetch("/api/db/getAllFavoriteTrails", {
       headers: {
         Accept: "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         filterFavoriteTrails(data);
       });
   };
