@@ -52,20 +52,19 @@ export default function FavoriteTrails() {
   };
 
   const getAllFavoriteTrails = () => {
-    fetch("/getAllFavoriteTrails", {
+    fetch("/api/db/getAllFavoriteTrails", {
       headers: {
         Accept: "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setFavoriteTrails(data.data);
       });
   };
 
   const deleteTrail = () => {
-    fetch(`/deleteFavoriteTrail/${selectedTrailId}`, {
+    fetch(`/api/db/deleteFavoriteTrail/${selectedTrailId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -111,11 +110,11 @@ export default function FavoriteTrails() {
               />
               <ImageListItemBar
                 key={index}
-                title={item.name}
+                title={item.trailName}
                 actionIcon={
                   <IconButton
                     sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                    onClick={() => handleOpen(item.id)}
+                    onClick={() => handleOpen(item.trailId)}
                   >
                     <DeleteOutlineIcon />
                   </IconButton>

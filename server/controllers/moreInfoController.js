@@ -4,7 +4,6 @@ const moreInfoController = {};
 
 moreInfoController.getMoreInfo = async (req, res, next) => {
   try {
-    console.log(req.cookies)
     const id = req.params.id;
     const options = { 
       method: 'GET',

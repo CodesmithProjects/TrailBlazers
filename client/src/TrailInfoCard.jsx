@@ -4,8 +4,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { useEffect } from 'react';
 
 export default function TrailInfoCard({trail, index}) {
+
+
   return (
     <Card sx={{ maxWidth: 345, maxHeight: 345, minWidth: 345, boxShadow: 3 }} className="trail-info-card">
       <CardActionArea>

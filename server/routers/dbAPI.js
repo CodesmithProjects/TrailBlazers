@@ -1,4 +1,5 @@
 const express = require('express');
+const accountController = require('../controllers/accountController')
 
 const bikeTrailsController = require('../controllers/bikeTrailsController');
 
@@ -9,11 +10,15 @@ dbRouter.get('/getAllFavoriteTrails', bikeTrailsController.getFavTrails, (req, r
 })
 
 dbRouter.post('/saveFavoriteTrail', bikeTrailsController.saveTrails, (req, res) => {
-  res.status(200).json(res.locals.isSaved);
+  return res.status(200).json(res.locals.isSaved);
 })
 
 dbRouter.delete('/deleteFavoriteTrail/:trailId', bikeTrailsController.deleteTrails, (req, res) => {
-  res.status(200).json(res.locals.isDeleted);
+  return res.status(200).json(res.locals.isDeleted);
+})
+
+dbRouter.get('/createAccount', accountController.createAccount, (req, res) => {
+  return res.status(200).json('made Account');
 })
 
 module.exports = dbRouter;
