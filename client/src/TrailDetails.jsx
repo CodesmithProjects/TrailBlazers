@@ -32,6 +32,7 @@ export default function TrailDetails() {
           setShowSpinner(false);
           updateTrail(data.data[0]);
           updateShowTrailDetails(true);
+          console.log(data, 'this is our data coming back')
         })
         // TODO: do something more meaningful with this error
         .catch((err) =>

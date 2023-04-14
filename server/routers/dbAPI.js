@@ -1,5 +1,6 @@
 const express = require('express');
 const accountController = require('../controllers/accountController')
+const reviewController = require('../controllers/reviewController');
 
 const bikeTrailsController = require('../controllers/bikeTrailsController');
 
@@ -19,6 +20,11 @@ dbRouter.delete('/deleteFavoriteTrail/:trailId', bikeTrailsController.deleteTrai
 
 dbRouter.get('/createAccount', accountController.createAccount, (req, res) => {
   return res.status(200).json('made Account');
+})
+
+dbRouter.post('/createReview/:trailID', reviewController.createReview, (req, res) => {
+  console.log('review created')
+  return res.status(201).json('created review')
 })
 
 module.exports = dbRouter;

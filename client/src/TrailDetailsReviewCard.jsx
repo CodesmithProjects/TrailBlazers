@@ -66,25 +66,38 @@ export default function TrailDetailsReviewCard({ trail }) {
     return name.length < 1 ? setIsFormInvalid(true) : setIsFormInvalid(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
+  const submitRating = () => {
+    const review = {
       name: name,
       stars: userRating,
       review: userReview,
-      trailId: trail.id,
     };
+    fetch(`/api/db/createReview/${trail.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(review),
+    })
+      .then(() => {
+        handleClose();
+      })
+      .catch((err) => {
+        console.log("err on submitting a review", err);
+      });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!isFormInvalid) {
-      handleClose();
-      console.log("here is the valid form data", formData);
-      // TODO: call the /addReview POST with this formData
+      submitRating();
     }
   };
 
   useEffect(() => {
-    setAverageStars(fakeMockObject.averageStars);
-    setNumberOfReviews(fakeMockObject.numberOfReviews);
-    setReviews(fakeMockObject.data);
+    setAverageStars(trail.averageStars);
+    setNumberOfReviews(trail.numberOfReviews);
+    setReviews(trail.data);
   }, []);
 
   return (
