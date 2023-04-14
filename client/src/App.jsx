@@ -45,7 +45,6 @@ const App = () => {
     if (token) {
       fetch(`/api/sessions/?${token}`)
     }
-    fetch('/api/sessions/deleteOldSessions')
   });
 
   const getTrailsByLocation = (e) => {
