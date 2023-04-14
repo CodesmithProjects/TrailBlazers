@@ -40,8 +40,6 @@ bikeController.getFavTrails = async (req, res, next) => {
     WHERE google_id = '${user_id}';`;
 
     let dbRes = await db.query(getTrailsSQL);
-    console.log(dbRes);
-    // dbRes = await dbRes.json();
     const trailsForQuery = [];
     for (let i = 0; i < dbRes.rows.length; i++) {
       const trail = dbRes.rows[i];
@@ -50,8 +48,6 @@ bikeController.getFavTrails = async (req, res, next) => {
     }
 
     res.locals.data = {data: trailsForQuery};
-    console.log(res.locals.data)
-    // console.log(`THIS IS THE DATA: `, res.locals.data);
     return next();
   } catch(err) {
     next({log: 'error at bikeTrailsController.getFavTrails', message: `failed to get favorite trails, ${err}`});

@@ -15,7 +15,6 @@ accountController.createAccount = async (req, res, next) => {
         return next()
     } catch {
         return next({log:'problem at createAccount middleware', message: 'problem creating account in database'})
-        // return next();
     }
 }
 
