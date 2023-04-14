@@ -1,7 +1,7 @@
 import React from "react";
 import ReactWeather, { useOpenWeather } from "react-open-weather";
 
-export default function WeatherCard({ trail }) {
+export default function TrailDetailsWeatherCard({ trail }) {
   // sourced from https://www.npmjs.com/package/react-open-weather
   const { data, isLoading, errorMessage } = useOpenWeather({
     key: `${import.meta.env.VITE_OPENWEATHERAPIKEY}`,
