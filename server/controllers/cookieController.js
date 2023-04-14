@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const db = require('../models/bikeTrailsModels');
 const cookieController = {};
 
 cookieController.createCookie = async (req, res, next) => {
@@ -10,16 +11,21 @@ cookieController.createCookie = async (req, res, next) => {
         let userInfo = await fetch(`${googleAPIURI}${token}`);
         userInfo = await userInfo.json();
         res.cookie('userID', userInfo.id, {maxAge: 900000, httpOnly: false, sameSite: 'none', secure: true});
+        res.locals.userID = userInfo.id;
+
+        const deleteString = `DELETE FROM sessions WHERE created_at < (now() - interval '15 minutes')`;
+        await db.query(deleteString);
         return next();
     } catch {
         return next({log: 'error at createCookie middleware', message: 'failed to set cookie'})
     }
 };
 
-cookieController.checkCookie = async (req, res, next) => {
+cookieController.checkCookie = (req, res, next) => {
     if (!req.cookies.userID) {
         return res.redirect('http:localhost:5173');
     }
+    return next();
 }
 
 module.exports = cookieController;
