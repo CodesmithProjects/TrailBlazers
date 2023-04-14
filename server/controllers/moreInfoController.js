@@ -22,7 +22,6 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
         WHERE trail_id = '${id}'
         `
     const getResp = await db.query(getSQL);
-    console.log(getResp)
     resultJSON['data'] = resultJSON['data'].map(elem => {
       return {
       'id' : elem['id'],

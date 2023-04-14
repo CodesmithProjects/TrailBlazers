@@ -18,7 +18,6 @@ dbRouter.delete('/deleteFavoriteTrail/:trailId', sessionController.checkSession,
 })
 
 dbRouter.post('/createReview/:trailID', sessionController.checkSession, reviewController.createReview, (req, res) => {
-  console.log('review created')
   return res.status(201).json('created review')
 })
 

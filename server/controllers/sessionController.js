@@ -29,4 +29,13 @@ sessionController.checkSession = async (req, res, next) => {
     }
 }
 
+sessionController.deleteOldSessions = async (req, res, next) => {
+    try {
+        const deleteString = `DELETE FROM sessions WHERE created_at < (now() - interval '15 minutes')`;
+        await db.query(deleteString);
+    } catch {
+        return next({log:'problem at deletedOldSessions middleware', message: 'problem deleting old sessions in database'})
+    }
+}
+
 module.exports = sessionController;
