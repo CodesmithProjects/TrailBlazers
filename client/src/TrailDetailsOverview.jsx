@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
 import { Grid } from "@mui/material";
 
-export default function TrailDetailsOverview({ trail }) {
+export default function TrailDetailsOverview({ refreshTrail, trail }) {
   return (
     <>
       <div className="details-overview-row-1-container">
@@ -24,14 +24,14 @@ export default function TrailDetailsOverview({ trail }) {
       </div>
       <Grid container>
         <Grid item xs={6}>
-          <Card sx={{ margin: "1rem" }}>
+          <Card sx={{ margin: "20px" }}>
             <CardContent>
-              <TrailDetailsReviewCard trail={trail}></TrailDetailsReviewCard>
+              <TrailDetailsReviewCard refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card sx={{ margin: "1rem" }}>
+          <Card sx={{ margin: "20px" }}>
             <CardContent>
               <MapComponent trail={trail}></MapComponent>
             </CardContent>

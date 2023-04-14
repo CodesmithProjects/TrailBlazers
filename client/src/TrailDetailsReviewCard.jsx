@@ -23,38 +23,12 @@ const style = {
   p: 4,
 };
 
-export default function TrailDetailsReviewCard({ trail }) {
-  const [averageStars, setAverageStars] = useState(5);
-  const [numberOfReviews, setNumberOfReviews] = useState(0);
-  const [reviews, setReviews] = useState([]);
+export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
   const [userRating, setUserRating] = useState(5);
   const [userReview, setUserReview] = useState("");
   const [open, setOpen] = useState(false);
   const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
-
-  const fakeMockObject = {
-    data: [
-      {
-        name: "bob",
-        review: "best trail ever",
-        stars: 5,
-      },
-      {
-        name: "shirley",
-        review: "worst trail ever",
-        stars: 1,
-      },
-      {
-        name: "sarah",
-        review: "difficult and challenging",
-        stars: 3,
-      },
-    ],
-    averageStars: 3,
-    numberOfReviews: 3,
-  };
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleFormChange = (name) => {
@@ -80,12 +54,13 @@ export default function TrailDetailsReviewCard({ trail }) {
       body: JSON.stringify(review),
     })
       .then(() => {
+        refreshTrail();
         handleClose();
       })
       .catch((err) => {
         console.log("err on submitting a review", err);
       });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,80 +69,73 @@ export default function TrailDetailsReviewCard({ trail }) {
     }
   };
 
-  useEffect(() => {
-    setAverageStars(trail.averageStars);
-    setNumberOfReviews(trail.numberOfReviews);
-    setReviews(trail.data);
-  }, []);
 
   return (
     <>
-      <Card>
-        <CardContent>
-          <div className="tile-1-card-top">
-            <div className="tile-1-card-left">
-              <div className="title-wrapper">
-                <Typography
-                  variant="h5"
-                  sx={{
-                    marginBottom: "10px",
-                    fontWeight: "300",
-                    letterSpacing: "2px",
-                  }}
-                  className="about"
-                >
-                  Reviews
-                </Typography>
-                <Button variant="text" onClick={handleOpen}>
-                  Leave a review
-                </Button>
-              </div>
-              {reviews.length ? (
-                <List
-                  sx={{
-                    bgcolor: "background.paper",
-                    maxHeight: "300px",
-                    overflowY: "auto",
-                  }}
-                >
-                {
-                  reviews.map((review, i) => {
-                    return (
-                      <>
-                      <ListItem key={i}>
-                        <ListItemText
-                          primary={
-                           <>
-                           <div className="review-primary-wrapper">
-                           {review.name}
-                            <Rating name="read-only" sx={{fontSize: "13px", marginLeft: '5px'}} value={review.stars} readOnly />
-                           </div>
-                           </> 
-                          }  
-                          secondary={review.review}
-                        />
-                      </ListItem>
-                      </>                
-                    )
-                  })
-                }
-                </List>
-              ) : (
-                <p>There are no reviews yet!</p>
-              )}
-            </div>
-            <div className="tile-1-card-right">
-              <Box sx={{ textAlign: "center" }}>
-                <Rating name="read-only" value={averageStars} readOnly />
-                <Typography variant="subtitle2">
-                  Rating: {averageStars} • {numberOfReviews} reviews
-                </Typography>
-              </Box>
-            </div>
+      <div className="tile-1-card-top">
+        <div className="tile-1-card-left">
+          <div className="title-wrapper">
+            <Typography
+              variant="h5"
+              sx={{
+                marginBottom: "10px",
+                fontWeight: "300",
+                letterSpacing: "2px",
+              }}
+              className="about"
+            >
+              Reviews
+            </Typography>
+            <Button variant="text" onClick={handleOpen}>
+              Leave a review
+            </Button>
           </div>
-          <div className="tile-1-card-bottom"></div>
-        </CardContent>
-      </Card>
+          {trail.data.length ? (
+            <List
+              sx={{
+                bgcolor: "background.paper",
+                maxHeight: "300px",
+                overflowY: "auto",
+              }}
+            >
+              {trail.data.map((review, i) => {
+                return (
+                  <ListItem key={i}>
+                    <ListItemText
+                      primary={
+                        <>
+                          <div className="review-primary-wrapper">
+                            {review.name}
+                            <Rating
+                              name="read-only"
+                              sx={{ fontSize: "13px", marginLeft: "5px" }}
+                              value={review.stars}
+                              readOnly
+                            />
+                          </div>
+                        </>
+                      }
+                      secondary={review.review}
+                    />
+                  </ListItem>
+                );
+              })}
+            </List>
+          ) : (
+            <p>There are no reviews yet!</p>
+          )}
+        </div>
+        <div className="tile-1-card-right">
+          <Box sx={{ textAlign: "center" }}>
+            <Rating name="read-only" value={trail.averageStars} readOnly />
+            <Typography variant="subtitle2">
+              {trail.averageStars ? `Rating: ${trail.averageStars} •` : undefined}{" "}
+              {trail.numberOfReviews === 1 ? `${trail.numberOfReviews} review` : `${trail.numberOfReviews} reviews`}
+            </Typography>
+          </Box>
+        </div>
+      </div>
+      <div className="tile-1-card-bottom"></div>
       <Modal
         open={open}
         onClose={handleClose}

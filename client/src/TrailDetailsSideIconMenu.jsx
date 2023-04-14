@@ -29,7 +29,7 @@ export default function TrailDetailsSideIconMenu({
   hasMatch,
 }) {
   const [openAdd, setAddOpen] = React.useState(false);
-  const [filled, showFilled] = React.useState(false);
+  const [filled, showFilled] = React.useState(hasMatch);
   const handleOpen = () => setAddOpen(true);
   const handleClose = () => setAddOpen(false);
 
@@ -81,14 +81,14 @@ export default function TrailDetailsSideIconMenu({
     <>
       <div className="button-wrapper">
         <IconButton className="details-banner-button" onClick={handleOpen}>
-          {filled || hasMatch ? (
+          {filled ? (
             <BookmarkAddedIcon></BookmarkAddedIcon>
           ) : (
             <BookmarkBorderOutlinedIcon></BookmarkBorderOutlinedIcon>
           )}
           <Typography className="details-icons-text">Save</Typography>
         </IconButton>
-        {filled || hasMatch ? (
+        {filled ? (
           <Modal open={openAdd} onClose={handleClose}>
             <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
