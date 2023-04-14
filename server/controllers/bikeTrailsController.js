@@ -28,7 +28,9 @@ bikeController.getTrails = async (req, res, next) => {
         res.locals.trails = trailsAPIResponseJSON;
         return next();
     } catch {
-        return next({log: 'error at bikeController.getTrails middleware', message: 'fetch request to moreInfo trails API failed'})
+        res.locals.trails = [];
+        console.log({log: 'error at bikeController.getTrails middleware', message: 'fetch request to moreInfo trails API failed'});
+        return next();
     }
 }
 

@@ -11,7 +11,9 @@ locationWeatherController.getLocationInfo = async (req, res, next) => {
     console.log('lat is', res.locals.lat, 'lon is', res.locals.lon)
     return next();
   } catch {
-    return next({log: 'error at getLocationInfo middleware', message: 'failed to get lat/lon from weather API'})
+    res.locals.trails = [];
+    console.log({log: 'error at getLocationInfo middleware', message: 'failed to get lat/lon from weather API'});
+    return next();
   }
 };
 
@@ -26,7 +28,9 @@ locationWeatherController.getGeoCodeURL = (req, res, next) => {
     res.locals.geoCodeURL = geoCodeURL;
     return next();
   } catch {
-    return next({log: 'error at getGeoCodeURL middleware', message: `failed to make geoCodeURL`});
+    res.locals.trails = [];
+    console.log({log: 'error at getGeoCodeURL middleware', message: `failed to make geoCodeURL`});
+    return next();
   }
 };
 
