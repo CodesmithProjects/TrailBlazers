@@ -8,7 +8,7 @@ import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-export default function TrailDetails() {
+export default function TrailDetails({ session }) {
   const [trail, updateTrail] = useState([{}]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTrailDetails, updateShowTrailDetails] = useState(false);
@@ -32,7 +32,6 @@ export default function TrailDetails() {
           setShowSpinner(false);
           updateTrail(data.data[0]);
           updateShowTrailDetails(true);
-          console.log(data, 'this is our data coming back')
         })
         // TODO: do something more meaningful with this error
         .catch((err) =>
@@ -156,9 +155,10 @@ export default function TrailDetails() {
               addSuccessType={addSuccessType}
               deleteSuccessType={deleteSuccessType}
               hasMatch={hasMatch}
+              session={session}
             ></TrailDetailsSideIconMenu>
           </div>
-          <TrailsDetailsOverview trail={trail}></TrailsDetailsOverview>
+          <TrailsDetailsOverview trail={trail} session={session}></TrailsDetailsOverview>
         </Paper>
       ) : (
         <Paper sx={{ height: "40rem" }}></Paper>

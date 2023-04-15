@@ -13,9 +13,9 @@ import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
-import axios from 'axios';
 
 const App = () => {
+  const [session, setSession] = useState(false);
   const [zip, updateZip] = useState("");
   const [isZipInvalid, setIsZipInvalid] = useState(false);
   const [trails, setTrails] = useState([]);
@@ -45,7 +45,12 @@ const App = () => {
     if (token) {
       fetch(`/api/sessions/?${token}`)
     }
-    fetch('/api/sessions/deleteOldSessions')
+    fetch('/api/sessions/deleteOldSessions');
+    fetch('/api/sessions/sessionCheck')
+        .then(resp => resp.json())
+        .then(resp => {
+          setSession(resp);
+        })
   });
 
   const getTrailsByLocation = (e) => {
@@ -84,7 +89,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
-        <ButtonAppBar></ButtonAppBar>
+        <ButtonAppBar session={session}></ButtonAppBar>
         <Routes>
           <Route
             path="/favoriteTrails"

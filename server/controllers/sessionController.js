@@ -18,10 +18,16 @@ sessionController.createSession = async (req, res, next) => {
 sessionController.checkSession = async (req, res, next) => {
     try {
         const userID = req.cookies.userID;
+        if (!userID) {
+            res.locals.activeSession = false;
+            return next();
+        }
         const findQueryString = `SELECT * FROM sessions WHERE google_id = '${userID}' AND created_at >= (now() - interval '15 minutes')`;
         const tryToFindSession = await db.query(findQueryString);
         if (!tryToFindSession.rows[0]) {
-            return res.redirect('http://localhost:5173');
+            res.locals.activeSession = false;
+        } else {
+            res.locals.activeSession = true;
         }
         return next();
     } catch {
@@ -33,6 +39,7 @@ sessionController.deleteOldSessions = async (req, res, next) => {
     try {
         const deleteString = `DELETE FROM sessions WHERE created_at < (now() - interval '15 minutes')`;
         await db.query(deleteString);
+        return next();
     } catch {
         return next({log:'problem at deletedOldSessions middleware', message: 'problem deleting old sessions in database'})
     }

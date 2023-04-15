@@ -5,8 +5,7 @@ const cookieController = {};
 cookieController.createCookie = async (req, res, next) => {
     try {
         if (!req.query.access_token) {
-            console.log('no access token');
-            return res.redirect('http://localhost:5173')
+            return res.json('no access token')
         }
         let token = `access_token=${req.query.access_token}&token_type=Bearer&expires_in=3599
         &scope=email%20profile%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20openid
@@ -24,7 +23,7 @@ cookieController.createCookie = async (req, res, next) => {
 
 cookieController.checkCookie = (req, res, next) => {
     if (!req.cookies.userID) {
-        return res.redirect('http:localhost:5173');
+        return res.json('not logged in');
     }
     return next();
 }

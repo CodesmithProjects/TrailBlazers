@@ -7,6 +7,10 @@ sessionRouter.get('/', cookieController.createCookie, sessionController.createSe
   return res.status(200).json('completed');
 })
 
+sessionRouter.get('/sessionCheck', sessionController.checkSession, (req, res) => {
+  return res.status(200).json(res.locals.activeSession);
+})
+
 sessionRouter.get('/deleteOldSessions', sessionController.deleteOldSessions, (req, res) => {
     return res.status(200).json('deleted old sessions');
   })

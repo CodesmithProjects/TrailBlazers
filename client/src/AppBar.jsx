@@ -11,7 +11,7 @@ import getOAuthURL from "../utils/getOAuthURL";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar({ session }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -74,8 +74,8 @@ export default function ButtonAppBar() {
               Trail Blazers
             </Link>
           </Typography>
-          <Button onClick={() => {window.open(getOAuthURL(), "_blank")}}>Login</Button>
-          <Button color="inherit">Logout</Button>
+          {console.log(session)}
+          {session ? (<Button color="inherit">Logout</Button>) : (<Button onClick={() => {window.open(getOAuthURL(), "_blank")}}>Login</Button>)}
         </Toolbar>
       </AppBar>
     </Box>

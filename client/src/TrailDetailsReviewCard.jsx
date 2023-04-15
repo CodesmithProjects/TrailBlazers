@@ -23,13 +23,15 @@ const style = {
   p: 4,
 };
 
-export default function TrailDetailsReviewCard({ trail }) {
+
+export default function TrailDetailsReviewCard({ trail, session }) {
   const [averageStars, setAverageStars] = useState(5);
   const [numberOfReviews, setNumberOfReviews] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [userRating, setUserRating] = useState(5);
   const [userReview, setUserReview] = useState("");
   const [open, setOpen] = useState(false);
+  const [openInvalidSession, setInvalidSession] = useState(false);
   const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
 
@@ -55,7 +57,10 @@ export default function TrailDetailsReviewCard({ trail }) {
     numberOfReviews: 3,
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    session ? setOpen(true) : setInvalidSession(true)
+  };
+  const handleSessionClose = () => setInvalidSession(false);
   const handleClose = () => setOpen(false);
   const handleFormChange = (name) => {
     updateName(name);
@@ -224,6 +229,18 @@ export default function TrailDetailsReviewCard({ trail }) {
             </div>
           </form>
         </Box>
+      </Modal>
+      <Modal 
+        open={openInvalidSession}
+        onClose={handleSessionClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Please login to use this feature
+            </Typography>
+          </Box>
       </Modal>
     </>
   );
