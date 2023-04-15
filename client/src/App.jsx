@@ -8,12 +8,12 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import TrailInfoCard from "./TrailInfoCard";
 import TrailDetails from "./TrailDetails";
-import FavoriteTrails from './FavoriteTrails';
+import FavoriteTrails from "./FavoriteTrails";
 import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
-import axios from 'axios';
+import axios from "axios";
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -41,11 +41,10 @@ const App = () => {
   });
 
   useEffect(() => {
-    const token = (window.location.hash).slice(1);
+    const token = window.location.hash.slice(1);
     if (token) {
-      fetch(`/api/sessions/?${token}`)
+      fetch(`/api/sessions/?${token}`);
     }
-    fetch('/api/sessions/deleteOldSessions')
   });
 
   const getTrailsByLocation = (e) => {
@@ -55,12 +54,20 @@ const App = () => {
       fetch(`api/trails/${zip}`)
         .then((response) => response.json())
         .then((res) => {
-          setTrails(res.data);
-          setShowTrails(true);
-          setShowSpinner(false);
+          if (res.status === 400) {
+            setShowTrails(true);
+            setTrails([]);
+          } else {
+            setTrails(res.data);
+            setShowTrails(true);
+            setShowSpinner(false);
+          }
         })
-      // TODO: do something more meaningful with this error
-      .catch((err) => console.log('error occurred during get trails by location', err));
+        // TODO: do something more meaningful with this error
+        .catch((err) => {
+          setTrails([]);
+          console.log("error occurred during get trails by location", err);
+        });
     } else {
       setShowTrails(false);
       setTrails([]);
@@ -98,7 +105,7 @@ const App = () => {
             path="/"
             element={
               <>
-                <Paper sx={{ height: '100%' }}>
+                <Paper sx={{ height: "100%" }}>
                   <div className="container">
                     <div className="img-wrapper">
                       <img
@@ -111,7 +118,12 @@ const App = () => {
                       ></img>
                     </div>
                     <div className="welcome-msg">
-                      <Typography variant="h4" sx={{marginBottom: "1rem", letterSpacing: '1px'}}>Discover your next adventure</Typography>
+                      <Typography
+                        variant="h4"
+                        sx={{ marginBottom: "1rem", letterSpacing: "1px" }}
+                      >
+                        Discover your next adventure
+                      </Typography>
                       <form onSubmit={getTrailsByLocation} noValidate>
                         <TextField
                           required
@@ -123,7 +135,10 @@ const App = () => {
                           }
                           value={zip}
                           onChange={(e) => handleZipChange(e.target.value)}
-                          sx={{ backgroundColor: "rgba(0,0,0,.8)", width: '70%' }}
+                          sx={{
+                            backgroundColor: "rgba(0,0,0,.8)",
+                            width: "70%",
+                          }}
                           variant="filled"
                           label="Search by zipcode"
                           InputProps={{
@@ -149,11 +164,13 @@ const App = () => {
                       spacing={3}
                     >
                       {showTrails ? (
-                        trails.length < 1 ? (
-                          <p>
-                            Sorry, no matching trails were found within a 25
-                            mile radius from this zipcode.
-                          </p>
+                        trails === undefined ? (
+                          <div className="error-message">
+                            <p>
+                              Sorry, no matching trails were found within a 25
+                              mile radius from this zipcode.
+                            </p>
+                          </div>
                         ) : (
                           trails.map((trail, i) => {
                             return (

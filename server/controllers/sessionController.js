@@ -1,4 +1,3 @@
-const db = require('../models/bikeTrailsModels');
 const sessionController = {};
 
 sessionController.createSession = async (req, res, next) => {

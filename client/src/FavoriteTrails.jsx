@@ -74,6 +74,7 @@ export default function FavoriteTrails() {
         handleClose();
         setOpenAlert(true);
         setDeletedSuccess(true);
+        getAllFavoriteTrails();
       })
       .catch((err) => {
         setDeletedSuccess(false);
@@ -98,7 +99,9 @@ export default function FavoriteTrails() {
               sx={{ fontSize: "1.5rem", textAlign: "center" }}
               component="div"
             >
-              Your saved trails
+              {
+                favoriteTrails.length > 0 ? 'Your saved trails' : 'You have no saved trails' 
+              }
             </ListSubheader>
           </ImageListItem>
           {favoriteTrails.map((item, index) => (
