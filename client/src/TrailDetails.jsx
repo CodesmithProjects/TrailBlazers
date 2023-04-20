@@ -24,6 +24,7 @@ export default function TrailDetails() {
   let params = useParams();
 
   const getTrailById = () => {
+    console.log("this is params.id: ", params.id);
     if (params.id) {
       setShowSpinner(true);
       fetch(`/api/moreInfo/${params.id}`)
