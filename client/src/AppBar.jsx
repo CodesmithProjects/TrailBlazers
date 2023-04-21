@@ -10,8 +10,9 @@ import Menu from "@mui/material/Menu";
 import getOAuthURL from "../utils/getOAuthURL";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -21,6 +22,17 @@ export default function ButtonAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    fetch('/api/sessions/logout')
+          .catch((err) => {
+            console.log(err);
+          })
+  }
+
+  const handleLogin = () => {
+    return window.open(getOAuthURL(), "_blank")
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -74,8 +86,8 @@ export default function ButtonAppBar() {
               Trail Blazers
             </Link>
           </Typography>
-          <Button onClick={() => {window.open(getOAuthURL(), "_blank")}}>Login</Button>
-          <Button color="inherit">Logout</Button>
+          <Button onClick={handleLogin} hidden={!props.currentUser}>Login</Button>
+          <Button color="inherit" onClick={handleLogout} hidden={props.currentUser}>Logout</Button>
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,7 +1,8 @@
 const express = require('express');
-require('dotenv').config({path: '../.env'})
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
+require('dotenv').config({path: '../.env'});
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const session = require('express-session');
 const app = express();
 const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
@@ -10,6 +11,15 @@ const dbRouter = require('./routers/dbAPI');
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({extended: true}))
+
+app.use(session({
+  secret: process.env.NODE_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 60000 * 60 * 24}, // expires in 1 day
+}));
+
 app.use('/api/trails', bikeTrailsRouter);
 app.use('/api/moreInfo', bikeTrailInfoRouter);
 app.use('/api/sessions', sessionRouter);
