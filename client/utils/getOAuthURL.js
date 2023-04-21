@@ -13,6 +13,7 @@ const getOAuthURL = () => {
         ].join(' ')
     };
     const qs = new URLSearchParams(options);
+    console.log("getOAuthURL: ", `${rootURL}?${qs.toString()}`);
     return `${rootURL}?${qs.toString()}`;
 }
 

@@ -22,6 +22,7 @@ const App = () => {
   const [showTrails, setShowTrails] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
   const validZip = new RegExp("^[0-9]*$");
+  const [currentUser, setCurrentUser] = useState({})
 
   // this resolves an error that is related to the loading overlay package used for the spinner
   // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
@@ -41,12 +42,21 @@ const App = () => {
   });
 
   useEffect(() => {
-    const token = window.location.hash.slice(1);
-    if (token) {
-      fetch(`/api/sessions/?${token}`);
+    if (!currentUser) {
+      const token = window.location.hash.slice(1);
+      console.log(token)
+      if (token) {
+        console.log(token)
+        fetch(`/api/sessions/?${token}`)
+          .then((res) => res.json())
+          .then((body) => {
+            setCurrentUser(body);
+          });
+      }
     }
   });
 
+  
   const getTrailsByLocation = (e) => {
     e.preventDefault();
     if (!isZipInvalid) {
@@ -91,7 +101,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
-        <ButtonAppBar></ButtonAppBar>
+        <ButtonAppBar currentUser={currentUser} setCurrentUser={setCurrentUser}></ButtonAppBar>
         <Routes>
           <Route
             path="/favoriteTrails"
