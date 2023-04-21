@@ -9,7 +9,8 @@ bikeController.getTrails = async (req, res, next) => {
         const options = {
             method: 'GET',
             headers: {
-              'X-RapidAPI-Key': '4ac30dd25amsha3ddf95ba050838p145c07jsn8d93d2b2c1c0',
+              'X-RapidAPI-Key': '',
+              //<---------- INSERT API KEY HERE ------>
               'X-RapidAPI-Host': 'trailapi-trailapi.p.rapidapi.com'
             }
           };

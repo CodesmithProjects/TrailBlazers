@@ -4,7 +4,7 @@ import ReactWeather, { useOpenWeather } from "react-open-weather";
 export default function TrailDetailsWeatherCard({ trail }) {
   // sourced from https://www.npmjs.com/package/react-open-weather
   const { data, isLoading, errorMessage } = useOpenWeather({
-    key: `${import.meta.env.VITE_OPENWEATHERAPIKEY}`,
+    key: `${import.meta.env.OPENWEATHERAPIKEY}`,
     lat: `${trail.lat}`,
     lon: `${trail.lon}`,
     lang: "en",

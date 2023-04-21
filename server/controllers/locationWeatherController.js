@@ -22,7 +22,7 @@ locationWeatherController.getGeoCodeURL = (req, res, next) => {
       return next({log: 'error at getGeoCodeURL middleware', message: 'bad zipcode format'})
     }
     console.log('this is input zip code', zipCode);
-    const geoCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${process.env.VITE_OPENWEATHERAPIKEY}&units=imperial`;
+    const geoCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${process.env.OPENWEATHERAPIKEY}&units=imperial`;
     res.locals.geoCodeURL = geoCodeURL;
     return next();
   } catch {
