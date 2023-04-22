@@ -27,8 +27,15 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
     let resultJSON = await result.json();
     await console.log("resultJSON: ", resultJSON);
     delete resultJSON['results']
+    // const getSQL = `
+    //     SELECT * FROM reviews
+    //     WHERE trail_id = '${id}'
+    //     `
     const getSQL = `
-        SELECT * FROM reviews
+      SELECT r.*, a.name  
+        FROM reviews r 
+        LEFT JOIN accounts a
+        ON r.user_id = a.user_id
         WHERE trail_id = '${id}'
         `
     const getResp = await db.query(getSQL);
@@ -52,6 +59,7 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'data': !getResp ? [] : getResp.rows.map(elem => {
         return {
           'name': elem['name'],
+          'user_id': elem['user_id'],
           'review': elem['review'],
           'stars': elem['stars']
         }

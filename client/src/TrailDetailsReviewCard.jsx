@@ -44,10 +44,12 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   const submitRating = () => {
     const review = {
       // name: name,
+      trail_id: trail.id,
       user_id: userData.user_id,
       stars: userRating,
       review: userReview,
     };
+    console.log('review: ', review);
     fetch(`/api/db/createReview/${trail.id}`, {
       method: "POST",
       headers: {
@@ -71,6 +73,8 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     }
   };
 
+
+  console.log("Trail Data: ", trail.data);
 
   return (
     <>
