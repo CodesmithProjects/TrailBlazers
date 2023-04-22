@@ -8,7 +8,7 @@ import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-export default function TrailDetails() {
+export default function TrailDetails(props) {
   const [trail, updateTrail] = useState([{}]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showTrailDetails, updateShowTrailDetails] = useState(false);
@@ -158,7 +158,7 @@ export default function TrailDetails() {
               hasMatch={hasMatch}
             ></TrailDetailsSideIconMenu>
           </div>
-            <TrailsDetailsOverview refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
+            <TrailsDetailsOverview userData={props.userData} refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
         </Paper>
       ) : (
         <Paper sx={{ height: "40rem" }}></Paper>
