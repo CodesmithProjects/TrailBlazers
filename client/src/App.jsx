@@ -10,7 +10,7 @@ import TrailInfoCard from "./TrailInfoCard";
 import TrailDetails from "./TrailDetails";
 import FavoriteTrails from "./FavoriteTrails";
 import Grid from "@mui/material/Grid";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
@@ -22,7 +22,7 @@ const App = () => {
   const [showTrails, setShowTrails] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
   const validZip = new RegExp("^[0-9]*$");
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
 
   // this resolves an error that is related to the loading overlay package used for the spinner
   // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
@@ -44,9 +44,9 @@ const App = () => {
   useEffect(() => {
     if (!currentUser) {
       const token = window.location.hash.slice(1);
-      console.log(token)
+      console.log(token);
       if (token) {
-        console.log(token)
+        console.log(token);
         fetch(`/api/sessions/?${token}`)
           .then((res) => res.json())
           .then((body) => {
@@ -54,9 +54,8 @@ const App = () => {
           });
       }
     }
-  });
+  }, [currentUser]); 
 
-  
   const getTrailsByLocation = (e) => {
     e.preventDefault();
     if (!isZipInvalid) {
@@ -97,11 +96,16 @@ const App = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
-        <ButtonAppBar currentUser={currentUser} setCurrentUser={setCurrentUser}></ButtonAppBar>
+        <ButtonAppBar
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        ></ButtonAppBar>
         <Routes>
           <Route
             path="/favoriteTrails"
@@ -214,6 +218,10 @@ const App = () => {
                 </Paper>
               </>
             }
+          ></Route>
+          <Route
+            path="*"
+            element={<div>{navigate("/", { replace: true })}</div>}
           ></Route>
         </Routes>
       </LoadingOverlay>
