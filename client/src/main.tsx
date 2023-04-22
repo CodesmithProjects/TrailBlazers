@@ -9,6 +9,7 @@ import "@fontsource/roboto/700.css";
 import { BrowserRouter } from "react-router-dom";
 
 
+
 const container = document.getElementById('root') as HTMLElement;
 ReactDOM.createRoot(container).render(
   <React.Fragment>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(container).render(
     </BrowserRouter>
   </React.Fragment>
 )
+
 
 
 

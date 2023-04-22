@@ -11,3 +11,5 @@ export default defineConfig({
   },
   plugins: [react()],
 })
+
+//changed this from .js to .ts
