@@ -37,9 +37,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   //   setIsFormInvalid(false);
   // };
 
-  // const validate = () => {
-  //   return name.length < 1 ? setIsFormInvalid(true) : setIsFormInvalid(false);
-  // };
 
   const submitRating = () => {
     const review = {
@@ -160,18 +157,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                 setUserRating(rating);
               }}
             />
-            {/* <TextField
-              sx={{ width: "100%", marginTop: "1rem" }}
-              error={isFormInvalid}
-              helperText={isFormInvalid ? "Name is required" : ""}
-              label="Name"
-              size="small"
-              value={name}
-              onChange={(e) => handleFormChange(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              color="primary"
-              required
-            /> */}
             <TextField
               sx={{ width: "100%", marginTop: "1rem" }}
               id="outlined-multiline-static"
@@ -187,7 +172,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                 type="submit"
                 variant="contained"
                 sx={{ marginRight: "1rem" }}
-                // onClick={validate}
                 // onChange={handleFormChange}
               >
                 Save

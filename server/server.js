@@ -38,9 +38,7 @@ async function(accessToken, refreshToken, profile, cb) {
     
     // Check if user exists in the database
     const findQueryString = `SELECT * FROM accounts WHERE email = $1`;
-    console.log("Hitting global error handler in the next line");
     const result = await db.query(findQueryString, params1);
-    // console.log ("result: ", result);
 
     if (result.rows.length > 0) {
       // If the user exists, return the user object
