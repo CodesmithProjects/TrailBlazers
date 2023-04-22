@@ -23,16 +23,21 @@ export default function ButtonAppBar(props) {
     setAnchorEl(null);
   };
 
-  // const handleLogout = () => {
-  //   fetch('/api/sessions/logout')
-  //         .catch((err) => {
-  //           console.log(err);
-  //         })
-  // }
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("/api/sessions/currentuser", {withCredentials: true});
+      if (response.data) {
+        console.log("User data is being logged: ", response.data);
+        props.setUserData(response.data);
+      }
+    } catch (err) {
+      console.log("Error fetching user data: ", err);
+    }
+  }
 
-  // const handleLogin = () => {
-  //   return window.open(getOAuthURL(), "_blank")
-  // }
+  React.useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -86,10 +91,11 @@ export default function ButtonAppBar(props) {
               Trail Blazers
             </Link>
           </Typography>
-          {/* <Button onClick={handleLogin} hidden={!props.currentUser}>Login</Button> */}
-          <Button component="a" href="http://localhost:4000/auth/google" hidden={!props.currentUser}>Login</Button>
-          {/* <Button color="inherit" onClick={handleLogout} hidden={props.currentUser}>Logout</Button> */}
-          <Button color="inherit" component="a" href="http://localhost:4000/logout" hidden={props.currentUser}>Logout</Button>
+          {Object.keys(props.userData).length > 0 ? (
+            <Button color="inherit" component="a" href="http://localhost:4000/logout">Logout</Button>
+          ) : (
+            <Button color="inherit" component="a"href="http://localhost:4000/auth/google">Login</Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

@@ -34,10 +34,11 @@ bikeController.getTrails = async (req, res, next) => {
 
 bikeController.getFavTrails = async (req, res, next) => {
   try {
-    const user_id = req.cookies.userID;
+    // const user_id = req.cookies.userID;
+    const user_id = req.user.user_id;
     const getTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE google_id = '${user_id}';`;
+    WHERE user_id = '${user_id}';`;
 
     let dbRes = await db.query(getTrailsSQL);
     const trailsForQuery = [];
@@ -58,22 +59,24 @@ bikeController.getFavTrails = async (req, res, next) => {
 
 bikeController.saveTrails = async (req, res, next) => {
   try {
-    const google_id = req.cookies.userID;
+    // const google_id = req.cookies.userID;
+    const user_id = req.user.user_id;
     const { id } = req.body;
     const checkTrailsSQL = `
     SELECT * FROM favorite_trails
-    WHERE google_id = '${google_id}' AND trail_id = '${id}';`;
+    WHERE user_id = '${user_id}' AND trail_id = '${id}';`;
     // query first to db to check if trail is already favorited to prevent duplicates then save trail
     let alreadyFavorited = await db.query(checkTrailsSQL)
     alreadyFavorited = await alreadyFavorited.json();
     res.locals.isSaved = true;
     return next();
   } catch(err) {
-    const google_id = req.cookies.userID;
+    const user_id = req.user.user_id;
+    // const google_id = req.cookies.userID;
     const { id, name } = req.body;
     const saveTrailsSQL = `
-    INSERT INTO favorite_trails(google_id, trail_id, trail_name)
-    VALUES('${google_id}', '${id}', '${name}');`;
+    INSERT INTO favorite_trails(user_id, trail_id, trail_name)
+    VALUES('${user_id}', '${id}', '${name}');`;
     const saveQuery = await db.query(saveTrailsSQL);
     res.locals.isSaved = true;
     next();
@@ -87,7 +90,7 @@ bikeController.deleteTrails = async (req, res, next) => {
     const { trailId } = req.params;
     const deleteTrailsSQL = `
     DELETE FROM favorite_trails
-    WHERE google_id ='${user_id}' AND trail_id = '${trailId}';`
+    WHERE user_id ='${user_id}' AND trail_id = '${trailId}';`
     await db.query(deleteTrailsSQL)
     res.locals.isDeleted = true;
     return next();
