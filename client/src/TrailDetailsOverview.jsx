@@ -23,13 +23,13 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
         </div>
       </div>
       <Grid container>
-        {/* <Grid item xs={6}>
+        <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent>
-              <TrailDetailsReviewCard userData={props.userData} refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
+              <TrailDetailsReviewCard userData={userData} refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
             </CardContent>
           </Card>
-        </Grid> */}
+        </Grid>
         <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent>

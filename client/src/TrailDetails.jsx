@@ -96,6 +96,7 @@ export default function TrailDetails(props) {
       headers: {
         Accept: "application/json",
       },
+      credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {

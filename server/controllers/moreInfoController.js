@@ -27,12 +27,12 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
     let resultJSON = await result.json();
     await console.log("resultJSON: ", resultJSON);
     delete resultJSON['results']
-    // const getSQL = `
-    //     SELECT * FROM reviews
-    //     WHERE trail_id = '${id}'
-    //     `
-    // const getResp = await db.query(getSQL);
-    // console.log("this is getResp: ", getResp);
+    const getSQL = `
+        SELECT * FROM reviews
+        WHERE trail_id = '${id}'
+        `
+    const getResp = await db.query(getSQL);
+    console.log("this is getResp: ", getResp);
     resultJSON['data'] = resultJSON['data'].map(elem => {
       return {
       'id' : elem['id'],
@@ -49,17 +49,17 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
       'googleMapsURL': `https://www.google.com/maps/dir//${elem['lat']},${elem['lon']}`,
       'lat': elem['lat'],
       'lon': elem['lon'],
-      // 'data': !getResp ? [] : getResp.rows.map(elem => {
-      //   return {
-      //     'name': elem['name'],
-      //     'review': elem['review'],
-      //     'stars': elem['stars']
-      //   }
-      // }),
-      // 'averageStars': Math.round((getResp.rows.reduce((acc, curr) => {
-      //   return acc + curr.stars;
-      // }, 0))/ getResp.rows.length),
-      // 'numberOfReviews': getResp.rows.length
+      'data': !getResp ? [] : getResp.rows.map(elem => {
+        return {
+          'name': elem['name'],
+          'review': elem['review'],
+          'stars': elem['stars']
+        }
+      }),
+      'averageStars': Math.round((getResp.rows.reduce((acc, curr) => {
+        return acc + curr.stars;
+      }, 0))/ getResp.rows.length),
+      'numberOfReviews': getResp.rows.length
       }
     });
     res.locals.moreInfo = resultJSON;

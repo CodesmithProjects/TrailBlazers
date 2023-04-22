@@ -35,6 +35,8 @@ bikeController.getTrails = async (req, res, next) => {
 bikeController.getFavTrails = async (req, res, next) => {
   try {
     // const user_id = req.cookies.userID;
+    console.log('req.user: ', req.user)
+    console.log('req.session: ', req.session)
     const user_id = req.user.user_id;
     const getTrailsSQL = `
     SELECT * FROM favorite_trails

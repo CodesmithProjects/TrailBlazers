@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { useSlotProps } from "@mui/base";
 
 const style = {
   position: "absolute",
@@ -23,26 +24,27 @@ const style = {
   p: 4,
 };
 
-export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
+export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }) {
   const [userRating, setUserRating] = useState(5);
   const [userReview, setUserReview] = useState("");
   const [open, setOpen] = useState(false);
-  const [name, updateName] = useState("");
+  // const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleFormChange = (name) => {
-    updateName(name);
-    setIsFormInvalid(false);
-  };
+  // const handleFormChange = (name) => {
+  //   updateName(name);
+  //   setIsFormInvalid(false);
+  // };
 
-  const validate = () => {
-    return name.length < 1 ? setIsFormInvalid(true) : setIsFormInvalid(false);
-  };
+  // const validate = () => {
+  //   return name.length < 1 ? setIsFormInvalid(true) : setIsFormInvalid(false);
+  // };
 
   const submitRating = () => {
     const review = {
-      name: name,
+      // name: name,
+      user_id: userData.user_id,
       stars: userRating,
       review: userReview,
     };
@@ -154,7 +156,7 @@ export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
                 setUserRating(rating);
               }}
             />
-            <TextField
+            {/* <TextField
               sx={{ width: "100%", marginTop: "1rem" }}
               error={isFormInvalid}
               helperText={isFormInvalid ? "Name is required" : ""}
@@ -165,7 +167,7 @@ export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
               InputLabelProps={{ shrink: true }}
               color="primary"
               required
-            />
+            /> */}
             <TextField
               sx={{ width: "100%", marginTop: "1rem" }}
               id="outlined-multiline-static"
@@ -181,8 +183,8 @@ export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
                 type="submit"
                 variant="contained"
                 sx={{ marginRight: "1rem" }}
-                onClick={validate}
-                onChange={handleFormChange}
+                // onClick={validate}
+                // onChange={handleFormChange}
               >
                 Save
               </Button>
