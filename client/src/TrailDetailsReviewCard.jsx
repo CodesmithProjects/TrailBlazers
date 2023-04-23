@@ -45,6 +45,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       user_id: userData.user_id,
       stars: userRating,
       review: userReview,
+      date: Date().split(' ').slice(0,4).join(' ')
     };
     console.log('review: ', review);
     fetch(`/api/db/createReview/${trail.id}`, {
@@ -70,6 +71,22 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     }
   };
 
+  const deleteReview = (review) => {
+    fetch(`/api/db/deleteReview/${trail.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({review : review}),
+    })
+      .then(() => {
+        refreshTrail();
+        handleClose();
+      })
+      .catch((err) => {
+        console.log("err on submitting a review", err);
+      });
+  } 
 
   console.log("Trail Data: ", trail.data);
 
@@ -116,9 +133,24 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                               readOnly
                             />
                           </div>
+                          <div>
+                            Posted: {review.date}
+                          </div>
                         </>
                       }
-                      secondary={review.review}
+                      secondary={
+                        <>
+                          {review.review}
+                          <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
+                            <button>
+                              Edit
+                            </button>
+                            <button onClick={deleteReview(review.review)}>
+                              Delete
+                            </button>
+                          </div>
+                        </>
+                      }
                     />
                   </ListItem>
                 );
