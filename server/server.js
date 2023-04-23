@@ -38,9 +38,7 @@ async function(accessToken, refreshToken, profile, cb) {
     
     // Check if user exists in the database
     const findQueryString = `SELECT * FROM accounts WHERE email = $1`;
-    console.log("Hitting global error handler in the next line");
     const result = await db.query(findQueryString, params1);
-    // console.log ("result: ", result);
 
     if (result.rows.length > 0) {
       // If the user exists, return the user object
@@ -108,8 +106,9 @@ app.get('/getAllFavoriteTrails', (req, res) => {
   readable.pipe(res);
 });
 
+
 app.get('/auth/google',
-  (req, res, next) => {console.log("this is being hit 1"); return next();},
+  (req, res, next) => {console.log("this is being hit 1"); return next();}, 
   // passport.authenticate('google', { scope: ["profile"] })
   passport.authenticate('google', { scope: ["profile", "email"] }) // Add "email" to the scope to get user's email
 );
@@ -119,7 +118,7 @@ app.get('/googlecallback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:5173');
+    res.status(200).redirect('http://localhost:5173');
   }
 );
 
