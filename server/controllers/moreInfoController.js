@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fetch = require('node-fetch');
 const db = require('../models/bikeTrailsModels');
 
@@ -5,6 +6,7 @@ const moreInfoController = {};
 
 moreInfoController.getMoreInfo = async (req, res, next) => {
   try {
+    console.log('trail api key', process.env.VITE_TRAILAPI_KEY)
     const id = req.params.id;
     const options = { 
       method: 'GET',
@@ -63,6 +65,15 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
     console.log(err);
     return next({log: 'error at getMoreInfo middleware', message: 'fetch request to trail info API failed'})
   }
+}
+
+moreInfoController.getUserPhotos = async (req, res, next) => {
+  const id = req.params.id;
+  // console.log('getuserphotos res.local.moreinfo', res.locals.moreInfo)
+  // const getPhotoQuery = 'SELECT p.*, a.name FROM photos p LEFT JOIN accounts a ON p.user_id = a.user_id WHERE trail_id = $1'
+  // const params = [id];
+  // const userPhotoData = await db.query(getPhotoQuery, params);
+  return next()
 }
 
 module.exports = moreInfoController;
