@@ -49,7 +49,8 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
           'user_id': elem['user_id'],
           'review': elem['review'],
           'stars': elem['stars'],
-          'date': elem['date']
+          'date': elem['date'],
+          'review_id': elem['review_id']
         }
       }),
       'averageStars': Math.round((getResp.rows.reduce((acc, curr) => {

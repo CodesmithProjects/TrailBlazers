@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useSlotProps } from "@mui/base";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -71,20 +72,19 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     }
   };
 
-  const deleteReview = (review) => {
-    fetch(`/api/db/deleteReview/${trail.id}`, {
+  const deleteReview = (review_id) => {
+    fetch(`/api/db/deleteReview/${review_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({review : review}),
+      }
     })
       .then(() => {
         refreshTrail();
         handleClose();
       })
       .catch((err) => {
-        console.log("err on submitting a review", err);
+        console.log("err on deleting a review", err);
       });
   } 
 
@@ -145,7 +145,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                             <button>
                               Edit
                             </button>
-                            <button onClick={deleteReview(review.review)}>
+                            <button>
                               Delete
                             </button>
                           </div>
