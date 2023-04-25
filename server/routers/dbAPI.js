@@ -30,6 +30,10 @@ dbRouter.get('/getReview/:trail_reviewID', sessionController.authenticateUser, r
   return res.status(201).json((res.locals.review_data))
 })
 
+dbRouter.get('/uploadURL', reviewController.uploadURL, (req, res) => {
+  return res.status(200).json(res.locals.uploadURL)
+})
+
 dbRouter.patch('/updateReview/:trail_reviewID', sessionController.authenticateUser, reviewController.updateReview, (req, res) => {
   return res.status(201).json('updated review')
 })

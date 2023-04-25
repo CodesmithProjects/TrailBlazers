@@ -69,10 +69,18 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
 
 moreInfoController.getUserPhotos = async (req, res, next) => {
   const id = req.params.id;
-  // console.log('getuserphotos res.local.moreinfo', res.locals.moreInfo)
-  // const getPhotoQuery = 'SELECT p.*, a.name FROM photos p LEFT JOIN accounts a ON p.user_id = a.user_id WHERE trail_id = $1'
-  // const params = [id];
-  // const userPhotoData = await db.query(getPhotoQuery, params);
+  const getPhotoQuery = 'SELECT p.*, a.name FROM photos p LEFT JOIN accounts a ON p.user_id = a.user_id WHERE trail_id = $1'
+  const params = [id];
+  const userPhotoData = await db.query(getPhotoQuery, params);
+  res.locals.moreInfo.data[0].photos = userPhotoData.rows
+  for (let i = 0; i < res.locals.moreInfo.data[0].data.length; i++) {
+    res.locals.moreInfo.data[0].data[i].photos = []
+    for (let j = 0; j < userPhotoData.rows.length; j++) {
+      if (res.locals.moreInfo.data[0].data[i].review_id === userPhotoData.rows[j].review_id) {
+        res.locals.moreInfo.data[0].data[i].photos.push(userPhotoData.rows[j])
+      }
+    }
+  }
   return next()
 }
 

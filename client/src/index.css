@@ -170,6 +170,16 @@
   justify-content: center
 }
 
+.userPhotos {
+  height: 200px;
+  width: auto;
+}
+
+.reviewImages {
+  height: 80px;
+  width: auto;
+}
+
 .details-overview-row-1-container {
   padding-top: 2rem;
 }

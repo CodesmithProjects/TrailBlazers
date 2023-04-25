@@ -34,7 +34,11 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   // const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setSelectedFiles("")
+    setOpen(false)
+  };
+  const [selectedFiles, setSelectedFiles] = useState("")
   const [editReview, setEditReview] = useState(false);
   const [updatedReviewId, setUpdatedReviewId] = useState(0);
   // const handleFormChange = (name) => {
@@ -44,11 +48,10 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
 
   const submitRating = async () => {
-    const uploadURLList = [];
     if (selectedFiles !== "") {
+      const uploadURLList = [];
       for (let i = 0; i < Object.entries(selectedFiles).length; i++) {
         uploadURLList[i] = await axios.get('/api/db/uploadURL')
-        console.log('file INFO??',selectedFiles[i])
       }
       for (let i = 0; i < uploadURLList.length; i++) {
         await fetch(uploadURLList[i].data, {
@@ -58,7 +61,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
           },
           body: selectedFiles[i]
         })
-        selectedFiles[i].url = selectedFiles[i].name
+        selectedFiles[i].fileName = selectedFiles[i].name
         selectedFiles[i].url = uploadURLList[i].data.split('?')[0]
       }
     }
@@ -180,7 +183,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       });
   }
 
-  // console.log("Trail Data: ", trail.data);
+  const onChangeFile = async (event) => {
+    setSelectedFiles(event.target.files)
+  }
 
   return (
     <>
@@ -233,6 +238,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                       secondary={
                         <>
                           {review.review}
+                          {review.photos.length > 0 ? (
+                            <img className="reviewImages" src={review.photos[0].photo_src}></img>
+                          ) : ([])}
                           <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
                             <Button variant="text" onClick={ () => { handleEdit(review) } }>
                               Edit
