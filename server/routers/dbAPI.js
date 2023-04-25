@@ -21,5 +21,8 @@ dbRouter.delete('/deleteFavoriteTrail/:trailId', sessionController.authenticateU
 dbRouter.post('/createReview/:trailID', sessionController.authenticateUser, reviewController.createReview, (req, res) => {
   return res.status(201).json('created review')
 })
+dbRouter.delete('/deleteReview/:trail_reviewID', sessionController.authenticateUser, reviewController.deleteReview, (req, res) => {
+  return res.status(201).json('deleted review')
+})
 
 module.exports = dbRouter;

@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useSlotProps } from "@mui/base";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -45,6 +46,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       user_id: userData.user_id,
       stars: userRating,
       review: userReview,
+      date: Date().split(' ').slice(0,4).join(' ')
     };
     console.log('review: ', review);
     fetch(`/api/db/createReview/${trail.id}`, {
@@ -70,6 +72,21 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     }
   };
 
+  const deleteReview = (review_id) => {
+    fetch(`/api/db/deleteReview/${review_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(() => {
+        refreshTrail();
+        handleClose();
+      })
+      .catch((err) => {
+        console.log("err on deleting a review", err);
+      });
+  } 
 
   console.log("Trail Data: ", trail.data);
 
@@ -116,9 +133,24 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                               readOnly
                             />
                           </div>
+                          <div>
+                            Posted: {review.date}
+                          </div>
                         </>
                       }
-                      secondary={review.review}
+                      secondary={
+                        <>
+                          {review.review}
+                          <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
+                            <Button variant="text" onClick={handleOpen}>
+                              Edit
+                            </Button>
+                            <Button variant="text" onClick={ () => {deleteReview(review.review_id)} }>
+                              Delete
+                            </Button>
+                          </div>
+                        </>
+                      }
                     />
                   </ListItem>
                 );
@@ -176,7 +208,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
               >
                 Save
               </Button>
-              <Button variant="outlined" onClick={handleClose}>
+              <Button variant="outlined" onClick={() => {handleClose()}}>
                 Cancel
               </Button>
             </div>
