@@ -24,7 +24,7 @@ export default function UserPhotos({trail}) {
           return (
             <img key={i} className="userPhotos" src={photo.photo_src}></img>
           )
-        })) : ([])}
+        })) : (<p>There are no photos yet!</p>)}
       </div>
     </div>
   )

@@ -298,25 +298,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
               defaultValue={userReview}
               onChange={(e) => setUserReview(e.target.value)}
             />
-            <div className="uploadPhotoDiv">
-              <Button variant="text" component="label" onChange={onChangeFile}>
-                Upload Photos
-                <input hidden accept="image/*" multiple type="file" />
-              </Button>
-              <IconButton color="primary" aria-label="upload picture" component="label" onClick={()=>console.log('TEST', S3Client)}>
-                <input hidden accept="image/*" type="file" />
-                <PhotoCamera />
-              </IconButton>
-            </div>
-            <ul>
-              {Object.entries(selectedFiles).map((key, i) => {
-                return (
-                  <li key={i}>
-                    {key[1].name}
-                  </li>
-                )
-              })}
-            </ul>
             <div className="modal-button-wrapper">
               <Button
                 formNoValidate
@@ -352,6 +333,25 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                 defaultValue=" "
                 onChange={(e) => setUserReview(e.target.value)}
               />
+              <div className="uploadPhotoDiv">
+                <Button variant="text" component="label" onChange={onChangeFile}>
+                  Upload Photos
+                  <input hidden accept="image/*" multiple type="file" />
+                </Button>
+                <IconButton color="primary" aria-label="upload picture" component="label" onChange={onChangeFile}>
+                  <input hidden accept="image/*"  multiple type="file" />
+                  <PhotoCamera />
+                </IconButton>
+              </div>
+              <ul>
+                {Object.entries(selectedFiles).map((key, i) => {
+                  return (
+                    <li key={i}>
+                      {key[1].name}
+                    </li>
+                  )
+                })}
+              </ul>
               <div className="modal-button-wrapper">
                 <Button
                   formNoValidate
