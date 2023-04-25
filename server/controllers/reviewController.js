@@ -59,7 +59,6 @@ reviewController.updateReview = async (req, res, next) => {
         UPDATE reviews SET review = $3, stars = $2, date = $4 WHERE review_id = $1
         `
         const params = [reviewID, stars, review, date];
-        console.log(params)
         await db.query(createSQL, params);
         res.locals.saved = true;
         return next();
