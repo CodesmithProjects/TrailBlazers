@@ -22,12 +22,15 @@ dbRouter.post('/createReview/:trailID', sessionController.authenticateUser, revi
   return res.status(201).json('created review')
 })
 
-dbRouter.get('/uploadURL', reviewController.uploadURL, (req, res) => {
-  return res.status(200).json(res.locals.uploadURL)
-})
-
 dbRouter.delete('/deleteReview/:trail_reviewID', sessionController.authenticateUser, reviewController.deleteReview, (req, res) => {
   return res.status(201).json('deleted review')
 })
 
+dbRouter.get('/getReview/:trail_reviewID', sessionController.authenticateUser, reviewController.getReview, (req, res) => {
+  return res.status(201).json((res.locals.review_data))
+})
+
+dbRouter.patch('/updateReview/:trail_reviewID', sessionController.authenticateUser, reviewController.updateReview, (req, res) => {
+  return res.status(201).json('updated review')
+})
 module.exports = dbRouter;

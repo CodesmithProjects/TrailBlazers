@@ -17,7 +17,7 @@ app.use(session({
   secret: process.env.NODE_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  // cookie: { secure: false, maxAge: 60000 * 60 * 24}, // expires in 1 day
+  cookie: { secure: false, maxAge: 60000 * 60 * 24}, // expires in 1 day
 }));
 
 app.use(passport.initialize());

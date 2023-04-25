@@ -39,7 +39,38 @@ reviewController.deleteReview = async (req, res, next) => {
     } catch {
         return next({log:'error at deleteReview middleware', message:'failed to delete review'})
     }
-    
+}
+
+reviewController.getReview = async (req, res, next) => {
+    try {
+        const reviewID = req.params.trail_reviewID;
+        const createSQL = `
+        SELECT * FROM reviews WHERE review_id=$1
+        `
+        const params = [reviewID];
+        result = await db.query(createSQL, params);
+        res.locals.review_data = result.rows[0];
+        return next();
+    } catch {
+        return next({log:'error at getReview middleware', message:'failed to delete review'})
+    }
+}
+
+reviewController.updateReview = async (req, res, next) => {
+    try {
+        const reviewID = req.params.trail_reviewID;
+        const { stars, review, date } = req.body;
+        const createSQL = `
+        UPDATE reviews SET review = $3, stars = $2, date = $4 WHERE review_id = $1
+        `
+        const params = [reviewID, stars, review, date];
+        console.log(params)
+        await db.query(createSQL, params);
+        res.locals.saved = true;
+        return next();
+    } catch {
+        return next({log:'error at updateReview middleware', message:'failed to update review'})
+    }
 }
 
 reviewController.addPhotos = async (req, res, next) => {

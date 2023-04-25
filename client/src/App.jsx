@@ -41,7 +41,6 @@ const App = () => {
     },
   });
 
-  console.log(userData.data)
   const getTrailsByLocation = (e) => {
     e.preventDefault();
     if (!isZipInvalid) {

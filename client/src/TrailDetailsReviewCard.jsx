@@ -34,11 +34,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   // const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setSelectedFiles("")
-    setOpen(false)
-  };
-  const [selectedFiles, setSelectedFiles] = useState("")
+  const handleClose = () => setOpen(false);
+  const [editReview, setEditReview] = useState(false);
+  const [updatedReviewId, setUpdatedReviewId] = useState(0);
   // const handleFormChange = (name) => {
   //   updateName(name);
   //   setIsFormInvalid(false);
@@ -73,7 +71,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       date: Date().split(' ').slice(0,4).join(' '),
       photos: selectedFiles
     };
-    console.log('review: ', review);
     fetch(`/api/db/createReview/${trail.id}`, {
       method: "POST",
       headers: {
@@ -84,6 +81,8 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       .then(() => {
         refreshTrail();
         handleClose();
+        setUserRating(5);
+        setUserReview("");
       })
       .catch((err) => {
         console.log("err on submitting a review", err);
@@ -92,13 +91,39 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isFormInvalid) {
-      submitRating();
+    if (editReview) {
+      updateReview(updatedReviewId);
+      handleClose();
+      setEditReview(false);
+      setUserRating(5);
+      setUserReview("");
+      setUpdatedReviewId(0);
+    } else {
+      if (!isFormInvalid) {
+        submitRating();
+      }  
     }
   };
 
-  const deleteReview = (review_id) => {
-    fetch(`/api/db/deleteReview/${review_id}`, {
+  const handleEdit = (review) => {
+    //When user clicks Edit from trail-specific page
+    if (!editReview) {
+      handleOpen();
+      setEditReview(true);
+      getReview(review.review_id);
+      setUpdatedReviewId(review.review_id);
+    //When user clicks Cancel from the Edit review popup
+    } else {
+      handleClose();
+      setEditReview(false);
+      setUserRating(5);
+      setUserReview("");
+      setUpdatedReviewId(0);
+    }
+  }
+
+  const deleteReview = (review) => {
+    fetch(`/api/db/deleteReview/${review.review_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -106,17 +131,56 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     })
       .then(() => {
         refreshTrail();
-        handleClose();
       })
       .catch((err) => {
         console.log("err on deleting a review", err);
       });
-  } 
-
-  const onChangeFile = async (event) => {
-    setSelectedFiles(event.target.files)
   }
-  console.log("Trail Data: ", trail.data);
+  
+  const getReview = (review_id) => {
+    fetch(`/api/db/getReview/${review_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(data => data.json())
+      .then(data => {
+        setUserReview(data.review);
+        setUserRating(data.stars);
+        refreshTrail();
+      })
+      .catch((err) => {
+        console.log("err on getting a review", err);
+      });
+  }
+
+  const updateReview = (review_id) => {
+    console.log('This is review_id', review_id)
+    const review = {
+      stars: userRating,
+      review: userReview,
+      date: Date().split(' ').slice(0,4).join(' ')
+    };
+    fetch(`/api/db/updateReview/${review_id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(review),
+    })
+     .then(() => {
+        refreshTrail();
+        setEditReview(false);
+        setUserRating(5);
+        setUserReview("");
+      })
+      .catch((err) => {
+        console.log("err on updating a review", err);
+      });
+  }
+
+  // console.log("Trail Data: ", trail.data);
 
   return (
     <>
@@ -170,10 +234,10 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                         <>
                           {review.review}
                           <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
-                            <Button variant="text" onClick={handleOpen}>
+                            <Button variant="text" onClick={ () => { handleEdit(review) } }>
                               Edit
                             </Button>
-                            <Button variant="text" onClick={ () => {deleteReview(review.review_id)} }>
+                            <Button variant="text" onClick={ () => { deleteReview(review) }}>
                               Delete
                             </Button>
                           </div>
@@ -206,9 +270,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Leave a review
-          </Typography>
+          { editReview ? (
+          <>
+          <Typography id="modal-modal-title" variant="h6" component="h2">Update review</Typography>
           <form onSubmit={handleSubmit} noValidate>
             <Rating
               name="simple-controlled"
@@ -223,7 +287,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
               label="Review"
               multiline
               rows={3}
-              defaultValue=" "
+              defaultValue={userReview}
               onChange={(e) => setUserReview(e.target.value)}
             />
             <div className="uploadPhotoDiv">
@@ -253,13 +317,49 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                 sx={{ marginRight: "1rem" }}
                 // onChange={handleFormChange}
               >
-                Save
+                Update
               </Button>
-              <Button variant="outlined" onClick={() => {handleClose()}}>
+              <Button variant="outlined" onClick={() => {handleEdit()}}>
                 Cancel
               </Button>
             </div>
           </form>
+          </>) : (
+            <>
+            <Typography id="modal-modal-title" variant="h6" component="h2">Leave a review</Typography>
+            <form onSubmit={handleSubmit} noValidate>
+              <Rating
+                name="simple-controlled"
+                value={userRating}
+                onChange={(event, rating) => {
+                  setUserRating(rating);
+                }}
+              />
+              <TextField
+                sx={{ width: "100%", marginTop: "1rem" }}
+                id="outlined-multiline-static"
+                label="Review"
+                multiline
+                rows={3}
+                defaultValue=" "
+                onChange={(e) => setUserReview(e.target.value)}
+              />
+              <div className="modal-button-wrapper">
+                <Button
+                  formNoValidate
+                  type="submit"
+                  variant="contained"
+                  sx={{ marginRight: "1rem" }}
+                  // onChange={handleFormChange}
+                >
+                  Save
+                </Button>
+                <Button variant="outlined" onClick={() => {handleClose()}}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </>)}
         </Box>
       </Modal>
     </>
