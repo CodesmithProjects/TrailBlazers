@@ -17,5 +17,10 @@
     "qs": "^6.11.1",
     "react-loading-overlay": "^1.0.1",
     "react-router-dom": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
+    "typescript": "^5.0.4"
   }
 }
