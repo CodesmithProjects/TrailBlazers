@@ -48,12 +48,14 @@ moreInfoController.getMoreInfo = async (req, res, next) => {
           'name': elem['name'],
           'user_id': elem['user_id'],
           'review': elem['review'],
-          'stars': elem['stars']
+          'stars': elem['stars'],
+          'date': elem['date'],
+          'review_id': elem['review_id']
         }
       }),
       'averageStars': Math.round((getResp.rows.reduce((acc, curr) => {
         return acc + curr.stars;
-      }, 0))/ getResp.rows.length),
+      }, 0))*10/ getResp.rows.length)/10,
       'numberOfReviews': getResp.rows.length
       }
     });
