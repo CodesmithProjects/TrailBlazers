@@ -10,6 +10,8 @@ import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import IconButton from '@mui/material/IconButton';
+import { ConstructionOutlined, PhotoCamera } from '@mui/icons-material';
 import { useSlotProps } from "@mui/base";
 import axios from "axios";
 
@@ -32,21 +34,44 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   // const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setSelectedFiles("")
+    setOpen(false)
+  };
+  const [selectedFiles, setSelectedFiles] = useState("")
   // const handleFormChange = (name) => {
   //   updateName(name);
   //   setIsFormInvalid(false);
   // };
 
 
-  const submitRating = () => {
+  const submitRating = async () => {
+    const uploadURLList = [];
+    if (selectedFiles !== "") {
+      for (let i = 0; i < Object.entries(selectedFiles).length; i++) {
+        uploadURLList[i] = await axios.get('/api/db/uploadURL')
+        console.log('file INFO??',selectedFiles[i])
+      }
+      for (let i = 0; i < uploadURLList.length; i++) {
+        await fetch(uploadURLList[i].data, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          body: selectedFiles[i]
+        })
+        selectedFiles[i].url = selectedFiles[i].name
+        selectedFiles[i].url = uploadURLList[i].data.split('?')[0]
+      }
+    }
+
     const review = {
-      // name: name,
       trail_id: trail.id,
       user_id: userData.user_id,
       stars: userRating,
       review: userReview,
-      date: Date().split(' ').slice(0,4).join(' ')
+      date: Date().split(' ').slice(0,4).join(' '),
+      photos: selectedFiles
     };
     console.log('review: ', review);
     fetch(`/api/db/createReview/${trail.id}`, {
@@ -88,6 +113,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       });
   } 
 
+  const onChangeFile = async (event) => {
+    setSelectedFiles(event.target.files)
+  }
   console.log("Trail Data: ", trail.data);
 
   return (
@@ -198,6 +226,25 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
               defaultValue=" "
               onChange={(e) => setUserReview(e.target.value)}
             />
+            <div className="uploadPhotoDiv">
+              <Button variant="text" component="label" onChange={onChangeFile}>
+                Upload Photos
+                <input hidden accept="image/*" multiple type="file" />
+              </Button>
+              <IconButton color="primary" aria-label="upload picture" component="label" onClick={()=>console.log('TEST', S3Client)}>
+                <input hidden accept="image/*" type="file" />
+                <PhotoCamera />
+              </IconButton>
+            </div>
+            <ul>
+              {Object.entries(selectedFiles).map((key, i) => {
+                return (
+                  <li key={i}>
+                    {key[1].name}
+                  </li>
+                )
+              })}
+            </ul>
             <div className="modal-button-wrapper">
               <Button
                 formNoValidate

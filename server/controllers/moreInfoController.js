@@ -1,4 +1,3 @@
-require('dotenv').config()
 const fetch = require('node-fetch');
 const db = require('../models/bikeTrailsModels');
 
@@ -6,7 +5,6 @@ const moreInfoController = {};
 
 moreInfoController.getMoreInfo = async (req, res, next) => {
   try {
-    console.log('trail api key', process.env.VITE_TRAILAPI_KEY)
     const id = req.params.id;
     const options = { 
       method: 'GET',
