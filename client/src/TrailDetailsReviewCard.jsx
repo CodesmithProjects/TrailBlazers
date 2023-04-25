@@ -142,12 +142,12 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                         <>
                           {review.review}
                           <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
-                            <button>
+                            <Button variant="text" onClick={handleOpen}>
                               Edit
-                            </button>
-                            <button>
+                            </Button>
+                            <Button variant="text" onClick={ () => {deleteReview(review.review_id)} }>
                               Delete
-                            </button>
+                            </Button>
                           </div>
                         </>
                       }
@@ -208,7 +208,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
               >
                 Save
               </Button>
-              <Button variant="outlined" onClick={handleClose}>
+              <Button variant="outlined" onClick={() => {handleClose()}}>
                 Cancel
               </Button>
             </div>
