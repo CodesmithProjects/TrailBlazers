@@ -42,7 +42,6 @@ const App = () => {
       },
     },
   });
-
   const getTrailsByLocation = (e) => {
     e.preventDefault();
     if (!isZipInvalid) {
@@ -84,7 +83,7 @@ const App = () => {
   };
 
   const navigate = useNavigate();
-
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
