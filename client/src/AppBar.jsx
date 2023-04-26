@@ -17,7 +17,6 @@ export default function ButtonAppBar(props) {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  console.log('this is user data', props.userData.name)
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -26,14 +25,19 @@ export default function ButtonAppBar(props) {
     try {
       const response = await axios.get("/api/sessions/currentuser", {withCredentials: true});
       if (response.data) {
-        console.log("User data is being logged: ", response.data);
         props.setUserData(response.data);
       }
     } catch (err) {
+      if (window.location.pathname !== '/'){
+        alert('Your session has timed out, please log in again')
+        console.log('redirecting to login')
+        window.location.href = 'http://localhost:5173'
+      }
       console.log("Error fetching user data: ", err);
     }
   }
-  
+  setInterval(fetchUserData, 15000)
+
   React.useEffect(() => {
     fetchUserData();
   }, []);

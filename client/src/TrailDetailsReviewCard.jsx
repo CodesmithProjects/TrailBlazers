@@ -161,7 +161,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   }
 
   const updateReview = (review_id) => {
-    console.log('This is review_id', review_id)
     const review = {
       stars: userRating,
       review: userReview,
