@@ -23,7 +23,40 @@ const style = {
   p: 4,
 };
 
-export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
+type TrailDetailsReviewCardProps = {
+  trail: Trail,
+  refreshTrail: () => void;
+  setUserRating: (value: number) => void;
+}
+
+
+interface Trail {
+  data: any[];
+  name: string;
+  length: number;
+  difficulty: string,
+  description: string,
+  id: number;
+  url: string;
+  googleMapsURL: string;
+  map: () => void;
+  averageStars: number;
+  numberOfReviews: number;
+}
+
+interface data {
+  //review: {};
+  i: number;
+}
+
+interface review {
+  name: string;
+  stars: number;
+  review: string;
+}
+
+export default function TrailDetailsReviewCard({ trail, refreshTrail }: TrailDetailsReviewCardProps) {
+
   const [userRating, setUserRating] = useState(5);
   const [userReview, setUserReview] = useState("");
   const [open, setOpen] = useState(false);
@@ -62,7 +95,7 @@ export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
       });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isFormInvalid) {
       submitRating();
@@ -151,7 +184,9 @@ export default function TrailDetailsReviewCard({ trail, refreshTrail }) {
               name="simple-controlled"
               value={userRating}
               onChange={(event, rating) => {
-                setUserRating(rating);
+                if(rating !== null) {
+                  setUserRating(rating);
+                }
               }}
             />
             <TextField
