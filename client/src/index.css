@@ -162,7 +162,22 @@
 .modal-button-wrapper {
   display: flex;
   margin-top: 1rem;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.uploadPhotoDiv {
+  display: flex;
+  justify-content: center
+}
+
+.userPhotos {
+  height: 200px;
+  width: auto;
+}
+
+.reviewImages {
+  height: 80px;
+  width: auto;
 }
 
 .details-overview-row-1-container {

@@ -125,7 +125,7 @@ const App = () => {
                       >
                         Discover your next adventure
                       </Typography>
-                      <form onSubmit={getTrailsByLocation} noValidate>
+                      <form onSubmit={getTrailsByLocation} noValidate hidden={!userData.name}>
                         <TextField
                           required
                           error={isZipInvalid}
@@ -182,6 +182,13 @@ const App = () => {
                           }}
                         />
                       </form>
+                      <Typography
+                        variant="h4"
+                        sx={{ marginBottom: "1rem", letterSpacing: "1px"}}
+                        hidden={userData.name}
+                      >
+                        Please log in
+                      </Typography>
                     </div>
                   </div>
                   <div className="grid-wrapper">

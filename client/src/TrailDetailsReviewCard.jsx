@@ -10,6 +10,8 @@ import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import IconButton from '@mui/material/IconButton';
+import { ConstructionOutlined, PhotoCamera } from '@mui/icons-material';
 import { useSlotProps } from "@mui/base";
 import axios from "axios";
 
@@ -32,7 +34,11 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   // const [name, updateName] = useState("");
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setSelectedFiles("")
+    setOpen(false)
+  };
+  const [selectedFiles, setSelectedFiles] = useState("")
   const [editReview, setEditReview] = useState(false);
   const [updatedReviewId, setUpdatedReviewId] = useState(0);
   // const handleFormChange = (name) => {
@@ -41,13 +47,32 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   // };
 
 
-  const submitRating = () => {
+  const submitRating = async () => {
+    if (selectedFiles !== "") {
+      const uploadURLList = [];
+      for (let i = 0; i < Object.entries(selectedFiles).length; i++) {
+        uploadURLList[i] = await axios.get('/api/db/uploadURL')
+      }
+      for (let i = 0; i < uploadURLList.length; i++) {
+        await fetch(uploadURLList[i].data, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          body: selectedFiles[i]
+        })
+        selectedFiles[i].fileName = selectedFiles[i].name
+        selectedFiles[i].url = uploadURLList[i].data.split('?')[0]
+      }
+    }
+
     const review = {
       trail_id: trail.id,
       user_id: userData.user_id,
       stars: userRating,
       review: userReview,
-      date: Date().split(' ').slice(0,4).join(' ')
+      date: Date().split(' ').slice(0,4).join(' '),
+      photos: selectedFiles
     };
     fetch(`/api/db/createReview/${trail.id}`, {
       method: "POST",
@@ -160,7 +185,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       });
   }
 
-  // console.log("Trail Data: ", trail.data);
+  const onChangeFile = async (event) => {
+    setSelectedFiles(event.target.files)
+  }
 
   return (
     <>
@@ -213,6 +240,9 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                       secondary={
                         <>
                           {review.review}
+                          {review.photos.length > 0 ? (
+                            <img className="reviewImages" src={review.photos[0].photo_src}></img>
+                          ) : ([])}
                           <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
                             <Button variant="text" onClick={ () => { handleEdit(review) } }>
                               Edit
@@ -305,6 +335,25 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                 defaultValue=" "
                 onChange={(e) => setUserReview(e.target.value)}
               />
+              <div className="uploadPhotoDiv">
+                <Button variant="text" component="label" onChange={onChangeFile}>
+                  Upload Photos
+                  <input hidden accept="image/*" multiple type="file" />
+                </Button>
+                <IconButton color="primary" aria-label="upload picture" component="label" onChange={onChangeFile}>
+                  <input hidden accept="image/*"  multiple type="file" />
+                  <PhotoCamera />
+                </IconButton>
+              </div>
+              <ul>
+                {Object.entries(selectedFiles).map((key, i) => {
+                  return (
+                    <li key={i}>
+                      {key[1].name}
+                    </li>
+                  )
+                })}
+              </ul>
               <div className="modal-button-wrapper">
                 <Button
                   formNoValidate

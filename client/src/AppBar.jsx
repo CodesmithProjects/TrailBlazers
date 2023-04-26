@@ -17,7 +17,7 @@ export default function ButtonAppBar(props) {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  console.log('this is user data', props.userData.name)
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -33,7 +33,7 @@ export default function ButtonAppBar(props) {
       console.log("Error fetching user data: ", err);
     }
   }
-
+  
   React.useEffect(() => {
     fetchUserData();
   }, []);
@@ -42,7 +42,7 @@ export default function ButtonAppBar(props) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <div>
+          <div hidden={!props.userData.name}>
             <IconButton
               onClick={handleMenu}
               size="large"
