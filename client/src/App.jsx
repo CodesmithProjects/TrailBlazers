@@ -24,7 +24,7 @@ const App = () => {
   const [showSpinner, setShowSpinner] = useState(false);
   const validZip = new RegExp("^[0-9]*$");
   const [userData, setUserData] = useState({});
-  const [radius, setRadius] = useState(1);
+  const [radius, setRadius] = useState(25);
 
   // this resolves an error that is related to the loading overlay package used for the spinner
   // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
@@ -160,7 +160,7 @@ const App = () => {
                         <Slider
                           value={radius}
                           onChange={(e, value) => setRadius(value)}
-                          defaultValue={1}
+                          defaultValue={25}
                           step={1}
                           marks
                           min={1}
