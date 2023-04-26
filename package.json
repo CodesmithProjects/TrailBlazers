@@ -10,9 +10,11 @@
   "author": "YouruiR",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1364.0",
     "concurrently": "^8.0.1",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.3",
+    "multer": "^1.4.5-lts.1",
     "node-fetch": "^2.6.9",
     "passport": "^0.6.0",
     "qs": "^6.11.1",

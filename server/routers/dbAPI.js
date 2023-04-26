@@ -18,7 +18,7 @@ dbRouter.delete('/deleteFavoriteTrail/:trailId', sessionController.authenticateU
   return res.status(200).json(res.locals.isDeleted);
 })
 
-dbRouter.post('/createReview/:trailID', sessionController.authenticateUser, reviewController.createReview, (req, res) => {
+dbRouter.post('/createReview/:trailID', sessionController.authenticateUser, reviewController.createReview, reviewController.addPhotos, (req, res) => {
   return res.status(201).json('created review')
 })
 
@@ -28,6 +28,10 @@ dbRouter.delete('/deleteReview/:trail_reviewID', sessionController.authenticateU
 
 dbRouter.get('/getReview/:trail_reviewID', sessionController.authenticateUser, reviewController.getReview, (req, res) => {
   return res.status(201).json((res.locals.review_data))
+})
+
+dbRouter.get('/uploadURL', reviewController.uploadURL, (req, res) => {
+  return res.status(200).json(res.locals.uploadURL)
 })
 
 dbRouter.patch('/updateReview/:trail_reviewID', sessionController.authenticateUser, reviewController.updateReview, (req, res) => {
