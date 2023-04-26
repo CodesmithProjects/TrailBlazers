@@ -94,6 +94,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //When editing existing review
     if (editReview) {
       updateReview(updatedReviewId);
       handleClose();
@@ -101,6 +102,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       setUserRating(5);
       setUserReview("");
       setUpdatedReviewId(0);
+    //When creating a new review
     } else {
       if (!isFormInvalid) {
         submitRating();
