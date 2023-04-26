@@ -5,7 +5,9 @@ const bikeController = {};
 
 bikeController.getTrails = async (req, res, next) => {
     try {
-        const url = `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${res.locals.lat}&lon=${res.locals.lon}&per_page=9&radius=25`;
+        const radius = Number(req.params.radius);
+        const url = `https://trailapi-trailapi.p.rapidapi.com/trails/explore/?lat=${res.locals.lat}&lon=${res.locals.lon}&per_page=9&radius=${radius}`;
+        console.log(url);
         const options = {
             method: 'GET',
             headers: {

@@ -69,6 +69,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //When editing existing review
     if (editReview) {
       updateReview(updatedReviewId);
       handleClose();
@@ -76,6 +77,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
       setUserRating(5);
       setUserReview("");
       setUpdatedReviewId(0);
+    //When creating a new review
     } else {
       if (!isFormInvalid) {
         submitRating();
@@ -100,8 +102,8 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
     }
   }
 
-  const deleteReview = (review_id) => {
-    fetch(`/api/db/deleteReview/${review_id}`, {
+  const deleteReview = (review) => {
+    fetch(`/api/db/deleteReview/${review.review_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

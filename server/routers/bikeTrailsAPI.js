@@ -4,7 +4,7 @@ const locationWeatherController = require('../controllers/locationWeatherControl
 
 const bikeTrailsRoute = express.Router();
 
-bikeTrailsRoute.get('/:zip',
+bikeTrailsRoute.get('/:zip/:radius',
     locationWeatherController.getGeoCodeURL, locationWeatherController.getLocationInfo, bikeController.getTrails,
     (req, res) => {
         return res.status(200).json(res.locals.trails);

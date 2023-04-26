@@ -14,6 +14,7 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import Slider from "@mui/material/Slider";
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -23,6 +24,7 @@ const App = () => {
   const [showSpinner, setShowSpinner] = useState(false);
   const validZip = new RegExp("^[0-9]*$");
   const [userData, setUserData] = useState({});
+  const [radius, setRadius] = useState(1);
 
   // this resolves an error that is related to the loading overlay package used for the spinner
   // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
@@ -45,7 +47,7 @@ const App = () => {
     e.preventDefault();
     if (!isZipInvalid) {
       setShowSpinner(true);
-      fetch(`api/trails/${zip}`)
+      fetch(`api/trails/${zip}/${radius}`)
         .then((response) => response.json())
         .then((res) => {
           if (res.status === 400) {
@@ -152,6 +154,33 @@ const App = () => {
                             ),
                           }}
                         />
+                        <Typography variant="subtitle1" sx={{ marginTop: "1rem" }}>
+                          Search distance: {radius} miles
+                        </Typography>
+                        <Slider
+                          value={radius}
+                          onChange={(e, value) => setRadius(value)}
+                          defaultValue={1}
+                          step={1}
+                          marks
+                          min={1}
+                          max={100}
+                          valueLabelDisplay="auto"
+                          sx={{
+                            width: "70%",
+                            marginBottom: "1rem",
+                            color: "#ffffff",
+                            "& .MuiSlider-thumb": {
+                              color: "#ffffff",
+                            },
+                            "& .MuiSlider-track": {
+                              color: "#ffffff",
+                            },
+                            "& .MuiSlider-rail": {
+                              color: "#ffffff",
+                            },
+                          }}
+                        />
                       </form>
                     </div>
                   </div>
@@ -166,8 +195,7 @@ const App = () => {
                         trails === undefined ? (
                           <div className="error-message">
                             <p>
-                              Sorry, no matching trails were found within a 25
-                              mile radius from this zipcode.
+                              Sorry, no matching trails were found within a {radius} mile radius from this zipcode.
                             </p>
                           </div>
                         ) : (
