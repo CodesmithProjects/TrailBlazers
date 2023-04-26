@@ -25,6 +25,8 @@ interface Trail {
   averageStars: number;
   numberOfReviews: number;
   city: string;
+  lat: number;
+  lon: number;
 }
 
 
