@@ -2,6 +2,7 @@ import React from "react";
 import TrailDetailsWeatherCard from "./TrailDetailsWeatherCard";
 import TrailDetailsAboutCard from './TrailDetailsAboutCard';
 import TrailDetailsReviewCard from "./TrailDetailsReviewCard";
+import UserPhotos from "./UserPhotos";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
@@ -34,6 +35,13 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
           <Card sx={{ margin: "20px" }}>
             <CardContent>
               <MapComponent trail={trail}></MapComponent>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card sx={{ margin: "20px" }}>
+            <CardContent>
+              <UserPhotos trail={trail}></UserPhotos>
             </CardContent>
           </Card>
         </Grid>
