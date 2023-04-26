@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http'); // Required for socket.io
 require('dotenv').config({path: '../.env'});
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -8,6 +9,31 @@ const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
 const sessionRouter = require('./routers/sessionRouter')
 const dbRouter = require('./routers/dbAPI');
+
+// Socket.io implement start
+
+const Server = require('socket.io').Server; // Required for socket.io
+const server = http.createServer(app); // Creates an HTTP server using the express app for socket.io
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('connection successfully');
+
+  socket.on('chat', chat => {
+    io.emit('chat', chat);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('disconnected');
+  });
+});
+
+// Socket.io implement end
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -134,6 +160,10 @@ app.get("/logout", (req, res) => {
     });
   });
 });
+
+app.get('/socket.io', (req, res) => {
+  console.log("hi");
+})
 
 app.use('*', (req, res) => {
   console.log("Redirecting to client app");

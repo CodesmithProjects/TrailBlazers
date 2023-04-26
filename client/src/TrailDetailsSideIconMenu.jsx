@@ -8,6 +8,8 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: "absolute",
@@ -76,6 +78,8 @@ export default function TrailDetailsSideIconMenu({
       console.log('error on delete favorite trail', err)
     });
   }
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -152,6 +156,16 @@ export default function TrailDetailsSideIconMenu({
         >
           <DirectionsOutlinedIcon></DirectionsOutlinedIcon>
           <Typography className="details-icons-text">Directions</Typography>
+        </IconButton>
+        <IconButton
+          className="details-banner-button"
+          onClick={() => {
+            navigate(`/chat/${trail.id}`);
+          }}
+          style={{ textDecoration: "none" }}
+        >
+          <ChatOutlinedIcon></ChatOutlinedIcon>
+          <Typography className="details-icons-text">Chat</Typography>
         </IconButton>
       </div>
     </>
