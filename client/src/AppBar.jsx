@@ -44,7 +44,7 @@ export default function ButtonAppBar(props) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" className="app-bar">
         <Toolbar>
           <div hidden={!props.userData.name}>
             <IconButton
@@ -74,14 +74,14 @@ export default function ButtonAppBar(props) {
               onClose={handleClose}
             >
               <Link to="/favoriteTrails" style={{ textDecoration: "none" }}>
-                <MenuItem sx={{ color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
+                <MenuItem sx={{ fontWeight: "bold", color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
               </Link>
             </Menu>
           </div>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, letterSpacing: "1px" }}
+            sx={{ flexGrow: 1, letterSpacing: "1px", fontWeight: "bold", }}
           >
             <Link
               to="/"
@@ -95,9 +95,9 @@ export default function ButtonAppBar(props) {
             </Link>
           </Typography>
           {Object.keys(props.userData).length > 0 ? (
-            <Button color="inherit" component="a" href="http://localhost:4000/logout">Logout</Button>
+            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", }}>Logout</Button>
           ) : (
-            <Button color="inherit" component="a"href="http://localhost:4000/auth/google">Login</Button>
+            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", }}>Login</Button>
           )}
         </Toolbar>
       </AppBar>
