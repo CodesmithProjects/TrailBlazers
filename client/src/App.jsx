@@ -42,6 +42,13 @@ const App = () => {
       },
     },
   });
+
+  useEffect(() => {
+    if (showTrails) {
+      scrollToResults();
+    }
+  }, [showTrails]);
+  
   const getTrailsByLocation = (e) => {
     e.preventDefault();
     if (!isZipInvalid) {
@@ -56,6 +63,7 @@ const App = () => {
             setTrails(res.data);
             setShowTrails(true);
             setShowSpinner(false);
+            // scrollToResults(); // Add this line
           }
         })
         // TODO: do something more meaningful with this error
@@ -84,10 +92,18 @@ const App = () => {
 
   const navigate = useNavigate();
   
+  const scrollToResults = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LoadingOverlay active={showSpinner} spinner text="Loading trails...">
+        <div className="parent-container">
         <ButtonAppBar
           userData={userData}
           setUserData={setUserData}
@@ -105,8 +121,8 @@ const App = () => {
             path="/"
             element={
               <>
-                <Paper sx={{ height: "100%" }}>
-                  <div className="container">
+                <Paper sx={{ marginBottom: "-64px", height: "100vh" }}>
+                  <div className="landing-container">
                     <div className="img-wrapper">
                       <img
                         src="src/assets/homepage-1.jpeg"
@@ -119,10 +135,14 @@ const App = () => {
                     </div>
                     <div className="welcome-msg">
                       <Typography
-                        variant="h4"
-                        sx={{ marginBottom: "1rem", letterSpacing: "1px" }}
+                        variant="h2"
+                        sx={{
+                          marginBottom: "1rem",
+                          letterSpacing: "1px",
+                          fontWeight: "bold",
+                        }}
                       >
-                        Discover your next adventure
+                        <> DISCOVER YOUR <br></br> NEXT ADVENTURE </>
                       </Typography>
                       <form onSubmit={getTrailsByLocation} noValidate hidden={!userData.name}>
                         <TextField
@@ -153,8 +173,8 @@ const App = () => {
                             ),
                           }}
                         />
-                        <Typography variant="subtitle1" sx={{ marginTop: "1rem" }}>
-                          Search distance: {radius} miles
+                        <Typography variant="subtitle1" sx={{ marginTop: "1rem", letterSpacing: "1px", fontWeight: "bold", }}>
+                          Search radius: {radius} miles
                         </Typography>
                         <Slider
                           value={radius}
@@ -181,13 +201,6 @@ const App = () => {
                           }}
                         />
                       </form>
-                      <Typography
-                        variant="h4"
-                        sx={{ marginBottom: "1rem", letterSpacing: "1px"}}
-                        hidden={userData.name}
-                      >
-                        Please log in
-                      </Typography>
                     </div>
                   </div>
                   <div className="grid-wrapper">
@@ -195,7 +208,7 @@ const App = () => {
                       container
                       sx={{ marginTop: "3rem" }}
                       direction={"row"}
-                      spacing={3}
+                      spacing={6}
                     >
                       {showTrails ? (
                         trails === undefined ? (
@@ -239,6 +252,7 @@ const App = () => {
             }
           ></Route>
         </Routes>
+        </div>
       </LoadingOverlay>
     </ThemeProvider>
   );

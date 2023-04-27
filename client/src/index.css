@@ -1,5 +1,5 @@
-.welcome-img {
-  width: 50%;
+.app-bar {
+  z-index: 1000;
 }
 
 .img-wrapper {
@@ -7,8 +7,20 @@
   justify-content: center;
 }
 
-.container {
+.landing-container {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.6);
   position: relative;
+  height: 100vh;
+}
+
+.details-container {
+  position: relative;
+}
+
+.welcome-img {
+  width: 50%;
+  height: 100vh;
+  object-fit: cover;
 }
 
 .welcome-msg {
