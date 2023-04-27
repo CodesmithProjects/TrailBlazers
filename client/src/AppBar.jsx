@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [intervalID, setintervalID] = React.useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,6 +29,15 @@ export default function ButtonAppBar(props) {
         props.setUserData(response.data);
       }
     } catch (err) {
+      console.log("Error fetching user data: ", err);
+    }
+  }
+
+  //checks if user is authenticated without updating state
+  const authenticationCheck = async () => {
+    try {
+      const response = await axios.get("/api/sessions/currentuser", {withCredentials: true});
+    } catch (err) {
       if (window.location.pathname !== '/'){
         alert('Your session has timed out, please log in again')
         console.log('redirecting to login')
@@ -35,11 +45,14 @@ export default function ButtonAppBar(props) {
       }
       console.log("Error fetching user data: ", err);
     }
+    () => clearInterval(id);
   }
-  setInterval(fetchUserData, 15000)
+
 
   React.useEffect(() => {
     fetchUserData();
+    let id = setInterval(authenticationCheck, 15000);
+    setintervalID(id)
   }, []);
 
   return (
