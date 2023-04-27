@@ -36,7 +36,7 @@ export default function ButtonAppBar(props) {
       console.log("Error fetching user data: ", err);
     }
   }
-  setInterval(fetchUserData, 15000)
+  // setInterval(fetchUserData, 15000);
 
   React.useEffect(() => {
     fetchUserData();
