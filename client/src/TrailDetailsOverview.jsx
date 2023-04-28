@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
 import { Grid } from "@mui/material";
+import ChatContainer from "./chatroom/ChatContainer"; // Import ChatContainer
 
 export default function TrailDetailsOverview({ userData, refreshTrail, trail }) {
   return (
@@ -42,6 +43,13 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
           <Card sx={{ margin: "20px" }}>
             <CardContent>
               <UserPhotos trail={trail}></UserPhotos>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card sx={{ margin: "20px" }}>
+            <CardContent>
+              <ChatContainer />
             </CardContent>
           </Card>
         </Grid>

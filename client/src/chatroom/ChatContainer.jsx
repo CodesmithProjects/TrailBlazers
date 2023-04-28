@@ -5,7 +5,6 @@ import ChatBoxReciever from "./ChatBoxReciever";
 import ChatBoxSender from "./ChatBoxSender";
 import InputText from "./InputText";
 
-
 export default function ChatContainer() {
 
     console.log("localStorage: ", localStorage.getItem('chats'));
@@ -85,7 +84,7 @@ export default function ChatContainer() {
 
     return (
             user ? 
-            <div>
+            <div className="bottom-tile-cards" >
                 <div style={{display: 'flex', flexDirection:'row', justifyContent:'space-between'}}>
                     <h4>{user}</h4>
                     <p onClick={() => logout()}>Log out</p>

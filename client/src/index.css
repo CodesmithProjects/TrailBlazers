@@ -205,7 +205,7 @@
   max-width: 350px;
 }
 
-.user-photos-tile-card {
+.bottom-tile-cards {
   background-color: #121212;
   background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   height: 480px;
