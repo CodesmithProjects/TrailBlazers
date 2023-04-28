@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http'); // Required for socket.io
 require('dotenv').config({path: '../.env'});
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -9,6 +10,37 @@ const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
 const sessionRouter = require('./routers/sessionRouter')
 const dbRouter = require('./routers/dbAPI');
 
+// Socket.io implement start
+
+const Server = require('socket.io').Server; // Required for socket.io
+const server = http.createServer(app); // Creates an HTTP server using the express app for socket.io
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ["GET", "POST"]
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('connection successfully');
+  socket.on('join-room', room => {
+    socket.join(room);
+  })
+
+  socket.on('send-chat', (data, cb) => {
+    console.log(data);
+    socket.to(data.currentRoom).emit('recieve-chat', data);
+    cb();
+})
+
+  socket.on('disconnect', () => {
+    console.log('disconnected');
+  });
+});
+
+// Socket.io implement end
+
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const db = require('./models/bikeTrailsModels');
@@ -17,7 +49,7 @@ app.use(session({
   secret: process.env.NODE_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, maxAge: 60000}, // expires in 1 day
+  cookie: { secure: false, maxAge: 60000 * 60}, // expires in 1 day
 }));
 
 app.use(passport.initialize());
@@ -135,6 +167,10 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.get('/socket.io', (req, res) => {
+  console.log("hi");
+})
+
 app.use('*', (req, res) => {
   console.log("Redirecting to client app");
   return res.redirect('http://localhost:5173');
@@ -152,4 +188,4 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(4000, () => { console.log('server started on port 4000') });
+server.listen(4000, () => { console.log('server started on port 4000') });
