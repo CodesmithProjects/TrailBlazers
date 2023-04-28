@@ -18,15 +18,21 @@ const server = http.createServer(app); // Creates an HTTP server using the expre
 const io = new Server(server, {
   cors: {
     origin: '*',
+    methods: ["GET", "POST"]
   },
 });
 
 io.on('connection', (socket) => {
   console.log('connection successfully');
+  socket.on('join-room', room => {
+    socket.join(room);
+  })
 
-  socket.on('chat', chat => {
-    io.emit('chat', chat);
-  });
+  socket.on('send-chat', (data, cb) => {
+    console.log(data);
+    socket.to(data.currentRoom).emit('recieve-chat', data);
+    cb();
+})
 
   socket.on('disconnect', () => {
     console.log('disconnected');
@@ -43,7 +49,7 @@ app.use(session({
   secret: process.env.NODE_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, maxAge: 60000}, // expires in 1 day
+  cookie: { secure: false, maxAge: 60000 * 60}, // expires in 1 day
 }));
 
 app.use(passport.initialize());
@@ -182,4 +188,4 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(4000, () => { console.log('server started on port 4000') });
+server.listen(4000, () => { console.log('server started on port 4000') });

@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Image } from 'antd'
 
-export default function ChatBoxReceiver({avatar, user, message}) {
+export default function ChatBoxReciever({avatar, user, message}) {
     return(
         <div style={{display:'flex', justifyContent:'flex-end', flexDirection:'row'}}>
             <Avatar 
