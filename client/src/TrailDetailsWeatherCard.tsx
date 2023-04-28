@@ -1,7 +1,31 @@
 import React from 'react';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
-export default function TrailDetailsWeatherCard({ trail }) {
+
+type Props = {
+  trail: Trail
+}
+
+interface Trail {
+  data: any[];
+  name: string;
+  length: number;
+  difficulty: string,
+  description: string,
+  id: number;
+  url: string;
+  googleMapsURL: string;
+  map: () => void;
+  averageStars: number;
+  numberOfReviews: number;
+  city: string;
+  lat: number;
+  lon: number;
+}
+
+
+
+const  TrailDetailsWeatherCard = ({ trail }: Props,) => {
   // sourced from https://www.npmjs.com/package/react-open-weather
   const { data, isLoading, errorMessage } = useOpenWeather({
     key: `${import.meta.env.OPEN_WEATHER_API_KEY}`,
@@ -46,3 +70,5 @@ export default function TrailDetailsWeatherCard({ trail }) {
     </div>
   );
 }
+
+export default TrailDetailsWeatherCard;

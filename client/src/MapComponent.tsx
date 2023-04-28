@@ -41,10 +41,12 @@ export default function MapComponent({trail }: Props) {
     lat: Number(trail.lat),
     lng: Number(trail.lon),
   };
-
+//removing the following
+//map was passed into the array on line 46 next to setMap
+//map was also used in the callback on line 49
   const [map, setMap] = React.useState(null);
 //PICK BACK UP TOMORROW OM WHAT TYPE MAP SHOULD BE
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
     setMap(null);
   }, []);
 
