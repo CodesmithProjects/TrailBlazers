@@ -38,7 +38,7 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent>
               <UserPhotos trail={trail}></UserPhotos>

@@ -14,7 +14,7 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import Slider from "@mui/material/Slider";
+import { Slider } from "@mui/material";
 
 const App = () => {
   const [zip, updateZip] = useState("");
