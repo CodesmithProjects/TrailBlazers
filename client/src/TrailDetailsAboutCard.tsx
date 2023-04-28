@@ -7,7 +7,34 @@ import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import StraightenOutlinedIcon from "@mui/icons-material/StraightenOutlined";
 
-export default function TrailDetailsAboutCard({ trail }) {
+
+interface Review {
+  name : string;
+  review : string;
+  stars : number;
+}
+
+interface Trail {
+  description : string;
+  difficulty : string;
+  length : number;
+  name : string;
+  averageStars: number | null;
+  city : string;
+  data : Review[];
+  features : string;
+  googleMapsURL : string;
+  id : number;
+  lat : string;
+  lon : string;
+  numberOfReviews : number;
+  state : string;
+  thumbnail : string;
+  trailEstimate : number; 
+  url : string;
+}
+
+export default function TrailDetailsAboutCard({ trail } : {trail : Trail}) {
   return (
     <>
       <Card>

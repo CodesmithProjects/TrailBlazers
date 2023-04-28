@@ -12,10 +12,11 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 export default function ButtonAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<EventTarget & Element | null>(null);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenu = (event : React.SyntheticEvent) => {
+    const target : EventTarget & Element = event.currentTarget
+    setAnchorEl(target);
   };
 
   const handleClose = () => {

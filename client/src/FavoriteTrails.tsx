@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, SyntheticEvent } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ImageList from "@mui/material/ImageList";
@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+
 
 const style = {
   position: "absolute",
@@ -25,18 +26,29 @@ const style = {
 };
 
 export default function FavoriteTrails() {
-  const [favoriteTrails, setFavoriteTrails] = useState([]);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const [deletedSuccess, setDeletedSuccess] = useState(false);
-  const [selectedTrailId, setSelectedTrailId] = useState(null);
-  const [alertState, setState] = React.useState({
+  
+  interface FavoriteTrail {
+    trailId: string;
+    trailName: string;
+  }
+
+  interface Alert { 
+    horizontal: 'center' | 'left'| 'right'; 
+    vertical: 'bottom' | 'top' 
+  }
+
+  const [favoriteTrails, setFavoriteTrails] = useState<FavoriteTrail[]>([]);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
+  const [deletedSuccess, setDeletedSuccess] = useState<boolean>(false);
+  const [selectedTrailId, setSelectedTrailId] = useState<string | null>(null);
+  const alertState: Alert = {
     vertical: "top",
     horizontal: "right",
-  });
+  };
   const { vertical, horizontal } = alertState;
 
-  const handleOpen = (trailId) => {
+  const handleOpen = (trailId : string) => {
     setOpenModal(true);
     if (trailId) {
       setSelectedTrailId(trailId);
@@ -44,7 +56,7 @@ export default function FavoriteTrails() {
   };
   const handleClose = () => setOpenModal(false);
 
-  const handleCloseAlert = (event, reason) => {
+  const handleCloseAlert = (event: SyntheticEvent<Element, Event> | Event, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -58,8 +70,9 @@ export default function FavoriteTrails() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        setFavoriteTrails(data.data);
+      .then((data) => data.data)
+      .then((data: FavoriteTrail[]) => {
+        setFavoriteTrails(data);
       });
   };
 
@@ -104,7 +117,7 @@ export default function FavoriteTrails() {
               }
             </ListSubheader>
           </ImageListItem>
-          {favoriteTrails.map((item, index) => (
+          {favoriteTrails.map((item: FavoriteTrail, index: number) => (
             <ImageListItem key={index}>
               <img
                 className="faveImg"
@@ -154,14 +167,14 @@ export default function FavoriteTrails() {
           open={openAlert}
           autoHideDuration={3000}
           onClose={handleCloseAlert}
-          contentprops={{
+          ContentProps={{
             classes: {
               root: "snackbar",
             },
           }}
         >
           <Alert
-            onClose={handleCloseAlert}
+            onClose={()=>handleCloseAlert}
             sx={{ width: "100%" }}
             severity={deletedSuccess ? "success" : "error"}
           >
