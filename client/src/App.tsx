@@ -1,5 +1,5 @@
 import ButtonAppBar from "./AppBar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SyntheticEvent } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { lightBlue, deepOrange } from "@mui/material/colors";
 import { IconButton, Paper } from "@mui/material";
@@ -13,19 +13,45 @@ import Grid from "@mui/material/Grid";
 import { Routes, Route, Link } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 
 const App = () => {
+  
+  interface Review {
+    name : string;
+    review : string;
+    stars : number;
+  }
+
+  interface Trail {
+    description : string;
+    difficulty : string;
+    length : number;
+    name : string;
+    averageStars: number | null;
+    city : string;
+    data : Review[];
+    features : string;
+    googleMapsURL : string;
+    id : number;
+    lat : string;
+    lon : string;
+    numberOfReviews : number;
+    state : string;
+    thumbnail : string;
+    trailEstimate : number; 
+    url : string;
+  }
+
   const [zip, updateZip] = useState("");
-  const [isZipInvalid, setIsZipInvalid] = useState(false);
-  const [trails, setTrails] = useState([]);
-  const [showTrails, setShowTrails] = useState(false);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [isZipInvalid, setIsZipInvalid] = useState<boolean>(false);
+  const [trails, setTrails] = useState<Trail[] | []>([]);
+  const [showTrails, setShowTrails] = useState<boolean>(false);
+  const [showSpinner, setShowSpinner] = useState<boolean>(false);
   const validZip = new RegExp("^[0-9]*$");
 
-  // this resolves an error that is related to the loading overlay package used for the spinner
-  // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
-  LoadingOverlay.propTypes = undefined;
+  // // this resolves an error that is related to the loading overlay package used for the spinner
+  // // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
+  // LoadingOverlay.propTypes = undefined;
 
   // note that themes can be nested, and theme provider can be passed another instance of a theme obj
   const theme = createTheme({
@@ -47,7 +73,7 @@ const App = () => {
     }
   });
 
-  const getTrailsByLocation = (e) => {
+  const getTrailsByLocation = (e : React.SyntheticEvent) => {
     e.preventDefault();
     if (!isZipInvalid) {
       setShowSpinner(true);
@@ -57,11 +83,13 @@ const App = () => {
           if (res.status === 400) {
             setShowTrails(true);
             setTrails([]);
-          } else {
-            setTrails(res.data);
-            setShowTrails(true);
-            setShowSpinner(false);
-          }
+          } 
+          return res.data;
+        })
+        .then((data:Trail[]) => {
+          setTrails(data);
+          setShowTrails(true);
+          setShowSpinner(false);
         })
         // TODO: do something more meaningful with this error
         .catch((err) => {
@@ -74,7 +102,7 @@ const App = () => {
     }
   };
 
-  const handleZipChange = (zip) => {
+  const handleZipChange = (zip : string) => {
     updateZip(zip);
     setIsZipInvalid(false);
   };
@@ -172,12 +200,12 @@ const App = () => {
                             </p>
                           </div>
                         ) : (
-                          trails.map((trail, i) => {
+                          trails.map((trail : Trail, i : number) => {
                             return (
                               <Grid
                                 item
                                 xs={6}
-                                s={5}
+                                md={5}
                                 lg={4}
                                 xl={3}
                                 display="flex"
