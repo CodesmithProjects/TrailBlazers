@@ -13,11 +13,11 @@ import axios from "axios";
 
 export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [intervalID, setintervalID] = React.useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  console.log('this is user data', props.userData.name)
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -26,21 +26,38 @@ export default function ButtonAppBar(props) {
     try {
       const response = await axios.get("/api/sessions/currentuser", {withCredentials: true});
       if (response.data) {
-        console.log("User data is being logged: ", response.data);
         props.setUserData(response.data);
       }
     } catch (err) {
       console.log("Error fetching user data: ", err);
     }
   }
-  
+
+  //checks if user is authenticated without updating state
+  const authenticationCheck = async () => {
+    try {
+      const response = await axios.get("/api/sessions/currentuser", {withCredentials: true});
+    } catch (err) {
+      if (window.location.pathname !== '/'){
+        alert('Your session has timed out, please log in again')
+        console.log('redirecting to login')
+        window.location.href = 'http://localhost:5173'
+      }
+      console.log("Error fetching user data: ", err);
+    }
+    () => clearInterval(id);
+  }
+
+//
   React.useEffect(() => {
     fetchUserData();
+    let id = setInterval(authenticationCheck, 15000);
+    setintervalID(id)
   }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" className="app-bar">
         <Toolbar>
           <div hidden={!props.userData.name}>
             <IconButton
@@ -70,14 +87,14 @@ export default function ButtonAppBar(props) {
               onClose={handleClose}
             >
               <Link to="/favoriteTrails" style={{ textDecoration: "none" }}>
-                <MenuItem sx={{ color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
+                <MenuItem sx={{ fontWeight: "bold", color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
               </Link>
             </Menu>
           </div>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, letterSpacing: "1px" }}
+            sx={{ flexGrow: 1, letterSpacing: "1px", fontWeight: "bold", }}
           >
             <Link
               to="/"
@@ -91,9 +108,9 @@ export default function ButtonAppBar(props) {
             </Link>
           </Typography>
           {Object.keys(props.userData).length > 0 ? (
-            <Button color="inherit" component="a" href="http://localhost:4000/logout">Logout</Button>
+            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", }}>Logout</Button>
           ) : (
-            <Button color="inherit" component="a"href="http://localhost:4000/auth/google">Login</Button>
+            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", }}>Login</Button>
           )}
         </Toolbar>
       </AppBar>

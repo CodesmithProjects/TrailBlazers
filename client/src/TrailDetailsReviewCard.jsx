@@ -13,6 +13,9 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from '@mui/material/IconButton';
 import { ConstructionOutlined, PhotoCamera } from '@mui/icons-material';
 import { useSlotProps } from "@mui/base";
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Carousel from 'react-material-ui-carousel'
 import axios from "axios";
 
 const style = {
@@ -27,20 +30,45 @@ const style = {
   p: 4,
 };
 
+const reviewPhotoStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 520,
+  height: 570,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  display:"flex",
+  flexDirection: "column",
+  justifyContent: "center"
+}
+
 export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }) {
   const [userRating, setUserRating] = useState(5);
   const [userReview, setUserReview] = useState("");
   const [open, setOpen] = useState(false);
-  // const [name, updateName] = useState("");
+  const [openReviewModal, setOpenReviewModal] = useState(false);
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setSelectedFiles("")
     setOpen(false)
   };
+  const openReviewPhotos = (review) => {
+    setSelectedReview(review)
+    setOpenReviewModal(true)
+  };
+  const closeReviewPhotos = () => {
+    setSelectedReview({photos: []})
+    setOpenReviewModal(false)
+  };
   const [selectedFiles, setSelectedFiles] = useState("")
   const [editReview, setEditReview] = useState(false);
   const [updatedReviewId, setUpdatedReviewId] = useState(0);
+  const [selectedReview, setSelectedReview] = useState({photos: []})
   // const handleFormChange = (name) => {
   //   updateName(name);
   //   setIsFormInvalid(false);
@@ -161,7 +189,6 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   }
 
   const updateReview = (review_id) => {
-    console.log('This is review_id', review_id)
     const review = {
       stars: userRating,
       review: userReview,
@@ -241,7 +268,51 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                         <>
                           {review.review}
                           {review.photos.length > 0 ? (
-                            <img className="reviewImages" src={review.photos[0].photo_src}></img>
+                            <div>
+                              <img onClick={()=>openReviewPhotos(review)} className="reviewThumbNail" src={review.photos[0].photo_src}></img>
+                              <Modal
+                                open={openReviewModal}
+                                onClose={closeReviewPhotos}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                              >
+                                <div>
+                                  <Carousel 
+                                    sx={reviewPhotoStyle}
+                                    navButtonsAlwaysVisible= {true}
+                                    autoPlay = {false}
+                                  >
+                                    {selectedReview.photos.map((el, i) => {
+                                      return (
+                                        <div key={i} className="reviewPhotosModalDiv">
+                                          <div style={{display:"grid", gridTemplateColumns: "2fr 1fr", marginBottom: "15px"}}>
+                                            <span style={{maxWidth: "215px", wordWrap: "break-word", marginLeft: "50px"}}>{selectedReview.review}</span>
+                                            <Rating
+                                              name="read-only"
+                                              sx={{ fontSize: "22px", marginLeft: "5px", marginBottom: "7px" }}
+                                              value={selectedReview.stars}
+                                              readOnly
+                                            />
+                                          </div>
+                                          <ImageListItem sx={{display: "flex", justifyContent: " center", margin: "auto"}}>
+                                            <img
+                                              src={el.photo_src}
+                                              alt={el.name}
+                                              loading="lazy"
+                                              className="reviewPhotosModal"
+                                              onClick={()=>openReviewPhotos()}
+                                            />
+                                            <ImageListItemBar
+                                              title={`${el.name}'s photos`}
+                                            />
+                                          </ImageListItem>
+                                        </div>
+                                      )
+                                    })}
+                                  </Carousel>
+                                </div>
+                              </Modal>
+                            </div>
                           ) : ([])}
                           <div className="modify-or-delete" hidden={review.user_id !== userData.user_id}>
                             <Button variant="text" onClick={ () => { handleEdit(review) } }>

@@ -1,5 +1,5 @@
-.welcome-img {
-  width: 50%;
+.app-bar {
+  z-index: 1000;
 }
 
 .img-wrapper {
@@ -7,8 +7,20 @@
   justify-content: center;
 }
 
-.container {
+.landing-container {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.6);
   position: relative;
+  height: 100vh;
+}
+
+.details-container {
+  position: relative;
+}
+
+.welcome-img {
+  width: 50%;
+  height: 100vh;
+  object-fit: cover;
 }
 
 .welcome-msg {
@@ -175,9 +187,38 @@
   width: auto;
 }
 
-.reviewImages {
+.reviewThumbNail {
   height: 80px;
   width: auto;
+}
+
+.reviewPhotosModalDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.reviewPhotosModal {
+  max-height: 400px;
+  max-width: 350px;
+}
+
+.user-photos-tile-card {
+  background-color: #121212;
+  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+  height: 480px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.reviewPhotosOverall {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .details-overview-row-1-container {

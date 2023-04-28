@@ -24,7 +24,6 @@ export default function TrailDetails(props) {
   let params = useParams();
 
   const getTrailById = () => {
-    console.log("this is params.id: ", params.id);
     if (params.id) {
       setShowSpinner(true);
       fetch(`/api/moreInfo/${params.id}`)
@@ -114,8 +113,8 @@ export default function TrailDetails(props) {
   return (
     <LoadingOverlay active={showSpinner} spinner text="Loading trail...">
       {showTrailDetails ? (
-        <Paper sx={{ height: "26rem" }}>
-          <div className="container">
+        <Paper sx={{ height: "26rem", marginTop: "64px", }}>
+          <div className="details-container">
             <div className="banner-wrapper">
               <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
