@@ -51,8 +51,8 @@ export default function ButtonAppBar(props) {
 //
   React.useEffect(() => {
     fetchUserData();
-    let id = setInterval(authenticationCheck, 15000);
-    setintervalID(id)
+    // let id = setInterval(authenticationCheck, 15000);
+    // setintervalID(id)
   }, []);
 
   return (

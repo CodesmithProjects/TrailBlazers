@@ -190,6 +190,7 @@
 .reviewThumbNail {
   height: 80px;
   width: auto;
+  cursor: pointer
 }
 
 .reviewPhotosModalDiv {
