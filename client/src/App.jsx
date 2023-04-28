@@ -14,7 +14,8 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { Slider } from "@mui/material";
+import Slider from "@mui/material/Slider";
+import ChatContainer from "./chatroom/ChatContainer";
 
 const App = () => {
   const [zip, updateZip] = useState("");
@@ -109,6 +110,10 @@ const App = () => {
           setUserData={setUserData}
         ></ButtonAppBar>
         <Routes>
+          <Route
+            path="/chat/:id"
+            element={<ChatContainer userData={userData}></ChatContainer>}
+          ></Route>
           <Route
             path="/favoriteTrails"
             element={<FavoriteTrails></FavoriteTrails>}
