@@ -1,3 +1,4 @@
+
 const express = require('express');
 require('dotenv').config({path: '../.env'})
 const cookieParser = require('cookie-parser')
@@ -7,6 +8,9 @@ const bikeTrailsRouter = require('./routers/bikeTrailsAPI');
 const bikeTrailInfoRouter = require('./routers/bikeTrailInfoAPI');
 const sessionRouter = require('./routers/sessionRouter')
 const dbRouter = require('./routers/dbAPI');
+
+
+
 
 app.use(express.json());
 app.use(cookieParser());

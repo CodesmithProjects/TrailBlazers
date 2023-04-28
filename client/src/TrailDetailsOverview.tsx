@@ -7,7 +7,30 @@ import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
 import { Grid } from "@mui/material";
 
-export default function TrailDetailsOverview({ refreshTrail, trail }) {
+type TrailDetailsOverviewProps = {
+  refreshTrail: () => void;
+  trail: Trail;
+}
+
+interface Trail {
+  data: any[];
+  name: string;
+  length: number;
+  difficulty: string,
+  description: string,
+  id: number;
+  url: string;
+  googleMapsURL: string;
+  map: () => void;
+  averageStars: number;
+  numberOfReviews: number;
+  city: string;
+  lat: number;
+  lon: number;
+}
+
+
+export default function TrailDetailsOverview({ refreshTrail, trail }: TrailDetailsOverviewProps) {
   return (
     <>
       <div className="details-overview-row-1-container">
@@ -26,7 +49,9 @@ export default function TrailDetailsOverview({ refreshTrail, trail }) {
         <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent>
-              <TrailDetailsReviewCard refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
+              <TrailDetailsReviewCard refreshTrail={refreshTrail} trail={trail} setUserRating={function (value: number): void {
+                throw new Error("Function not implemented.");
+              } }></TrailDetailsReviewCard>
             </CardContent>
           </Card>
         </Grid>
