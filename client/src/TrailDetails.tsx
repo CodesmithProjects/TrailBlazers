@@ -1,36 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, SyntheticEvent } from "react";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import TrailDetailsSideIconMenu from "../src/TrailDetailsSideIconMenu";
-import TrailsDetailsOverview from "../src/TrailDetailsOverview";
+import TrailDetailsSideIconMenu from "./TrailDetailsSideIconMenu";
+import TrailsDetailsOverview from "./TrailDetailsOverview";
 import LoadingOverlay from "react-loading-overlay";
 import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { Data } from "@react-google-maps/api";
 
 export default function TrailDetails() {
-  const [trail, updateTrail] = useState([{}]);
-  const [showSpinner, setShowSpinner] = useState(false);
-  const [showTrailDetails, updateShowTrailDetails] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [addedSuccess, setAddedSuccess] = useState(false);
-  const [deletedSuccess, setDeletedSuccess] = useState(false);
-  const [hasMatch, setHasMatch] = useState(false);
-  const [alertState, setState] = React.useState({
+  type CallbackFunction = () => void;
+
+  interface Alert { 
+    horizontal: 'center' | 'left'| 'right'; 
+    vertical: 'bottom' | 'top' 
+  }
+
+  interface Review {
+    name : string;
+    review : string;
+    stars : number;
+  }
+
+  type Trails = {
+    data : FavoriteTrail[]
+  }
+
+  interface Trail {
+    description : string;
+    difficulty : string;
+    length : number;
+    name : string;
+    averageStars: number | null;
+    city : string;
+    data : Review[];
+    features : string;
+    googleMapsURL : string;
+    id : number;
+    lat : string;
+    lon : string;
+    numberOfReviews : number;
+    state : string;
+    thumbnail : string;
+    trailEstimate : number; 
+    url : string;
+  }
+  
+  interface FavoriteTrail {
+    trailId: string;
+    name: string;
+  }
+
+  const [trail, updateTrail] = useState<Trail | null>(null);
+  const [showSpinner, setShowSpinner] = useState<boolean>(false);
+  const [showTrailDetails, updateShowTrailDetails] = useState<boolean>(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [addedSuccess, setAddedSuccess] = useState<boolean>(false);
+  const [deletedSuccess, setDeletedSuccess] = useState<boolean>(false);
+  const [hasMatch, setHasMatch] = useState<boolean>(false);
+  const alertState: Alert = {
     vertical: "top",
     horizontal: "right",
-  });
+  };
   const { vertical, horizontal } = alertState;
-  let params = useParams();
 
-  const getTrailById = () => {
+  type Params = {
+    id : string;
+    idx : string;
+  }
+
+  let params = useParams<Params>();
+
+  const getTrailById : CallbackFunction = () => {
     if (params.id) {
       setShowSpinner(true);
       fetch(`/api/moreInfo/${params.id}`)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data)=> data.data[0])
+        .then((data : Trail) => {
           setShowSpinner(false);
-          updateTrail(data.data[0]);
+          updateTrail(data);
           updateShowTrailDetails(true);
         })
         // TODO: do something more meaningful with this error
@@ -38,11 +88,11 @@ export default function TrailDetails() {
           console.log("error occurred during get trails by id", err)
         );
     } else {
-      updateTrail([]);
+      updateTrail(null);
     }
   };
 
-  const addSuccessType = (bool) => {
+  const addSuccessType = (bool : boolean) => {
     if (bool) {
       setDeletedSuccess(false);
       setAddedSuccess(true);
@@ -51,7 +101,7 @@ export default function TrailDetails() {
     }
   };
 
-  const deleteSuccessType = (bool) => {
+  const deleteSuccessType = (bool : boolean) => {
     if (bool) {
       setAddedSuccess(false);
       setDeletedSuccess(true);
@@ -74,15 +124,15 @@ export default function TrailDetails() {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event : SyntheticEvent<Element, Event> | Event, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
 
-  const filterFavoriteTrails = (trails) => {
-    const result = trails.data.filter((t) => t.trailId === params.id);
+  const filterFavoriteTrails = (trails : Trails) => {
+    const result = trails.data.filter((t : FavoriteTrail) => t.trailId === params.id);
     if (result.length > 0) {
       setHasMatch(true);
     } else {
@@ -120,14 +170,14 @@ export default function TrailDetails() {
                 open={open}
                 autoHideDuration={3000}
                 onClose={handleClose}
-                contentprops={{
+                ContentProps={{
                   classes: {
                     root: "snackbar",
                   },
                 }}
               >
                 <Alert
-                  onClose={handleClose}
+                  onClose={() => handleClose}
                   sx={{ width: "100%" }}
                   severity={
                     addedSuccess || deletedSuccess ? "success" : "error"
@@ -147,7 +197,7 @@ export default function TrailDetails() {
               component="div"
               className="details-title"
             >
-              {trail.name}
+              {trail ? trail.name : null}
             </Typography>
             <TrailDetailsSideIconMenu
               trail={trail}
