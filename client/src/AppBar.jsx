@@ -9,11 +9,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import Switch from '@mui/material/Switch';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [intervalID, setintervalID] = React.useState(null);
+
+  const theme = useTheme()
+  const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +27,14 @@ export default function ButtonAppBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleRedirect = () => {
+    navigate("/favoriteTrails")
+  }
+
+  const toggleLightMode = (event) => {
+    props.setLightMode(event.target.checked)
+  }
 
   const fetchUserData = async () => {
     try {
@@ -66,7 +80,7 @@ export default function ButtonAppBar(props) {
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, color: "white" }}
             >
               <MenuIcon />
             </IconButton>
@@ -86,9 +100,16 @@ export default function ButtonAppBar(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <Link to="/favoriteTrails" style={{ textDecoration: "none" }}>
-                <MenuItem sx={{ fontWeight: "bold", color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
-              </Link>
+              <MenuItem sx={{ fontWeight: "bold" }} onClick={handleRedirect}>
+                <span>Favorite trails</span>
+              </MenuItem>
+              <MenuItem sx={{ fontWeight: "bold" }}>
+                Light Mode
+                <Switch
+                  checked={props.lightMode}
+                  onChange={toggleLightMode}
+                />
+              </MenuItem>
             </Menu>
           </div>
           <Typography
@@ -108,9 +129,9 @@ export default function ButtonAppBar(props) {
             </Link>
           </Typography>
           {Object.keys(props.userData).length > 0 ? (
-            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", }}>Logout</Button>
+            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", color: "white" }}>Logout</Button>
           ) : (
-            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", }}>Login</Button>
+            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", color: "white" }}>Login</Button>
           )}
         </Toolbar>
       </AppBar>

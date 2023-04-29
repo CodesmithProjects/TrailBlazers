@@ -7,8 +7,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
 import { Grid } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 
-export default function TrailDetailsOverview({ userData, refreshTrail, trail }) {
+export default function TrailDetailsOverview({ userData, refreshTrail, trail, lightMode }) {
+  const theme = useTheme()
   return (
     <>
       <div className="details-overview-row-1-container">
@@ -17,8 +19,8 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
         </div>
         <div className="detail-overview-tiles tile-2">
           <Card>
-            <CardContent>
-              <TrailDetailsWeatherCard trail={trail}></TrailDetailsWeatherCard>
+            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
+              <TrailDetailsWeatherCard lightMode={lightMode} trail={trail}></TrailDetailsWeatherCard>
             </CardContent>
           </Card>
         </div>
@@ -26,21 +28,21 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail }) 
       <Grid container>
         <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
+            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <TrailDetailsReviewCard userData={userData} refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
+            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <MapComponent trail={trail}></MapComponent>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
+            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <UserPhotos trail={trail}></UserPhotos>
             </CardContent>
           </Card>

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactWeather, { useOpenWeather } from "react-open-weather";
 
-export default function TrailDetailsWeatherCard({ trail }) {
+export default function TrailDetailsWeatherCard({ trail, lightMode }) {
   // sourced from https://www.npmjs.com/package/react-open-weather
   const { data, isLoading, errorMessage } = useOpenWeather({
     key: `${import.meta.env.VITE_OPENWEATHERAPIKEY}`,
@@ -33,16 +33,28 @@ export default function TrailDetailsWeatherCard({ trail }) {
 
   return (
     <div>
-      <ReactWeather
-        theme={customStyles}
-        isLoading={isLoading}
-        errorMessage={errorMessage}
-        data={data}
-        lang="en"
-        locationLabel={trail.city}
-        unitsLabels={{ temperature: "F", windSpeed: "Km/h" }}
-        showForecast
-      />
+      {!lightMode ? (
+        <ReactWeather
+          theme={customStyles}
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          data={data}
+          lang="en"
+          locationLabel={trail.city}
+          unitsLabels={{ temperature: "F", windSpeed: "Km/h" }}
+          showForecast
+        />
+      ) : (
+        <ReactWeather
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          data={data}
+          lang="en"
+          locationLabel={trail.city}
+          unitsLabels={{ temperature: "F", windSpeed: "Km/h" }}
+          showForecast
+        />
+      )}
     </div>
   );
 }

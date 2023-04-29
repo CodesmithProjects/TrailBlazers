@@ -5,6 +5,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Modal from "@mui/material/Modal";
 import Carousel from 'react-material-ui-carousel'
+import { useTheme } from '@mui/material/styles';
 
 export default function UserPhotos({trail}) {
   const [openReviewModal, setOpenReviewModal] = React.useState(false);
@@ -16,9 +17,11 @@ export default function UserPhotos({trail}) {
     setOpenReviewModal(false)
   };
 
+  const theme = useTheme()
+
   const createCarousel = () => {
     const innerCarousel = []
-    for (let i = 0; i < trail.photos.length - 3; i +=3) {
+    for (let i = 0; i < trail.photos.length - 2; i +=3) {
       innerCarousel.push(
         <div key={i}>
           <Typography
@@ -161,7 +164,7 @@ export default function UserPhotos({trail}) {
   }
 
   return (
-    <div className="user-photos-tile-card" >
+    <div style={{backgroundColor: theme.palette.innerCard.main}} className="user-photos-tile-card" >
       <Typography
         variant="h5"
         sx={{
@@ -199,7 +202,7 @@ export default function UserPhotos({trail}) {
               </div>
             )
           })
-        ) : (<p>There are no photos yet!</p>)}
+        ) : (<p style={{marginLeft: "20px"}}>There are no photos yet!</p>)}
       </ImageList>
       <Modal
         open={openReviewModal}

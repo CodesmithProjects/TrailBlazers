@@ -6,13 +6,15 @@ import PedalBikeOutlinedIcon from "@mui/icons-material/PedalBikeOutlined";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
 import StraightenOutlinedIcon from "@mui/icons-material/StraightenOutlined";
+import { useTheme } from '@mui/material/styles';
 
 export default function TrailDetailsAboutCard({ trail }) {
+  const theme = useTheme()
   return (
     <>
       <Card>
-        <CardContent>
-          <div className="tile-1-card-top">
+        <CardContent sx={{backgroundColor: theme.palette.outerCard.main}}>
+          <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-top">
             <div className="tile-1-card-left">
               {trail.description ? (
                 <>
@@ -30,6 +32,7 @@ export default function TrailDetailsAboutCard({ trail }) {
                   <Typography
                     sx={{
                       maxHeight: "10rem",
+                      minWidth: "12rem",
                       overflowY: "auto",
                     }}
                     variant="subtitle2"
@@ -40,15 +43,15 @@ export default function TrailDetailsAboutCard({ trail }) {
               ) : undefined}
             </div>
             <div className="tile-1-card-right">
-              <PedalBikeOutlinedIcon className="pedal-bike-icon"></PedalBikeOutlinedIcon>
+              <PedalBikeOutlinedIcon color="secondary" className="pedal-bike-icon"></PedalBikeOutlinedIcon>
             </div>
           </div>
-          <div className="tile-1-card-bottom">
+          <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-bottom">
             <div className="tile-1-item">
               <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle1">
                 <div className="overview-key">{`Difficulty`}</div>
                 <div className="overview-icon">
-                  <TerrainOutlinedIcon></TerrainOutlinedIcon>
+                  <TerrainOutlinedIcon color="secondary"></TerrainOutlinedIcon>
                 </div>
                 <div className="overview-value">
                   {trail.difficulty ? `${trail.difficulty}` : "Not known"}
@@ -60,7 +63,7 @@ export default function TrailDetailsAboutCard({ trail }) {
                 <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle1">
                   <div className="overview-key">{`Length`}</div>
                   <div className="overview-icon">
-                    <StraightenOutlinedIcon></StraightenOutlinedIcon>
+                    <StraightenOutlinedIcon color="secondary"></StraightenOutlinedIcon>
                   </div>
                   <div className="overview-value">
                     {trail.length > 1
@@ -75,7 +78,7 @@ export default function TrailDetailsAboutCard({ trail }) {
                 <Typography sx={{ marginBottom: ".5rem" }} variant="subtitle1">
                   <div className="overview-key">{`Duration`}</div>
                   <div className="overview-icon">
-                    <SpeedOutlinedIcon></SpeedOutlinedIcon>
+                    <SpeedOutlinedIcon color="secondary"></SpeedOutlinedIcon>
                   </div>
                   <div className="overview-value">
                     {`${trail.trailEstimate} minutes`}

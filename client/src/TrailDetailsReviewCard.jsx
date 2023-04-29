@@ -16,6 +16,7 @@ import { useSlotProps } from "@mui/base";
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Carousel from 'react-material-ui-carousel'
+import { useTheme } from '@mui/material/styles';
 import axios from "axios";
 
 const style = {
@@ -69,11 +70,8 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   const [editReview, setEditReview] = useState(false);
   const [updatedReviewId, setUpdatedReviewId] = useState(0);
   const [selectedReview, setSelectedReview] = useState({photos: []})
-  // const handleFormChange = (name) => {
-  //   updateName(name);
-  //   setIsFormInvalid(false);
-  // };
 
+  const theme = useTheme()
 
   const submitRating = async () => {
     if (selectedFiles !== "") {
@@ -218,7 +216,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
   return (
     <>
-      <div className="tile-1-card-top">
+      <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-top">
         <div className="tile-1-card-left">
           <div className="title-wrapper">
             <Typography
@@ -239,7 +237,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
           {trail.data.length ? (
             <List
               sx={{
-                bgcolor: "background.paper",
+                bgcolor: theme.palette.outerCard.main,
                 maxHeight: "300px",
                 overflowY: "auto",
               }}
@@ -343,7 +341,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
           </Box>
         </div>
       </div>
-      <div className="tile-1-card-bottom"></div>
+      <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-bottom"></div>
       <Modal
         open={open}
         onClose={handleClose}

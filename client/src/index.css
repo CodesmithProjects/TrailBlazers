@@ -95,13 +95,16 @@
 }
 
 .tile-1-card-top {
-  background-color: #121212;
-  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   height: 255px;
   border-radius: 5px;
   display: flex;
   width: 100%;
 }
+
+/* .tile-1-card-left {
+  padding: 1rem 1rem 0rem 1rem;
+  width: 80%
+} */
 
 .tile-1-card-left {
   padding: 2rem 2rem 0rem 2rem;
@@ -161,7 +164,6 @@
   margin: 10px 0px;
   font-size: 12px;
   font-weight: 400;
-  color: rgb(255, 255, 255);
 }
 
 .overview-icon {
@@ -207,8 +209,6 @@
 }
 
 .user-photos-tile-card {
-  background-color: #121212;
-  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   height: 480px;
   border-radius: 5px;
   display: flex;
