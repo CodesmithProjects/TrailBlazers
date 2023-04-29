@@ -164,7 +164,7 @@ export default function UserPhotos({trail}) {
   }
 
   return (
-    <div style={{backgroundColor: theme.palette.innerCard.main}} className="user-photos-tile-card" >
+    <div style={{backgroundColor: theme.palette.innerCard.main}} className="bottom-tile-cards" >
       <Typography
         variant="h5"
         sx={{

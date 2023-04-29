@@ -1,57 +1,56 @@
 import React, { useState } from "react";
+import { Button, TextareaAutosize } from "@mui/material";
 
-const styles = {
-    button: {
-        width: '10%',
-        height: 50,
-        fontWeight: 'bold',
-        borderRadius: 10,
-        fontSize: 15, 
-        backgroundColor: '#34b7f1',
-        borderWidth: 0,
-        color: '#fff'
-    },
-    textArea: {
-        width: '60%',
-        height: 50,
-        borderRadius: 10,
-        borderWidth: 0,
-        padding: 10,
-        fontSize: 18
-    },
-    textContainer: {
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center'
-    }
-}
+export default function InputText({ addMessage }) {
+  const [message, setMessage] = useState("");
 
-export default function InputText ({addMessage}) {
-    const [message, setMessage] = useState('');
+  const sendMessage = () => {
+    addMessage({
+      message,
+    });
+    setMessage("");
+  };
 
-    const sendMessage = () => {
-        addMessage({
-            message
-        })
-        setMessage('');
-    }
-
-    return(
-        <div style={styles.textContainer}>
-            <textarea
-            style={styles.textarea}
-            rows={6}
-            placeholder="write something..."
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            ></textarea>
-            <button
-            onClick={() => sendMessage()}
-            style={styles.button}
-            >
-            Send
-            </button>
-
-        </div>
-    )
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <TextareaAutosize
+        rows={6}
+        placeholder="write something..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        style={{
+          width: "60%",
+          height: 40,
+          borderRadius: 10,
+          borderWidth: 0,
+          padding: 10,
+          fontSize: 14,
+          fontFamily: "Roboto",
+          marginRight: 10, // Add marginRight here to control spacing
+        }}
+      />
+      <Button
+        onClick={() => sendMessage()}
+        style={{
+          width: "8%",
+          height: 40,
+          fontWeight: "bold",
+          borderRadius: 10,
+          fontSize: 12,
+          backgroundColor: "#03A9F4",
+          borderWidth: 0,
+          color: "#fff",
+          fontFamily: "Roboto",
+        }}
+      >
+        Send
+      </Button>
+    </div>
+  );
 }

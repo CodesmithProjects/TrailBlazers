@@ -7,43 +7,55 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import MapComponent from "./MapComponent";
 import { Grid } from "@mui/material";
+import ChatContainer from "./chatroom/ChatContainer";
 import { useTheme } from '@mui/material/styles';
 
 export default function TrailDetailsOverview({ userData, refreshTrail, trail, lightMode }) {
   const theme = useTheme()
+  
   return (
     <>
-      <div className="details-overview-row-1-container">
-        <div className="detail-overview-tiles tile-1">
-          <TrailDetailsAboutCard trail={trail}></TrailDetailsAboutCard>
-        </div>
-        <div className="detail-overview-tiles tile-2">
-          <Card>
-            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
-              <TrailDetailsWeatherCard lightMode={lightMode} trail={trail}></TrailDetailsWeatherCard>
+      <div className="details-overview-row-1-container"></div>
+      <Grid container>
+      <Grid item xs={12} lg={6}>
+          <Card sx={{ margin: "20px" }}>
+            <CardContent>
+              <TrailDetailsAboutCard trail={trail}></TrailDetailsAboutCard>
             </CardContent>
           </Card>
-        </div>
-      </div>
-      <Grid container>
-        <Grid item xs={6}>
+        </Grid>
+      <Grid item xs={12} lg={6}>
+          <Card sx={{ margin: "20px" }}>
+            <CardContent>
+              <TrailDetailsWeatherCard trail={trail}></TrailDetailsWeatherCard>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <TrailDetailsReviewCard userData={userData} refreshTrail={refreshTrail} trail={trail}></TrailDetailsReviewCard>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <MapComponent trail={trail}></MapComponent>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
             <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <UserPhotos trail={trail}></UserPhotos>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <Card sx={{ margin: "20px" }}>
+            <CardContent>
+              <ChatContainer userData={userData} trail={trail}/>
             </CardContent>
           </Card>
         </Grid>

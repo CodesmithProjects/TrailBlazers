@@ -208,7 +208,9 @@
   max-width: 350px;
 }
 
-.user-photos-tile-card {
+.bottom-tile-cards {
+  background-color: #121212;
+  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   height: 480px;
   border-radius: 5px;
   display: flex;
@@ -248,4 +250,23 @@
 
 .error-message {
   margin-left: 30px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6);
 }
