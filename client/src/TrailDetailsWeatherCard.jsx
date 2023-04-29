@@ -31,6 +31,32 @@ export default function TrailDetailsWeatherCard({ trail, lightMode }) {
     forecastIconColor: "#B5DEF4",
   };
 
+  const customLightStyles = {
+    // fontFamily: "Roboto, sans-serif",
+    // gradientStart: "rgba(255, 255, 255, 0.05)",
+    // gradientMid: "rgba(255, 255, 255, 0.05)",
+    // gradientEnd: "rgba(255, 255, 255, 0.05)",
+    // locationFontColor: "#FFF",
+    // todayTempFontColor: "#FFF",
+    todayDateFontColor: "#2c5601",
+    todayRangeFontColor: "#2c5601",
+    todayDescFontColor: "#2c5601",
+    todayInfoFontColor: "#2c5601",
+    todayIconColor: "#2c5601",
+    // forecastBackgroundColor: "rgba(255, 255, 255, 0.05)",
+    forecastSeparatorColor: "#2c5601",
+    // forecastDateColor: "#FFF",
+    // forecastDescColor: "#FFF",
+    // forecastRangeColor: "#FFF",
+    forecastIconColor: "#2c5601",
+    background: "white",
+    gradientStart: "#ffffff",
+    gradientMid: "#ffffff",
+    gradientEnd: "#ffffff",
+    forecastBackgroundColor: "#ffffff",
+    containerBoxShadow: "none",
+  };
+
   return (
     <div>
       {!lightMode ? (
@@ -46,6 +72,7 @@ export default function TrailDetailsWeatherCard({ trail, lightMode }) {
         />
       ) : (
         <ReactWeather
+          theme={customLightStyles}
           isLoading={isLoading}
           errorMessage={errorMessage}
           data={data}

@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import _ from "lodash";
+import { useTheme } from '@mui/material/styles';
 
 export default function ChatContainer(props) {
   console.log("localStorage: ", localStorage.getItem("chats"));
@@ -38,6 +39,7 @@ export default function ChatContainer(props) {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar"));
   const [rooms, setRooms] = useState([`Find a trail buddy`, `Trail conditions & updates`, `Off-trails activities`]);
   const [currentRoom, setCurrentRoom] = useState("");
+  const theme = useTheme()
 
   // All chats received by client and sent from backend
   const [socketio, setSocketIO] = useState(null);
@@ -93,6 +95,7 @@ export default function ChatContainer(props) {
   //  EFFECTS: updates your list of chats and then send your new chat with your username
   //          and avatar to the other clients
   function addMessage(chat) {
+    if (currentRoom === "") return;
     const newChat = { ...chat, user, avatar, currentRoom };
     sendChatsToBackend(newChat);
   }
@@ -104,7 +107,7 @@ export default function ChatContainer(props) {
 
   return (
     user ? (
-      <div className="bottom-tile-cards">
+      <div style={{backgroundColor: theme.palette.innerCard.main}} className="bottom-tile-cards">
         <Box
           sx={{
             width: "100%",
@@ -117,7 +120,14 @@ export default function ChatContainer(props) {
           <CardHeader
             avatar={<Avatar src={avatar} />}
             title={
-              <Typography variant="h6">{`${user} - ${props.trail.name} - ${currentRoom}`}</Typography>
+              <Typography
+              variant="h6"
+              sx={{
+                fontWeight: "300",
+                letterSpacing: "2px",
+              }}
+              className="about"
+            >{`${user} - ${props.trail.name} - ${currentRoom}`}</Typography>
             }
           />
           <Box
@@ -180,7 +190,7 @@ export default function ChatContainer(props) {
                 : null}
             </List>
           )}
-          <Box sx={{ marginBottom: "1rem" }}>
+          <Box sx={{ marginBottom: "1rem"}}>
             <InputText addMessage={addMessage} />
           </Box>
         </Box>

@@ -51,6 +51,9 @@ const App = () => {
       zipInput: {
         main: "#1e1e1e"
       },
+      chatInput: {
+        main: "#F3F3F3"
+      },
       error: {
         main: deepOrange[500],
       },
@@ -59,10 +62,13 @@ const App = () => {
     palette: {
       mode: "light",
       primary: {
-        main: lightBlue[500],
+        main: "#2c5601",
+      },
+      background: {
+        default: "#f6f5e8",
       },
       secondary: {
-        main: lightBlue[500]
+        main: "#2c5601"
       },
       innerCard: {
         main: "white"
@@ -71,6 +77,9 @@ const App = () => {
         main: "#F3F3F3"
       },
       zipInput: {
+        main: "#F3F3F3"
+      },
+      chatInput: {
         main: "#F3F3F3"
       },
       error: {

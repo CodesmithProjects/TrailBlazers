@@ -15,7 +15,7 @@ export default function TrailDetailsAboutCard({ trail }) {
       {/* <Card>
         <CardContent> */}
           <div className="tile-1-card-top">
-            <div className="tile-1-card-left">
+            <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-left">
               {trail.description ? (
                 <>
                   <Typography

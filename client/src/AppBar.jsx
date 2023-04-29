@@ -13,6 +13,9 @@ import Switch from '@mui/material/Switch';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Stack from "@mui/material/Stack";
 
 export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +36,7 @@ export default function ButtonAppBar(props) {
   }
 
   const toggleLightMode = (event) => {
-    props.setLightMode(event.target.checked)
+    props.setLightMode(!props.lightMode);
   }
 
   const fetchUserData = async () => {
@@ -103,13 +106,6 @@ export default function ButtonAppBar(props) {
               <MenuItem sx={{ fontWeight: "bold" }} onClick={handleRedirect}>
                 <span>Favorite trails</span>
               </MenuItem>
-              <MenuItem sx={{ fontWeight: "bold" }}>
-                Light Mode
-                <Switch
-                  checked={props.lightMode}
-                  onChange={toggleLightMode}
-                />
-              </MenuItem>
             </Menu>
           </div>
           <Typography
@@ -128,12 +124,31 @@ export default function ButtonAppBar(props) {
               Trail Blazers
             </Link>
           </Typography>
-          {Object.keys(props.userData).length > 0 ? (
-            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", color: "white" }}>Logout</Button>
-          ) : (
-            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", color: "white" }}>Login</Button>
+          <Stack direction="row" spacing={2}>
+            <IconButton onClick={toggleLightMode} color="inherit" edge="end">
+              {props.lightMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+            {Object.keys(props.userData).length > 0 ? (
+              <Button
+                color="inherit"
+                component="a"
+                href="http://localhost:4000/logout"
+                sx={{ fontWeight: "bold", }}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                component="a"
+                href="http://localhost:4000/auth/google"
+                sx={{ fontWeight: "bold", }}
+              >
+                Login
+              </Button>
           )}
-        </Toolbar>
+          </Stack>
+          </Toolbar> 
       </AppBar>
     </Box>
   );

@@ -19,15 +19,15 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail, li
       <Grid container>
       <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
+            <CardContent sx={{height: "442px", backgroundColor: theme.palette.outerCard.main}}>
               <TrailDetailsAboutCard trail={trail}></TrailDetailsAboutCard>
             </CardContent>
           </Card>
         </Grid>
       <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
-              <TrailDetailsWeatherCard trail={trail}></TrailDetailsWeatherCard>
+            <CardContent style={{height: "442px", backgroundColor: theme.palette.outerCard.main}}>
+              <TrailDetailsWeatherCard lightMode={lightMode} trail={trail}></TrailDetailsWeatherCard>
             </CardContent>
           </Card>
         </Grid>
@@ -54,7 +54,7 @@ export default function TrailDetailsOverview({ userData, refreshTrail, trail, li
         </Grid>
         <Grid item xs={12} lg={6}>
           <Card sx={{ margin: "20px" }}>
-            <CardContent>
+            <CardContent style={{backgroundColor: theme.palette.outerCard.main}}>
               <ChatContainer userData={userData} trail={trail}/>
             </CardContent>
           </Card>
