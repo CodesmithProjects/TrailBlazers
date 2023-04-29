@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -36,6 +36,8 @@ export default function FavoriteTrails() {
     horizontal: "right",
   });
   const { vertical, horizontal } = alertState;
+
+  const navigate = useNavigate();
 
   const handleOpen = (trailId) => {
     setOpenModal(true);
@@ -106,30 +108,26 @@ export default function FavoriteTrails() {
             </ListSubheader>
           </ImageListItem>
           {favoriteTrails.map((item, index) => (
-            <Link
-              to={`/details/${item.trailId}/${index}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ImageListItem key={index}>
-                <img
-                  className="faveImg"
-                  src={`src/assets/mtn-biking-${index}.jpeg`}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  key={index}
-                  title={item.trailName}
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                      onClick={() => handleOpen(item.trailId)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  }
-                />
-              </ImageListItem>
-            </Link>
+            <ImageListItem key={index}>
+              <img
+                className="faveImg"
+                src={`src/assets/mtn-biking-${index}.jpeg`}
+                loading="lazy"
+                onClick={()=>navigate(`/details/${item.trailId}/${index}`)}
+              />
+              <ImageListItemBar
+                key={index}
+                title={item.trailName}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                    onClick={() => handleOpen(item.trailId)}
+                  >
+                    <DeleteOutlineIcon />
+                  </IconButton>
+                }
+              />
+            </ImageListItem>
           ))}
         </ImageList>
         <Modal

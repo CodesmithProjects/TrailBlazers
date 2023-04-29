@@ -7,7 +7,7 @@ import LoadingOverlay from "react-loading-overlay";
 import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
 export default function TrailDetails(props) {
   const [trail, updateTrail] = useState([{}]);
@@ -23,7 +23,7 @@ export default function TrailDetails(props) {
   });
   const { vertical, horizontal } = alertState;
   let params = useParams();
-  const theme = useTheme()
+  const theme = useTheme();
 
   const getTrailById = () => {
     if (params.id) {
@@ -115,7 +115,7 @@ export default function TrailDetails(props) {
   return (
     <LoadingOverlay active={showSpinner} spinner text="Loading trail...">
       {showTrailDetails ? (
-        <Paper sx={{ height: "26rem", marginTop: "64px", }}>
+        <Paper sx={{ height: "26rem", marginTop: "64px" }}>
           <div className="details-container">
             <div className="banner-wrapper">
               <Snackbar
@@ -150,6 +150,9 @@ export default function TrailDetails(props) {
               component="div"
               className="details-title"
               color={"white"}
+              sx={{
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)"
+              }}
             >
               {trail.name}
             </Typography>
@@ -161,7 +164,12 @@ export default function TrailDetails(props) {
               hasMatch={hasMatch}
             ></TrailDetailsSideIconMenu>
           </div>
-            <TrailsDetailsOverview lightMode={props.lightMode} userData={props.userData} refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
+          <TrailsDetailsOverview
+            lightMode={props.lightMode}
+            userData={props.userData}
+            refreshTrail={getTrailById}
+            trail={trail}
+          ></TrailsDetailsOverview>
         </Paper>
       ) : (
         <Paper sx={{ height: "40rem" }}></Paper>
