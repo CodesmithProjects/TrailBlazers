@@ -62,10 +62,10 @@ const App = () => {
     palette: {
       mode: "light",
       primary: {
-        main: "#2c5601",
+        main: "#4E7826",
       },
       background: {
-        default: "#f6f5e8",
+        default: "#83976D",
       },
       secondary: {
         main: "#2c5601"
