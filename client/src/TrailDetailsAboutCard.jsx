@@ -10,8 +10,8 @@ import StraightenOutlinedIcon from "@mui/icons-material/StraightenOutlined";
 export default function TrailDetailsAboutCard({ trail }) {
   return (
     <>
-      <Card>
-        <CardContent>
+      {/* <Card>
+        <CardContent> */}
           <div className="tile-1-card-top">
             <div className="tile-1-card-left">
               {trail.description ? (
@@ -84,8 +84,8 @@ export default function TrailDetailsAboutCard({ trail }) {
               ) : undefined}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        {/* </CardContent>
+      </Card> */}
     </>
   );
 }

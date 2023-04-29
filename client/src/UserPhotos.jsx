@@ -161,7 +161,7 @@ export default function UserPhotos({trail}) {
   }
 
   return (
-    <div className="user-photos-tile-card" >
+    <div className="bottom-tile-cards" >
       <Typography
         variant="h5"
         sx={{
