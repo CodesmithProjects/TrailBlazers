@@ -95,13 +95,16 @@
 }
 
 .tile-1-card-top {
-  background-color: #121212;
-  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
   height: 255px;
   border-radius: 5px;
   display: flex;
   width: 100%;
 }
+
+/* .tile-1-card-left {
+  padding: 1rem 1rem 0rem 1rem;
+  width: 80%
+} */
 
 .tile-1-card-left {
   padding: 2rem 2rem 0rem 2rem;
@@ -117,7 +120,7 @@
 }
 
 .tile-1-card-bottom {
-  background-color: rgba(255, 255, 255, 0.05);
+  /* background-color: rgba(255, 255, 255, 0.05); */
   height: 147px;
   border-radius: 5px;
   display: flex;
@@ -161,7 +164,6 @@
   margin: 10px 0px;
   font-size: 12px;
   font-weight: 400;
-  color: rgb(255, 255, 255);
 }
 
 .overview-icon {
@@ -190,6 +192,7 @@
 .reviewThumbNail {
   height: 80px;
   width: auto;
+  cursor: pointer
 }
 
 .reviewPhotosModalDiv {
@@ -206,8 +209,8 @@
 }
 
 .bottom-tile-cards {
-  background-color: #121212;
-  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+  /* background-color: #121212;
+  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)); */
   height: 480px;
   border-radius: 5px;
   display: flex;
@@ -222,7 +225,7 @@
 }
 
 .details-overview-row-1-container {
-  padding-top: 2rem;
+  padding-top: 1.5rem;
 }
 
 .delete-favorite-confirm-wrapper {
@@ -260,10 +263,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(128, 128, 128, 0.6);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(128, 128, 128, 0.8);
 }

@@ -16,6 +16,7 @@ import { useSlotProps } from "@mui/base";
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Carousel from 'react-material-ui-carousel'
+import { useTheme } from '@mui/material/styles';
 import axios from "axios";
 
 const style = {
@@ -36,7 +37,7 @@ const reviewPhotoStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 520,
-  height: 570,
+  height: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -69,11 +70,8 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
   const [editReview, setEditReview] = useState(false);
   const [updatedReviewId, setUpdatedReviewId] = useState(0);
   const [selectedReview, setSelectedReview] = useState({photos: []})
-  // const handleFormChange = (name) => {
-  //   updateName(name);
-  //   setIsFormInvalid(false);
-  // };
 
+  const theme = useTheme()
 
   const submitRating = async () => {
     if (selectedFiles !== "") {
@@ -218,7 +216,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
 
   return (
     <>
-      <div className="tile-1-card-top">
+      <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-top">
         <div className="tile-1-card-left">
           <div className="title-wrapper">
             <Typography
@@ -239,7 +237,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
           {trail.data.length ? (
             <List
               sx={{
-                bgcolor: "background.paper",
+                bgcolor: theme.palette.outerCard.main,
                 maxHeight: "300px",
                 overflowY: "auto",
               }}
@@ -286,13 +284,18 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                                       return (
                                         <div key={i} className="reviewPhotosModalDiv">
                                           <div style={{display:"grid", gridTemplateColumns: "2fr 1fr", marginBottom: "15px"}}>
-                                            <span style={{maxWidth: "215px", wordWrap: "break-word", marginLeft: "50px"}}>{selectedReview.review}</span>
+                                            <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
+                                            <div style={{display:"flex", flexDirection:"row", justifyContent:"start", marginLeft: "20px"}}>
+                                            {`${el.name}:`}
                                             <Rating
                                               name="read-only"
                                               sx={{ fontSize: "22px", marginLeft: "5px", marginBottom: "7px" }}
                                               value={selectedReview.stars}
                                               readOnly
                                             />
+                                            </div>
+                                            <span style={{minWidth: "400px", wordWrap: "break-word", marginLeft: "20px", marginBottom: "20px", marginTop: "10px", maxHeight: "200px", overflow: "scroll"}}>{selectedReview.review}</span>
+                                            </div>
                                           </div>
                                           <ImageListItem sx={{display: "flex", justifyContent: " center", margin: "auto"}}>
                                             <img
@@ -343,7 +346,7 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
           </Box>
         </div>
       </div>
-      <div className="tile-1-card-bottom"></div>
+      <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-bottom"></div>
       <Modal
         open={open}
         onClose={handleClose}

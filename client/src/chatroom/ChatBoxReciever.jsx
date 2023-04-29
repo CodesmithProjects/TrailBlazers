@@ -1,7 +1,10 @@
 import React from "react";
 import { Avatar } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 
 export default function ChatBoxReciever({ avatar, user, message }) {
+  const theme = useTheme();
+
   return (
     <div
       style={{
@@ -18,7 +21,7 @@ export default function ChatBoxReciever({ avatar, user, message }) {
       <div
         style={{
           padding: 10,
-          backgroundColor: "#03A9F4",
+          backgroundColor: theme.palette.primary.main,
           borderRadius: 10,
           maxWidth: "60%",
           marginLeft: 10,

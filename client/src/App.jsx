@@ -26,17 +26,61 @@ const App = () => {
   const validZip = new RegExp("^[0-9]*$");
   const [userData, setUserData] = useState({});
   const [radius, setRadius] = useState(25);
+  const [lightMode, setLightMode] = useState(false)
 
   // this resolves an error that is related to the loading overlay package used for the spinner
   // for more details: https://github.com/derrickpelletier/react-loading-overlay/pull/57
   LoadingOverlay.propTypes = undefined;
 
   // note that themes can be nested, and theme provider can be passed another instance of a theme obj
-  const theme = createTheme({
+  const theme = !lightMode ? createTheme({
     palette: {
       mode: "dark",
       primary: {
         main: lightBlue[500],
+      },
+      secondary: {
+        main: lightBlue[100]
+      },
+      innerCard: {
+        main: "#ffffff0d"
+      },
+      outerCard: {
+        main: "#1e1e1e"
+      },
+      zipInput: {
+        main: "#1e1e1e"
+      },
+      chatInput: {
+        main: "#F3F3F3"
+      },
+      error: {
+        main: deepOrange[500],
+      },
+    },
+  }) : createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: "#2c5601",
+      },
+      background: {
+        default: "#f6f5e8",
+      },
+      secondary: {
+        main: "#2c5601"
+      },
+      innerCard: {
+        main: "white"
+      },
+      outerCard: {
+        main: "#F3F3F3"
+      },
+      zipInput: {
+        main: "#F3F3F3"
+      },
+      chatInput: {
+        main: "#F3F3F3"
       },
       error: {
         main: deepOrange[500],
@@ -110,6 +154,8 @@ const App = () => {
         <ButtonAppBar
           userData={userData}
           setUserData={setUserData}
+          setLightMode={setLightMode}
+          lightMode={lightMode}
         ></ButtonAppBar>
         <Routes>
           <Route
@@ -122,7 +168,7 @@ const App = () => {
           ></Route>
           <Route
             path="/details/:id/:idx"
-            element={<TrailDetails userData={userData}></TrailDetails>}
+            element={<TrailDetails lightMode={lightMode} userData={userData}></TrailDetails>}
           ></Route>
           <Route
             path="/"
@@ -147,6 +193,7 @@ const App = () => {
                           marginBottom: "1rem",
                           letterSpacing: "1px",
                           fontWeight: "bold",
+                          color: "white"
                         }}
                       >
                         <> DISCOVER YOUR <br></br> NEXT ADVENTURE </>
@@ -163,7 +210,8 @@ const App = () => {
                           value={zip}
                           onChange={(e) => handleZipChange(e.target.value)}
                           sx={{
-                            backgroundColor: "rgba(0,0,0,.8)",
+                            backgroundColor: theme.palette.zipInput.main,
+                            opacity: 0.9,
                             width: "70%",
                           }}
                           variant="filled"
@@ -180,7 +228,7 @@ const App = () => {
                             ),
                           }}
                         />
-                        <Typography variant="subtitle1" sx={{ marginTop: "1rem", letterSpacing: "1px", fontWeight: "bold", }}>
+                        <Typography variant="subtitle1" sx={{ marginTop: "1rem", letterSpacing: "1px", fontWeight: "bold", color: "white" }}>
                           Search radius: {radius} miles
                         </Typography>
                         <Slider

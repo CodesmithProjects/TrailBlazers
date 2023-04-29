@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, TextareaAutosize } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+
 
 export default function InputText({ addMessage }) {
   const [message, setMessage] = useState("");
-
+  const theme = useTheme();
   const sendMessage = () => {
     addMessage({
       message,
@@ -17,6 +19,8 @@ export default function InputText({ addMessage }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: "1.75rem",
+        marginBottom: "0.75rem",
       }}
     >
       <TextareaAutosize
@@ -28,11 +32,12 @@ export default function InputText({ addMessage }) {
           width: "60%",
           height: 40,
           borderRadius: 10,
-          borderWidth: 0,
           padding: 10,
           fontSize: 14,
           fontFamily: "Roboto",
-          marginRight: 10, // Add marginRight here to control spacing
+          marginRight: 10,
+          borderWidth: 2,
+          border: "1px solid #2c5601",
         }}
       />
       <Button
@@ -43,7 +48,7 @@ export default function InputText({ addMessage }) {
           fontWeight: "bold",
           borderRadius: 10,
           fontSize: 12,
-          backgroundColor: "#03A9F4",
+          backgroundColor: theme.palette.primary.main,
           borderWidth: 0,
           color: "#fff",
           fontFamily: "Roboto",

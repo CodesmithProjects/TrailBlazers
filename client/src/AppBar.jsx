@@ -9,11 +9,20 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import Switch from '@mui/material/Switch';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Stack from "@mui/material/Stack";
 
 export default function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [intervalID, setintervalID] = React.useState(null);
+
+  const theme = useTheme()
+  const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +30,14 @@ export default function ButtonAppBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleRedirect = () => {
+    navigate("/favoriteTrails")
+  }
+
+  const toggleLightMode = (event) => {
+    props.setLightMode(!props.lightMode);
+  }
 
   const fetchUserData = async () => {
     try {
@@ -51,8 +68,8 @@ export default function ButtonAppBar(props) {
 //
   React.useEffect(() => {
     fetchUserData();
-    let id = setInterval(authenticationCheck, 15000);
-    setintervalID(id)
+    // let id = setInterval(authenticationCheck, 15000);
+    // setintervalID(id)
   }, []);
 
   return (
@@ -66,7 +83,7 @@ export default function ButtonAppBar(props) {
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, color: "white" }}
             >
               <MenuIcon />
             </IconButton>
@@ -86,9 +103,9 @@ export default function ButtonAppBar(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <Link to="/favoriteTrails" style={{ textDecoration: "none" }}>
-                <MenuItem sx={{ fontWeight: "bold", color: "#fff" }} onClick={handleClose}>Favorite trails</MenuItem>
-              </Link>
+              <MenuItem sx={{ fontWeight: "bold" }} onClick={handleRedirect}>
+                <span>Favorite trails</span>
+              </MenuItem>
             </Menu>
           </div>
           <Typography
@@ -107,12 +124,31 @@ export default function ButtonAppBar(props) {
               Trail Blazers
             </Link>
           </Typography>
-          {Object.keys(props.userData).length > 0 ? (
-            <Button color="inherit" component="a" href="http://localhost:4000/logout" sx={{ fontWeight: "bold", }}>Logout</Button>
-          ) : (
-            <Button color="inherit" component="a"href="http://localhost:4000/auth/google" sx={{ fontWeight: "bold", }}>Login</Button>
+          <Stack direction="row" spacing={2}>
+            <IconButton onClick={toggleLightMode} color="inherit" edge="end">
+              {props.lightMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+            {Object.keys(props.userData).length > 0 ? (
+              <Button
+                color="inherit"
+                component="a"
+                href="http://localhost:4000/logout"
+                sx={{ fontWeight: "bold", }}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                component="a"
+                href="http://localhost:4000/auth/google"
+                sx={{ fontWeight: "bold", }}
+              >
+                Login
+              </Button>
           )}
-        </Toolbar>
+          </Stack>
+          </Toolbar> 
       </AppBar>
     </Box>
   );

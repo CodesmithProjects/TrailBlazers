@@ -7,6 +7,7 @@ import LoadingOverlay from "react-loading-overlay";
 import { Paper } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useTheme } from '@mui/material/styles';
 
 export default function TrailDetails(props) {
   const [trail, updateTrail] = useState([{}]);
@@ -22,6 +23,7 @@ export default function TrailDetails(props) {
   });
   const { vertical, horizontal } = alertState;
   let params = useParams();
+  const theme = useTheme()
 
   const getTrailById = () => {
     if (params.id) {
@@ -147,6 +149,7 @@ export default function TrailDetails(props) {
               variant="h4"
               component="div"
               className="details-title"
+              color={"white"}
             >
               {trail.name}
             </Typography>
@@ -158,7 +161,7 @@ export default function TrailDetails(props) {
               hasMatch={hasMatch}
             ></TrailDetailsSideIconMenu>
           </div>
-            <TrailsDetailsOverview userData={props.userData} refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
+            <TrailsDetailsOverview lightMode={props.lightMode} userData={props.userData} refreshTrail={getTrailById} trail={trail}></TrailsDetailsOverview>
         </Paper>
       ) : (
         <Paper sx={{ height: "40rem" }}></Paper>
