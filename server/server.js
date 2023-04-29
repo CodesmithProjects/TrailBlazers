@@ -23,13 +23,11 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('connection successfully');
   socket.on('join-room', room => {
     socket.join(room);
   })
 
   socket.on('send-chat', (data, cb) => {
-    console.log(data);
     socket.to(data.currentRoom).emit('recieve-chat', data);
     cb();
 })
@@ -142,7 +140,7 @@ app.get('/getAllFavoriteTrails', (req, res) => {
 app.get('/auth/google',
   (req, res, next) => {console.log("this is being hit 1"); return next();}, 
   // passport.authenticate('google', { scope: ["profile"] })
-  passport.authenticate('google', { scope: ["profile", "email"] }) // Add "email" to the scope to get user's email
+  passport.authenticate('google', { scope: ["profile", "email", "https://www.googleapis.com/auth/userinfo.profile"] })
 );
 
 app.get('/googlecallback',

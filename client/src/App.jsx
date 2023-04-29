@@ -100,6 +100,8 @@ const App = () => {
     });
   };
 
+  console.log("userData: ", userData);
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
