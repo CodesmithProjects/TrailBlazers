@@ -168,11 +168,10 @@ export default function UserPhotos({trail}) {
       <Typography
         variant="h5"
         sx={{
-          margin: "20px",
           fontWeight: "300",
           letterSpacing: "2px",
         }}
-        className="about"
+        className="tile-1-card-left"
       >
         User Photos
       </Typography>

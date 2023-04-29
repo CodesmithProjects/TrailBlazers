@@ -19,7 +19,8 @@ export default function InputText({ addMessage }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "0.75rem",
+        marginTop: "1.75rem",
+        marginBottom: "0.75rem",
       }}
     >
       <TextareaAutosize

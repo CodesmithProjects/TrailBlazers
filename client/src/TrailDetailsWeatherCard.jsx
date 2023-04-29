@@ -55,6 +55,7 @@ export default function TrailDetailsWeatherCard({ trail, lightMode }) {
     gradientEnd: "#ffffff",
     forecastBackgroundColor: "#ffffff",
     containerBoxShadow: "none",
+    locationFontWeight: "700",
   };
 
   return (

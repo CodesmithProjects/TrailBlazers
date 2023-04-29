@@ -12,8 +12,6 @@ export default function TrailDetailsAboutCard({ trail }) {
   const theme = useTheme()
   return (
     <>
-      {/* <Card>
-        <CardContent> */}
           <div className="tile-1-card-top">
             <div style={{backgroundColor: theme.palette.innerCard.main}} className="tile-1-card-left">
               {trail.description ? (
@@ -87,8 +85,6 @@ export default function TrailDetailsAboutCard({ trail }) {
               ) : undefined}
             </div>
           </div>
-        {/* </CardContent>
-      </Card> */}
     </>
   );
 }

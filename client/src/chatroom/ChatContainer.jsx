@@ -191,7 +191,7 @@ export default function ChatContainer(props) {
             </List>
           )}
           <Box sx={{ marginBottom: "1rem"}}>
-            <InputText addMessage={addMessage} />
+            <InputText  addMessage={addMessage} />
           </Box>
         </Box>
       </div>

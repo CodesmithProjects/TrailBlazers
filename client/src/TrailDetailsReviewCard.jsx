@@ -37,7 +37,7 @@ const reviewPhotoStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 520,
-  height: 570,
+  height: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -284,13 +284,18 @@ export default function TrailDetailsReviewCard({ userData, trail, refreshTrail }
                                       return (
                                         <div key={i} className="reviewPhotosModalDiv">
                                           <div style={{display:"grid", gridTemplateColumns: "2fr 1fr", marginBottom: "15px"}}>
-                                            <span style={{maxWidth: "215px", wordWrap: "break-word", marginLeft: "50px"}}>{selectedReview.review}</span>
+                                            <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
+                                            <div style={{display:"flex", flexDirection:"row", justifyContent:"start", marginLeft: "20px"}}>
+                                            {`${el.name}:`}
                                             <Rating
                                               name="read-only"
                                               sx={{ fontSize: "22px", marginLeft: "5px", marginBottom: "7px" }}
                                               value={selectedReview.stars}
                                               readOnly
                                             />
+                                            </div>
+                                            <span style={{minWidth: "400px", wordWrap: "break-word", marginLeft: "20px", marginBottom: "20px", marginTop: "10px", maxHeight: "200px", overflow: "scroll"}}>{selectedReview.review}</span>
+                                            </div>
                                           </div>
                                           <ImageListItem sx={{display: "flex", justifyContent: " center", margin: "auto"}}>
                                             <img
